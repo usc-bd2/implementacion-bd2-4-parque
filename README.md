@@ -1,1 +1,1 @@
-Proyecto de Parque Natural de Bases de Datos II
+Grupo de implementación de Sebastián Montoto Peña y Daniel Pazos Castro
