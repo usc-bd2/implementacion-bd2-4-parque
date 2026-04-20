@@ -114,5 +114,3 @@ public class Espectaculo {
                 ", aforo=" + aforo +
                 '}';
     }
-}
-.
