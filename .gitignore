@@ -3,4 +3,5 @@
 /nbproject/private/
 /nbproject/genfiles.properties
 /nbproject/build-impl.xml
-/.idea/misc.xml
+/.idea/
+*.iml
