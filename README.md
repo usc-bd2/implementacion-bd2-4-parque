@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Parque Natural
 
 Proyecto de Bases de Datos II centrado en el diseño y la implementación de un sistema de gestión para un parque natural.
@@ -18,3 +19,6 @@ Proyecto de Bases de Datos II centrado en el diseño y la implementación de un 
 - Daniel Pazos Castro
 - Samuel Martínez Varela
 - Sebastián Montoto Pena
+=======
+Grupo de implementación de Sebastián Montoto Peña y Daniel Pazos Castro
+>>>>>>> 959a408bccb5c5d5e3704b84d41a0a87ec3a0c88
