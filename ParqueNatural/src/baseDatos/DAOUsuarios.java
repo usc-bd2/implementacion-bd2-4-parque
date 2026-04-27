@@ -14,16 +14,16 @@ public class DAOUsuarios extends AbstractDAO {
     }
 
     // T1 - Autenticación
-    public Usuario validarUsuario(int idUsuario, String clave) {
+    public Usuario validarUsuario(String email, String clave) {
         Usuario resultado = null;
         PreparedStatement stm = null;
         try {
             stm = getConexion().prepareStatement(
-                    "SELECT idUsuario, nombre, ap1, ap2, clave, email, " +
-                            "telefono, fechaNacimiento, permisos " +
-                            "FROM Usuarios WHERE idUsuario = ? AND clave = ?");
-            stm.setInt(1, idUsuario);
-            stm.setString(2, clave);
+        "SELECT idUsuario, nombre, ap1, ap2, clave, email, " +
+        "telefono, fechaNacimiento, permisos " +
+        "FROM Usuarios WHERE email = ? AND clave = ?");
+        stm.setString(1, email);
+        stm.setString(2, clave);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
                 resultado = new Usuario(
