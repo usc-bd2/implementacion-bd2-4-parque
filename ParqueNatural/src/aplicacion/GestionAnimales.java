@@ -39,8 +39,4 @@ public class GestionAnimales {
         fbd.modificarAnimal(a);
     }
 
-    // Obtener zonas para el selector de zona
-    public List<Zonas> obtenerZonas() {
-        return fbd.consultarZonas();
-    }
 }
