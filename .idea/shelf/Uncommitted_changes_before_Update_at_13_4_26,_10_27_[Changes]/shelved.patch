@@ -1,0 +1,16 @@
+Index: ParqueNatural/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n    <modelVersion>4.0.0</modelVersion>\n    <groupId>com.mycompany</groupId>\n    <artifactId>ParqueNatural</artifactId>\n    <version>1.0-SNAPSHOT</version>\n    <packaging>jar</packaging>\n    <properties>\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\n        <maven.compiler.release>17</maven.compiler.release>\n        <exec.mainClass>com.mycompany.parquenatural.ParqueNatural</exec.mainClass>\n    </properties>\n</project>\n---
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/ParqueNatural/pom.xml b/ParqueNatural/pom.xml
+--- a/ParqueNatural/pom.xml	(revision ca6132c30c541b7ef72040d1bf7fd97e62669f54)
++++ b/ParqueNatural/pom.xml	(date 1776068875994)
+@@ -11,4 +11,3 @@
+         <exec.mainClass>com.mycompany.parquenatural.ParqueNatural</exec.mainClass>
+     </properties>
+ </project>
+----
+\ No newline at end of file
