@@ -30,8 +30,8 @@ public class FachadaAplicacion {
 
     // Usuarios (T1-T5, T9)
     //  T1
-    public boolean autenticar(int idUsuario, String clave) {
-        return gu.autenticar(idUsuario, clave);
+    public aplicacion.TipoUsuario autenticar(String email, String clave) {
+        return gu.autenticar(email, clave);
     }
     //  T3
     public void crearCuenta(Usuario u) {
@@ -52,6 +52,14 @@ public class FachadaAplicacion {
 
     public List<Usuario> obtenerUsuarios(String id, String nombre) {
         return gu.obtenerUsuarios(id, nombre);
+    }
+    
+    public void abrirPortalUsuario() {
+        fgui.abrirPortalUsuario();
+    }
+
+    public void abrirPortalAdmin() {
+        fgui.abrirPortalAdmin();
     }
 
     // Animales (T6, T10, T11)
@@ -75,8 +83,4 @@ public class FachadaAplicacion {
         ga.modificarAnimal(a);
     }
 
-    // Zonas
-    public List<Zonas> obtenerZonas() {
-        return ga.obtenerZonas();
-    }
 }

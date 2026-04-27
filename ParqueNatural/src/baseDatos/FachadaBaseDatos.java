@@ -15,7 +15,6 @@ public class FachadaBaseDatos {
     private java.sql.Connection conexion;
     private DAOUsuarios daoUsuarios;
     private DAOAnimales daoAnimales;
-    private DAOZonas daoZonas;
 
     public FachadaBaseDatos(aplicacion.FachadaAplicacion fa) {
         this.fa = fa;
@@ -37,7 +36,6 @@ public class FachadaBaseDatos {
 
             daoUsuarios = new DAOUsuarios(conexion, fa);
             daoAnimales = new DAOAnimales(conexion, fa);
-            daoZonas    = new DAOZonas(conexion, fa);
 
         } catch (FileNotFoundException e) {
             fa.muestraExcepcion(e.getMessage());
@@ -49,10 +47,10 @@ public class FachadaBaseDatos {
     }
 
     // Usuarios
-    public Usuario validarUsuario(int id, String clave) {
-        return daoUsuarios.validarUsuario(id, clave);
+    public Usuario validarUsuario(String email, String clave) {
+        return daoUsuarios.validarUsuario(email, clave);
     }
-
+    
     public void insertarUsuario(Usuario u) {
         daoUsuarios.insertarUsuario(u);
     }

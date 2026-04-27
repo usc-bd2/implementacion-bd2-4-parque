@@ -14,13 +14,12 @@ public class GestionUsuarios {
     }
 
     //T1 - Autenticar
-    public boolean autenticar(int idUsuario, String clave){
-        Usuario u;
-        u = fbd.validarUsuario(idUsuario, clave);
-        if (u!=null) {
-            return u.isPermisos();
-        }else return false; //no existe
-    }
+    public aplicacion.TipoUsuario autenticar(String email, String clave) {
+        Usuario u = fbd.validarUsuario(email, clave);
+        if (u == null) return null;
+        if (u.isPermisos()) return aplicacion.TipoUsuario.Administrador;
+        return aplicacion.TipoUsuario.Usuario;
+}
 
     //T2 - Eliminar usuario
     public void eliminarUsuario(int idUsuario){

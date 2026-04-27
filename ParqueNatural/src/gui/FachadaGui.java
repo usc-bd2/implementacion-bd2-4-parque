@@ -21,6 +21,11 @@ public class FachadaGui {
     public void abrirPortalUsuario() {
         vpUsuario.setVisible(true);
     }
+    
+
+    public void abrirPortalAdmin() {
+        // TODO: abrir VPrincipalAdmin cuando dev2 la implemente
+    }
 
     // Muestra la ficha de un animal
     public void visualizaAnimal(Animal a) {
