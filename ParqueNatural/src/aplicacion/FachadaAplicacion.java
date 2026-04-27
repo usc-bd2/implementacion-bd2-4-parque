@@ -29,24 +29,25 @@ public class FachadaAplicacion {
     }
 
     // Usuarios (T1-T5, T9)
-    public TipoUsuario autenticar(String idUsuario, String clave) {
+    //  T1
+    public boolean autenticar(int idUsuario, String clave) {
         return gu.autenticar(idUsuario, clave);
     }
-
+    //  T3
     public void crearCuenta(Usuario u) {
         gu.crearCuenta(u);
     }
-
+    //  T5
     public void editarDatos(Usuario u) {
         gu.editarDatos(u);
     }
-
+    //  T2
     public void eliminarUsuario(int idUsuario) {
         gu.eliminarUsuario(idUsuario);
     }
-
-    public void cambiarPermisos(int idUsuario, boolean permisos) {
-        gu.cambiarPermisos(idUsuario, permisos);
+    //  T9
+    public void cambiarPermisos(int idUsuario,String clave, boolean permisos) {
+        gu.cambiarPermisos(idUsuario, clave, permisos);
     }
 
     public List<Usuario> obtenerUsuarios(String id, String nombre) {

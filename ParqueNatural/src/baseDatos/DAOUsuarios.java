@@ -1,9 +1,8 @@
 package baseDatos;
 
 import aplicacion.Usuario;
-import aplicacion.TipoUsuario;
+
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,7 @@ public class DAOUsuarios extends AbstractDAO {
     }
 
     // T1 - Autenticación
-    public Usuario validarUsuario(String idUsuario, String clave) {
+    public Usuario validarUsuario(int idUsuario, String clave) {
         Usuario resultado = null;
         PreparedStatement stm = null;
         try {
@@ -23,7 +22,7 @@ public class DAOUsuarios extends AbstractDAO {
                     "SELECT idUsuario, nombre, ap1, ap2, clave, email, " +
                             "telefono, fechaNacimiento, permisos " +
                             "FROM Usuarios WHERE idUsuario = ? AND clave = ?");
-            stm.setString(1, idUsuario);
+            stm.setInt(1, idUsuario);
             stm.setString(2, clave);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {

@@ -49,7 +49,7 @@ public class FachadaBaseDatos {
     }
 
     // Usuarios
-    public Usuario validarUsuario(String id, String clave) {
+    public Usuario validarUsuario(int id, String clave) {
         return daoUsuarios.validarUsuario(id, clave);
     }
 

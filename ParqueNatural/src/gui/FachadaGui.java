@@ -1,9 +1,6 @@
 package gui;
 
 import aplicacion.Animal;
-import aplicacion.TipoUsuario;
-import aplicacion.Zonas;
-import java.util.List;
 
 public class FachadaGui {
     aplicacion.FachadaAplicacion fa;
