@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="9a1fb1a8-9de7-4112-9cce-c3b887b0e795" name="Changes" comment="" />
+    <list default="true" id="9a1fb1a8-9de7-4112-9cce-c3b887b0e795" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/data_sources_history.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,6 +54,10 @@
     "git-widget-placeholder": "dev2",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/adrlo/OneDrive - Universidade de Santiago de Compostela/Documentos/BDII",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -77,6 +88,7 @@
       <updated>1776077941891</updated>
       <workItem from="1776077944406" duration="185000" />
       <workItem from="1776674256333" duration="4342000" />
+      <workItem from="1777313285328" duration="210000" />
     </task>
     <servers />
   </component>
