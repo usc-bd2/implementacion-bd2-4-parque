@@ -1,3 +1,1 @@
-# Parque Natural
-
-Proyecto de Parque Natural de Bases de Datos II
+Grupo de implementación de Samuel Martínez Varela y Adrián López Iglesias
