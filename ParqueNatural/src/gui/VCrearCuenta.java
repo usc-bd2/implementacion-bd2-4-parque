@@ -15,7 +15,10 @@ public class VCrearCuenta extends javax.swing.JFrame {
     /**
      * Creates new form VCrearCuenta
      */
-    public VCrearCuenta() {
+    private aplicacion.FachadaAplicacion fa;
+
+    public VCrearCuenta(aplicacion.FachadaAplicacion fa) {
+        this.fa = fa;
         initComponents();
     }
 
