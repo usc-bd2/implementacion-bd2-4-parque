@@ -7,13 +7,14 @@
 -- DATOS DE ZONAS
 -- ======================================================
 
+-- DATOS DE ZONAS
 INSERT INTO Zonas (nombre, capacidad, accesoPublico) VALUES
-('Selva Tropical', 50, TRUE),
-('Sabana Africana', 40, TRUE),
-('Polar', 30, TRUE),
+('Zona de Selva Tropical', 50, TRUE),
+('Zona de Sabana', 40, TRUE),
+('Zona Polar', 30, TRUE),
 ('Aviario', 100, TRUE),
 ('Reptilario', 25, TRUE),
-('Zona de Acuario', 60, TRUE),
+('Zona Acuática', 60, TRUE),
 ('Zona de Contacto', 20, TRUE),
 ('Área de Descanso', 200, TRUE),
 ('Zona de Restauración', 150, TRUE),
@@ -21,21 +22,19 @@ INSERT INTO Zonas (nombre, capacidad, accesoPublico) VALUES
 ('Clínica Veterinaria', 3, FALSE),
 ('Cuarentena', 10, FALSE);
 
--- ======================================================
--- DATOS DE ANIMALES
--- ======================================================
 
+--ANIMALES
 INSERT INTO Animales (idAnimal, nombreCientifico, nombreComun, alimentacion, estadoConservacion, descripcion, nombreZona, cuidador) VALUES
-(1, 'Panthera leo', 'León', 'Carnívoro', 'Vulnerable', 'El león es un mamífero carnívoro de la familia de los félidos. Vive en la sabana africana.', 'Sabana Africana', '11111111A'),
-(2, 'Panthera tigris', 'Tigre', 'Carnívoro', 'En Peligro', 'El tigre es el félido más grande del mundo.', 'Selva Tropical', '11111111A'),
-(3, 'Elephas maximus', 'Elefante asiático', 'Herbívoro', 'En Peligro', 'El elefante asiático es más pequeño que el africano.', 'Sabana Africana', '22222222B'),
-(4, 'Giraffa camelopardalis', 'Jirafa', 'Herbívoro', 'Vulnerable', 'La jirafa es el animal terrestre más alto del mundo.', 'Sabana Africana', '22222222B'),
-(5, 'Ursus maritimus', 'Oso polar', 'Carnívoro', 'Vulnerable', 'El oso polar es un superdepredador del Ártico.', 'Polar', '33333333C'),
+(1, 'Panthera leo', 'León', 'Carnívoro', 'Vulnerable', 'El león es un mamífero carnívoro de la familia de los félidos.', 'Zona de Sabana', '11111111A'),
+(2, 'Panthera tigris', 'Tigre', 'Carnívoro', 'En Peligro', 'El tigre es el félido más grande del mundo.', 'Zona de Selva Tropical', '11111111A'),
+(3, 'Elephas maximus', 'Elefante asiático', 'Herbívoro', 'En Peligro', 'El elefante asiático es más pequeño que el africano.', 'Zona de Sabana', '22222222B'),
+(4, 'Giraffa camelopardalis', 'Jirafa', 'Herbívoro', 'Vulnerable', 'La jirafa es el animal terrestre más alto del mundo.', 'Zona de Sabana', '22222222B'),
+(5, 'Ursus maritimus', 'Oso polar', 'Carnívoro', 'Vulnerable', 'El oso polar es un superdepredador del Ártico.', 'Zona Polar', '33333333C'),
 (6, 'Ara macao', 'Guacamayo rojo', 'Omnívoro', 'Preocupación Menor', 'Ave de colores brillantes originaria de la selva amazónica.', 'Aviario', '33333333C'),
 (7, 'Python reticulatus', 'Pitón reticulada', 'Carnívoro', 'Preocupación Menor', 'Una de las serpientes más largas del mundo.', 'Reptilario', '44444444D'),
-(8, 'Delphinapterus leucas', 'Beluga', 'Carnívoro', 'Preocupación Menor', 'La ballena beluga es conocida como la canaria del mar.', 'Zona de Acuario', '44444444D'),
+(8, 'Delphinapterus leucas', 'Beluga', 'Carnívoro', 'Preocupación Menor', 'La ballena beluga es conocida como la canaria del mar.', 'Zona Acuática', '44444444D'),
 (9, 'Lama glama', 'Llama', 'Herbívoro', 'Domesticado', 'Animal domesticado originario de los Andes.', 'Zona de Contacto', '55555555E'),
-(10, 'Pygoscelis adeliae', 'Pingüino Adelia', 'Carnívoro', 'Preocupación Menor', 'Habitante característico de la Antártida.', 'Polar', '55555555E');
+(10, 'Pygoscelis adeliae', 'Pingüino Adelia', 'Carnívoro', 'Preocupación Menor', 'Habitante característico de la Antártida.', 'Zona Polar', '55555555E');
 
 -- ======================================================
 -- DATOS DE TRABAJADORES
@@ -166,13 +165,13 @@ INSERT INTO Espectaculos (idEspectaculo, nombre, aforo, horaInicio, duracion, sh
 (6, 'Demostración de Reptiles', 30, '2026-04-11 14:30:00', 60, '99999999I', 'Reptilario'),
 (7, 'Alimentación de Pingüinos', 40, '2026-04-12 11:00:00', 30, '88888888H', 'Polar'),
 (8, 'Alimentación de Pingüinos', 40, '2026-04-12 13:00:00', 30, '88888888H', 'Polar'),
-(9, 'Espectáculo de Leones Marinos', 45, '2026-04-13 10:00:00', 50, '99999999I', 'Zona de Acuario'),
-(10, 'Espectáculo de Leones Marinos', 45, '2026-04-13 12:00:00', 50, '99999999I', 'Zona de Acuario'),
-(11, 'Espectáculo de Leones Marinos', 45, '2026-04-13 14:00:00', 50, '99999999I', 'Zona de Acuario'),
+(9, 'Espectáculo de Leones Marinos', 45, '2026-04-13 10:00:00', 50, '99999999I', 'Zona Acuática'),
+(10, 'Espectáculo de Leones Marinos', 45, '2026-04-13 12:00:00', 50, '99999999I', 'Zona Acuática'),
+(11, 'Espectáculo de Leones Marinos', 45, '2026-04-13 14:00:00', 50, '99999999I', 'Zona Acuática'),
 (12, 'Charlas de Conservación', 60, '2026-04-14 11:00:00', 40, '88888888H', 'Área de Descanso'),
 (13, 'Charlas de Conservación', 60, '2026-04-14 13:00:00', 40, '88888888H', 'Área de Descanso'),
-(14, 'Espectáculo Nocturno', 80, '2026-04-15 20:00:00', 90, '99999999I', 'Sabana Africana'),
-(15, 'Espectáculo Nocturno', 80, '2026-04-16 20:00:00', 90, '99999999I', 'Sabana Africana');
+(14, 'Espectáculo Nocturno', 80, '2026-04-15 20:00:00', 90, '99999999I', 'Zona de Sabana'),
+(15, 'Espectáculo Nocturno', 80, '2026-04-16 20:00:00', 90, '99999999I', 'Zona de Sabana');
 
 -- ======================================================
 -- DATOS DE RESERVAS
