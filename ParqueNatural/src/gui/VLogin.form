@@ -77,7 +77,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="textoEmail">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Email"/>
+        <Property name="text" type="java.lang.String" value="Email:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">

@@ -30,7 +30,7 @@ public class FachadaAplicacion {
 
     // Usuarios (T1-T5, T9)
     //  T1
-    public aplicacion.TipoUsuario autenticar(String email, String clave) {
+    public aplicacion.Usuario autenticar(String email, String clave) {
         return gu.autenticar(email, clave);
     }
     //  T3
@@ -46,16 +46,16 @@ public class FachadaAplicacion {
         gu.eliminarUsuario(idUsuario);
     }
     //  T9
-    public void cambiarPermisos(int idUsuario,String clave, boolean permisos) {
-        gu.cambiarPermisos(idUsuario, clave, permisos);
+    public void cambiarPermisos(String email, String clave, boolean permisos) {
+        gu.cambiarPermisos(email, clave, permisos);
     }
 
     public List<Usuario> obtenerUsuarios(String id, String nombre) {
         return gu.obtenerUsuarios(id, nombre);
     }
     
-    public void abrirPortalUsuario() {
-        fgui.abrirPortalUsuario();
+    public void abrirPortalUsuario(aplicacion.Usuario u) {
+        fgui.abrirPortalUsuario(u);
     }
 
     public void abrirPortalAdmin() {

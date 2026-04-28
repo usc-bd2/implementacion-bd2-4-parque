@@ -41,7 +41,7 @@ public class VLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        textoEmail.setText("Email");
+        textoEmail.setText("Email:");
 
         jLabel2.setText("Contraseña");
 
@@ -110,16 +110,16 @@ public class VLogin extends javax.swing.JFrame {
             return;
         }
 
-        aplicacion.TipoUsuario tipo = fa.autenticar(email, clave);
+        aplicacion.Usuario u = fa.autenticar(email, clave);
 
-        if (tipo == null) {
+        if (u == null) {
             fa.muestraExcepcion("Email o contraseña incorrectos");
-        } else if (tipo == aplicacion.TipoUsuario.Administrador) {
+        } else if (u.isPermisos()) {
             dispose();
-            fa.abrirPortalAdmin(); //Sin implementar
+            fa.abrirPortalAdmin();
         } else {
             dispose();
-            fa.abrirPortalUsuario(); //Sin implementar
+            fa.abrirPortalUsuario(u);
         }
     }//GEN-LAST:event_botonAceptarActionPerformed
 

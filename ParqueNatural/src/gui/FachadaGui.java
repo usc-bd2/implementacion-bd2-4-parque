@@ -8,18 +8,17 @@ public class FachadaGui {
 
     public FachadaGui(aplicacion.FachadaAplicacion fa) {
         this.fa = fa;
-        this.vpUsuario = new VPrincipalUsuario(fa);
     }
 
     public void iniciaVista() {
-        VLogin vl = new VLogin(vpUsuario, fa);
-        vpUsuario.setVisible(false);
+        VLogin vl = new VLogin(fa);
         vl.setVisible(true);
     }
 
     // Llamado tras login según el rol
-    public void abrirPortalUsuario() {
-        vpUsuario.setVisible(true);
+    public void abrirPortalUsuario(aplicacion.Usuario u) {
+        VPrincipalUsuario vp = new VPrincipalUsuario(fa, u);
+        vp.setVisible(true);
     }
     
 

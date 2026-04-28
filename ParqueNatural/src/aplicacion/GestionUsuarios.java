@@ -14,12 +14,9 @@ public class GestionUsuarios {
     }
 
     //T1 - Autenticar
-    public aplicacion.TipoUsuario autenticar(String email, String clave) {
-        Usuario u = fbd.validarUsuario(email, clave);
-        if (u == null) return null;
-        if (u.isPermisos()) return aplicacion.TipoUsuario.Administrador;
-        return aplicacion.TipoUsuario.Usuario;
-}
+    public aplicacion.Usuario autenticar(String email, String clave) {
+        return fbd.validarUsuario(email, clave);
+    }
 
     //T2 - Eliminar usuario
     public void eliminarUsuario(int idUsuario){
@@ -28,9 +25,9 @@ public class GestionUsuarios {
 
     //T3 - Crear cuenta
     public void crearCuenta(Usuario u){
-    if (fbd.validarUsuario(u.getIdUsuario(),u.getClave()) != null) return;
-    u.setPermisos(false); //usuario no admin
-    fbd.insertarUsuario(u);
+        if (fbd.validarUsuario(u.getEmail(), u.getClave()) != null) return;
+        u.setPermisos(false); //usuario no admin
+        fbd.insertarUsuario(u);
     }
 
     //T5 - Editar datos de usuario
@@ -39,12 +36,11 @@ public class GestionUsuarios {
     }
 
     //T9 - Cambiar permisos
-    public void cambiarPermisos(int idUsuario, String clave, boolean permisos){
-        Usuario u;
-        u = fbd.validarUsuario(idUsuario,clave);
-        if (u!=null) {
-            fbd.cambiarPermisos(idUsuario,permisos); //Como es objeto usuario local, no hace falta setPermisos
-        }else return;
+    public void cambiarPermisos(String email, String clave, boolean permisos){
+        Usuario u = fbd.validarUsuario(email, clave);
+        if (u != null) {
+            fbd.cambiarPermisos(u.getIdUsuario(), permisos);
+        }
     }
 }
 

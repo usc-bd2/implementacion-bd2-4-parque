@@ -23,13 +23,120 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="400" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="botonCrearCuenta" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="textoEmail" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="textoNombre" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="textoFechaNacimiento" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="textoTelefono" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="textoContraseña" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="textFieldNombre" alignment="0" max="32767" attributes="0"/>
+                          <Component id="textFieldEmail" alignment="0" max="32767" attributes="0"/>
+                          <Component id="textFieldTelefono" alignment="0" max="32767" attributes="0"/>
+                          <Component id="textFieldFechaNacimiento" alignment="0" max="32767" attributes="0"/>
+                          <Component id="fieldContraseña" min="-2" pref="281" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace pref="33" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="textoNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textFieldNombre" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="textoEmail" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textFieldEmail" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="textoTelefono" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textFieldTelefono" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="textoContraseña" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="fieldContraseña" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="textoFechaNacimiento" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="textFieldFechaNacimiento" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="botonCrearCuenta" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="20" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="textoNombre">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Nombre:"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="textoEmail">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Email:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="textoTelefono">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Tel&#xe9;fono:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="textoContrase&#xf1;a">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Contrase&#xf1;a:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="textoFechaNacimiento">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Fecha Nacimiento:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="botonCrearCuenta">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Crear Cuenta"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCrearCuentaActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="textFieldNombre">
+    </Component>
+    <Component class="javax.swing.JTextField" name="textFieldEmail">
+    </Component>
+    <Component class="javax.swing.JTextField" name="textFieldTelefono">
+    </Component>
+    <Component class="javax.swing.JTextField" name="textFieldFechaNacimiento">
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="fieldContrase&#xf1;a">
+    </Component>
+  </SubComponents>
 </Form>

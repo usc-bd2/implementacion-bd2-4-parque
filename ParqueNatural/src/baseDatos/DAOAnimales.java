@@ -18,8 +18,8 @@ public class DAOAnimales extends AbstractDAO {
         PreparedStatement stm = null;
         try {
             String q = "SELECT idAnimal, nombreCientifico, nombreComun, " +
-                    "alimentacion, estadoConservacion, descripcion, nombreZona " +
-                    "FROM Animales WHERE 1=1";
+            "alimentacion, estadoConservacion, descripcion, nombreZona, cuidador " +
+            "FROM Animales WHERE 1=1";
             if (nombre != null && !nombre.isEmpty()) q += " AND nombreComun ILIKE ?";
             if (zona != null && !zona.isEmpty())     q += " AND nombreZona = ?";
             stm = getConexion().prepareStatement(q);
@@ -29,13 +29,14 @@ public class DAOAnimales extends AbstractDAO {
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
                 lista.add(new Animal(
-                        rs.getInt("idAnimal"),
-                        rs.getString("nombreCientifico"),
-                        rs.getString("nombreComun"),
-                        rs.getString("alimentacion"),
-                        rs.getString("estadoConservacion"),
-                        rs.getString("descripcion"),
-                        rs.getString("nombreZona")));
+                  rs.getInt("idAnimal"),
+            rs.getString("nombreCientifico"),
+                rs.getString("nombreComun"),
+               rs.getString("alimentacion"),
+          rs.getString("estadoConservacion"),
+                rs.getString("descripcion"),
+                rs.getString("nombreZona"),
+                  rs.getString("cuidador")));
             }
         } catch (SQLException e) {
             getFachadaAplicacion().muestraExcepcion(e.getMessage());
@@ -52,19 +53,20 @@ public class DAOAnimales extends AbstractDAO {
         try {
             stm = getConexion().prepareStatement(
                     "SELECT idAnimal, nombreCientifico, nombreComun, " +
-                            "alimentacion, estadoConservacion, descripcion, nombreZona " +
-                            "FROM Animales WHERE idAnimal = ?");
+                    "alimentacion, estadoConservacion, descripcion, nombreZona, cuidador " +
+                    "FROM Animales WHERE 1=1");
             stm.setInt(1, idAnimal);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
                 resultado = new Animal(
                         rs.getInt("idAnimal"),
-                        rs.getString("nombreCientifico"),
-                        rs.getString("nombreComun"),
-                        rs.getString("alimentacion"),
-                        rs.getString("estadoConservacion"),
-                        rs.getString("descripcion"),
-                        rs.getString("nombreZona"));
+                  rs.getString("nombreCientifico"),
+                      rs.getString("nombreComun"),
+                     rs.getString("alimentacion"),
+                rs.getString("estadoConservacion"),
+                      rs.getString("descripcion"),
+                      rs.getString("nombreZona"),
+                        rs.getString("cuidador"));
             }
         } catch (SQLException e) {
             getFachadaAplicacion().muestraExcepcion(e.getMessage());
