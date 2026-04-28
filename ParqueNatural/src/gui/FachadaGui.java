@@ -4,7 +4,7 @@ import aplicacion.Animal;
 
 public class FachadaGui {
     aplicacion.FachadaAplicacion fa;
-    VPrincipalUsuario vpUsuario;
+    VPrincipalUsuario vpUsuario;    
 
     public FachadaGui(aplicacion.FachadaAplicacion fa) {
         this.fa = fa;
@@ -28,8 +28,7 @@ public class FachadaGui {
 
     // Muestra la ficha de un animal
     public void visualizaAnimal(Animal a) {
-        VAnimales va = new VAnimales(vpUsuario, fa);
-        va.mostrarFicha(a);
+        VAnimales va = new VAnimales(fa);
         va.setVisible(true);
     }
 
