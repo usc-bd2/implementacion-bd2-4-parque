@@ -31,47 +31,136 @@ public class VCrearCuenta extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        textoNombre = new javax.swing.JLabel();
+        textoEmail = new javax.swing.JLabel();
+        textoTelefono = new javax.swing.JLabel();
+        textoContraseña = new javax.swing.JLabel();
+        textoFechaNacimiento = new javax.swing.JLabel();
+        botonCrearCuenta = new javax.swing.JButton();
+        textFieldNombre = new javax.swing.JTextField();
+        textFieldEmail = new javax.swing.JTextField();
+        textFieldTelefono = new javax.swing.JTextField();
+        textFieldFechaNacimiento = new javax.swing.JTextField();
+        fieldContraseña = new javax.swing.JPasswordField();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        textoNombre.setText("Nombre:");
+        textoNombre.setToolTipText("");
+
+        textoEmail.setText("Email:");
+
+        textoTelefono.setText("Teléfono:");
+
+        textoContraseña.setText("Contraseña:");
+
+        textoFechaNacimiento.setText("Fecha Nacimiento:");
+
+        botonCrearCuenta.setText("Crear Cuenta");
+        botonCrearCuenta.addActionListener(this::botonCrearCuentaActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(botonCrearCuenta)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textoEmail)
+                                    .addComponent(textoNombre)
+                                    .addComponent(textoFechaNacimiento))
+                                .addGap(27, 27, 27))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(textoTelefono, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textoContraseña, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textFieldNombre)
+                            .addComponent(textFieldEmail)
+                            .addComponent(textFieldTelefono)
+                            .addComponent(textFieldFechaNacimiento)
+                            .addComponent(fieldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textoNombre)
+                    .addComponent(textFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textoEmail)
+                    .addComponent(textFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textoTelefono)
+                    .addComponent(textFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textoContraseña)
+                    .addComponent(fieldContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textoFechaNacimiento)
+                    .addComponent(textFieldFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(botonCrearCuenta)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void botonCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearCuentaActionPerformed
+        String nombre = textFieldNombre.getText().trim();
+        String email  = textFieldEmail.getText().trim();
+        String telefono = textFieldTelefono.getText().trim();
+        String clave  = new String(fieldContraseña.getPassword());
+        String fechaStr = textFieldFechaNacimiento.getText().trim();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VCrearCuenta().setVisible(true));
-    }
+        // Validar que no haya campos vacíos
+        if (nombre.isEmpty() || email.isEmpty() || clave.isEmpty() || fechaStr.isEmpty()) {
+            fa.muestraExcepcion("Por favor rellena todos los campos obligatorios");
+            return;
+        }
+
+        // Convertir fecha
+        java.time.LocalDate fechaNacimiento;
+        try {
+            fechaNacimiento = java.time.LocalDate.parse(fechaStr);
+        } catch (Exception e) {
+            fa.muestraExcepcion("Formato de fecha incorrecto. Usa YYYY-MM-DD");
+        return;
+        }
+
+        // T3/T4 - Crear cuenta
+        aplicacion.Usuario u = new aplicacion.Usuario(nombre, "", "", clave, email, telefono, fechaNacimiento);
+        fa.crearCuenta(u);
+    
+        fa.muestraExcepcion("Cuenta creada correctamente");
+        dispose();
+    }//GEN-LAST:event_botonCrearCuentaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonCrearCuenta;
+    private javax.swing.JPasswordField fieldContraseña;
+    private javax.swing.JTextField textFieldEmail;
+    private javax.swing.JTextField textFieldFechaNacimiento;
+    private javax.swing.JTextField textFieldNombre;
+    private javax.swing.JTextField textFieldTelefono;
+    private javax.swing.JLabel textoContraseña;
+    private javax.swing.JLabel textoEmail;
+    private javax.swing.JLabel textoFechaNacimiento;
+    private javax.swing.JLabel textoNombre;
+    private javax.swing.JLabel textoTelefono;
     // End of variables declaration//GEN-END:variables
 }
