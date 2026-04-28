@@ -2,7 +2,6 @@ package baseDatos;
 
 import aplicacion.Animal;
 import aplicacion.Usuario;
-import aplicacion.Zonas;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -91,7 +90,5 @@ public class FachadaBaseDatos {
     public void modificarAnimal(Animal a) {
         daoAnimales.modificarAnimal(a);
     }
-
-    // Zonas
 
 }

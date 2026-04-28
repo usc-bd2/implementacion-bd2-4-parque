@@ -42,5 +42,9 @@ public class GestionUsuarios {
             fbd.cambiarPermisos(u.getIdUsuario(), permisos);
         }
     }
+    
+    public java.util.List<Usuario> obtenerUsuarios(String id, String nombre) {
+        return fbd.obtenerUsuarios(id, nombre);
+    }
 }
 
