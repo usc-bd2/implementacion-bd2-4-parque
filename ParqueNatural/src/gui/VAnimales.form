@@ -170,13 +170,15 @@
     <Component class="javax.swing.JComboBox" name="comboZona">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="6">
+          <StringArray count="8">
             <StringItem index="0" value="Todas"/>
             <StringItem index="1" value="Zona Acu&#xe1;tica"/>
             <StringItem index="2" value="Zona de Sabana"/>
             <StringItem index="3" value="Zona Polar"/>
             <StringItem index="4" value="Zona de Selva Tropical"/>
             <StringItem index="5" value="Zona de Contacto"/>
+            <StringItem index="6" value="Aviario"/>
+            <StringItem index="7" value="Reptiliario"/>
           </StringArray>
         </Property>
       </Properties>
