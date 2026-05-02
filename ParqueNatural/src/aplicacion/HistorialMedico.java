@@ -34,4 +34,8 @@ public class HistorialMedico {
     public String getDniVeterinario()   { return dniVeterinario; }
 
     public void setDiagnostico(String d){ this.diagnostico = d; }
+    public void setCodigo(int codigo)       { this.codigo = codigo; }
+    public void setFecha(LocalDate fecha)   { this.fecha = fecha; }
+    public void setIdAnimal(int idAnimal)   { this.idAnimal = idAnimal; }
+    public void setDniVeterinario(String d) { this.dniVeterinario = d; }
 }

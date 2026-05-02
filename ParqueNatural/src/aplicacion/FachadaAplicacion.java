@@ -82,5 +82,27 @@ public class FachadaAplicacion {
     public void modificarAnimal(Animal a) {
         ga.modificarAnimal(a);
     }
+    
+    // ── Historial médico ──────────────────────────────────────────
+    public List<HistorialMedico> obtenerHistorial(int idAnimal) {
+        return ga.obtenerHistorial(idAnimal);
+    }
+
+    public void insertarHistorial(HistorialMedico h) {
+        ga.insertarHistorial(h);
+    }
+
+    public void modificarHistorial(HistorialMedico h) {
+        ga.modificarHistorial(h);
+    }
+
+    public void borrarHistorial(int codigo) {
+        ga.borrarHistorial(codigo);
+    }
+
+    // ── Zonas (para rellenar el ComboBox) ─────────────────────────
+    public List<String> obtenerNombresZonas() {
+        return ga.obtenerNombresZonas();
+    }
 
 }

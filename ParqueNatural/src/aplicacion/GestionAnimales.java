@@ -38,5 +38,26 @@ public class GestionAnimales {
     public void modificarAnimal(Animal a) {
         fbd.modificarAnimal(a);
     }
+    
+    public List<HistorialMedico> obtenerHistorial(int idAnimal) {
+        return fbd.obtenerHistorial(idAnimal);
+    }
+
+    public void insertarHistorial(HistorialMedico h) {
+        fbd.insertarHistorial(h);
+    }
+
+    public void modificarHistorial(HistorialMedico h) {
+        fbd.modificarHistorial(h);
+    }
+
+    public void borrarHistorial(int codigo) {
+        fbd.borrarHistorial(codigo);
+    }
+
+    public List<String> obtenerNombresZonas() {
+        return fbd.obtenerNombresZonas();
+    }
+
 
 }

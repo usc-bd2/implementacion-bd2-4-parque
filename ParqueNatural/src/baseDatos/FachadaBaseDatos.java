@@ -90,5 +90,25 @@ public class FachadaBaseDatos {
     public void modificarAnimal(Animal a) {
         daoAnimales.modificarAnimal(a);
     }
+    
+    // Historial médico
+    public List<aplicacion.HistorialMedico> obtenerHistorial(int idAnimal) {
+        return daoAnimales.obtenerHistorial(idAnimal);
+    }
+    public void insertarHistorial(aplicacion.HistorialMedico h) {
+        daoAnimales.insertarHistorial(h);
+    }
+    public void modificarHistorial(aplicacion.HistorialMedico h) {
+        daoAnimales.modificarHistorial(h);
+    }
+    public void borrarHistorial(int codigo) {
+        daoAnimales.borrarHistorial(codigo);
+    }
+    
+    // ComboBox
+    public List<String> obtenerNombresZonas() {
+        return daoAnimales.obtenerNombresZonas();
+    }
+
 
 }
