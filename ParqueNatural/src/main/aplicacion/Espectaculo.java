@@ -1,4 +1,4 @@
-package main.aplicacion;
+package aplicacion;
 import java.sql.Timestamp;
 
 /**
@@ -114,3 +114,5 @@ public class Espectaculo {
                 ", aforo=" + aforo +
                 '}';
     }
+    }
+    

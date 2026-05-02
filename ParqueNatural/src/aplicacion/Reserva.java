@@ -1,4 +1,4 @@
-package main.aplicacion;
+package aplicacion;
 
 /**
  * Clase modelo que representa una reserva de plaza en un espectáculo.
