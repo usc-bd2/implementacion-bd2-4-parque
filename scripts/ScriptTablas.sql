@@ -128,8 +128,8 @@ CREATE TABLE CuidadoAnimal (
 );
 
 CREATE TABLE Usuarios (
-    idUsuario VARCHAR(20) PRIMARY KEY,
-    nombre INTEGER NOT NULL,
+    idUsuario INTEGER PRIMARY KEY,
+    nombre VARCHAR(40) NOT NULL,
     ap1 VARCHAR(40),
     ap2 VARCHAR(40),
     clave VARCHAR(40) NOT NULL,
