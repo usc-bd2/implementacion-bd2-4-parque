@@ -13,7 +13,7 @@ public class Reserva {
 
 
     // Constructores
-    public Reserva() {}
+    public Reserva(int aInt, int idUsuario1, int idEspectaculo1, Timestamp timestamp) {}
 
     public Reserva(int idReserva, String idUsuario, int idEspectaculo, int plaza) {
         this.idReserva      = idReserva;

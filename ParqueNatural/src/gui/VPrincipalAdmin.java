@@ -176,6 +176,7 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
+        jButton9.setForeground(new java.awt.Color(255, 0, 51));
         jButton9.setText("Salir");
         jButton9.addActionListener(this::jButton9ActionPerformed);
 
