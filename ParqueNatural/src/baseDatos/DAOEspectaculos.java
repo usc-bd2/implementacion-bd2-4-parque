@@ -1,7 +1,7 @@
 package baseDatos;
 
 import aplicacion.Espectaculo;
-import aplicacion.Reserva;
+import aplicacion.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

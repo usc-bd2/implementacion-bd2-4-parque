@@ -1,6 +1,5 @@
 package aplicacion;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class FachadaAplicacion {

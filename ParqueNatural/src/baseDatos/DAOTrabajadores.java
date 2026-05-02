@@ -1,12 +1,7 @@
 package baseDatos;
 
-import aplicacion.Trabajador;
-import aplicacion.Cuidador;
-import aplicacion.Veterinario;
-import aplicacion.Showman;
-import aplicacion.Guia;
+import aplicacion.*;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -304,9 +299,8 @@ public class DAOTrabajadores extends AbstractDAO {
     private Trabajador crearTrabajadorPorTipo(ResultSet rs) throws SQLException {
         String tipo = rs.getString("tipo");
         
-        switch (tipo.toLowerCase()) {
-            case "cuidador":
-                return new Cuidador(
+        return switch (tipo.toLowerCase()) {
+            case "cuidador" -> new Cuidador(
                     rs.getString("dni"),
                     rs.getString("nombre"),
                     rs.getString("ap1"),
@@ -317,9 +311,8 @@ public class DAOTrabajadores extends AbstractDAO {
                     rs.getString("sexo").charAt(0),
                     rs.getDate("fechaNacimiento").toLocalDate(),
                     rs.getDouble("sueldo")
-                );
-            case "veterinario":
-                return new Veterinario(
+            );
+            case "veterinario" -> new Veterinario(
                     rs.getString("dni"),
                     rs.getString("nombre"),
                     rs.getString("ap1"),
@@ -330,9 +323,8 @@ public class DAOTrabajadores extends AbstractDAO {
                     rs.getString("sexo").charAt(0),
                     rs.getDate("fechaNacimiento").toLocalDate(),
                     rs.getDouble("sueldo")
-                );
-            case "showman":
-                return new Showman(
+            );
+            case "showman" -> new Showman(
                     rs.getString("dni"),
                     rs.getString("nombre"),
                     rs.getString("ap1"),
@@ -343,9 +335,8 @@ public class DAOTrabajadores extends AbstractDAO {
                     rs.getString("sexo").charAt(0),
                     rs.getDate("fechaNacimiento").toLocalDate(),
                     rs.getDouble("sueldo")
-                );
-            case "guia":
-                return new Guia(
+            );
+            case "guia" -> new Guia(
                     rs.getString("dni"),
                     rs.getString("nombre"),
                     rs.getString("ap1"),
@@ -356,9 +347,8 @@ public class DAOTrabajadores extends AbstractDAO {
                     rs.getString("sexo").charAt(0),
                     rs.getDate("fechaNacimiento").toLocalDate(),
                     rs.getDouble("sueldo")
-                );
-            default:
-                return null;
-        }
+            );
+            default -> null;
+        };
     }
 }

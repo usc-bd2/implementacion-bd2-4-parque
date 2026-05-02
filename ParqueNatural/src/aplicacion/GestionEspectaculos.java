@@ -6,11 +6,11 @@ import java.util.List;
 
 import baseDatos.DAOEspectaculos;
 import baseDatos.FachadaBaseDatos;
-import gui.FachadaGUI;
+import gui.FachadaGui;
 
 public class GestionEspectaculos {
     
-    private FachadaGUI fachadaGUI;
+    private FachadaGui fachadaGUI;
     private FachadaBaseDatos fachadaBaseDatos;
     private DAOEspectaculos daoEspectaculos;
     

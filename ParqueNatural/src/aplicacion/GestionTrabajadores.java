@@ -4,18 +4,16 @@ import java.util.List;
 
 import baseDatos.DAOTrabajadores;
 import baseDatos.FachadaBaseDatos;
-import gui.FachadaGUI;
+import gui.FachadaGui;
 
 public class GestionTrabajadores {
     
-    private FachadaGUI fachadaGUI;
+    private FachadaGui fachadaGUI;
     private FachadaBaseDatos fachadaBaseDatos;
-    private DAOTrabajadores daoTrabajadores;
     
     public GestionTrabajadores(FachadaGUI fgui, FachadaBaseDatos fbd) {
         this.fachadaGUI = fgui;
         this.fachadaBaseDatos = fbd;
-        this.daoTrabajadores = new DAOTrabajadores(fgui, fbd);
     }
     
     // T12. Dar de alta a trabajadores

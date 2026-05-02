@@ -1,6 +1,6 @@
 package baseDatos;
 
-import aplicacion.Entrada;
+import aplicacion.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;

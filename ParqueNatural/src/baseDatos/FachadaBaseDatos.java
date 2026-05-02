@@ -1,9 +1,6 @@
 package baseDatos;
 
-import aplicacion.Usuario;
-import aplicacion.Animal;
-import aplicacion.Trabajador;
-import aplicacion.Entrada;
+import aplicacion.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,12 +15,9 @@ public class FachadaBaseDatos {
     private Connection conexion;
 
     // DAOs específicos basados en tu estructura de archivos
-    private DAOAnimales daoAnimales;
     private DAOTrabajadores daoTrabajadores;
-    private DAOUsuarios daoUsuarios;
     private DAOEntradas daoEntradas;
     private DAOEspectaculos daoEspectaculos;
-    private DAOZonas daoZonas;
 
     public FachadaBaseDatos(aplicacion.FachadaAplicacion fa) {
         this.fa = fa;
@@ -49,13 +43,9 @@ public class FachadaBaseDatos {
                     usuario);
 
             // Inicialización de los DAOs
-            // Nota: Asegúrate de que los constructores de tus DAOs reciban (conexion, fa)
-            this.daoAnimales = new DAOAnimales(conexion, fa);
             this.daoTrabajadores = new DAOTrabajadores(conexion, fa);
-            this.daoUsuarios = new DAOUsuarios(conexion, fa);
             this.daoEntradas = new DAOEntradas(conexion, fa);
             this.daoEspectaculos = new DAOEspectaculos(conexion, fa);
-            this.daoZonas = new DAOZonas(conexion, fa);
 
         } catch (FileNotFoundException f) {
             fa.muestraExcepcion("Archivo de configuración no encontrado: " + f.getMessage());
@@ -66,42 +56,22 @@ public class FachadaBaseDatos {
         }
     }
 
-    // --- Métodos de Usuario (Transacciones T1, T2, T3) ---
-
-    public Usuario validarUsuario(String idUsuario, String clave) {
-        return daoUsuarios.validarUsuario(idUsuario, clave); //
-    }
-
-    // --- Métodos de Animales (Transacciones T10, T11) ---
-
-    public List<Animal> consultarAnimales(Integer id, String nombreComun, String nombreCientifico, String zona) {
-        return daoAnimales.consultarAnimales(id, nombreComun, nombreCientifico, zona);
-    }
-
-    public void insertarAnimal(Animal a) {
-        daoAnimales.insertarAnimal(a);
-    }
-
-    public void borrarAnimal(Integer idAnimal) {
-        daoAnimales.borrarAnimal(idAnimal);
-    }
-
     // --- Métodos de Trabajadores (Transacciones T12, T13, T14) ---
 
     public List<Trabajador> consultarTrabajadores(String dni, String nombre, String tipo) {
-        return daoTrabajadores.consultarTrabajadores(dni, nombre, tipo);
+        return daoTrabajadores.obterTodosTrabajadores(dni, nombre, tipo);
     }
 
-    public void insertarTrabajador(Trabajador t) {
-        daoTrabajadores.insertarTrabajador(t);
+    public void insertarTrabajador(Trabajador t, String tipo) {
+        daoTrabajadores.insertarTrabajador(t, tipo);
     }
 
     public void modificarTrabajador(Trabajador t) {
-        daoTrabajadores.modificarTrabajador(t);
+        daoTrabajadores.actualizarTrabajador(t);
     }
 
     public void eliminarTrabajador(String dni) {
-        daoTrabajadores.borrarTrabajador(dni);
+        daoTrabajadores.eliminarTrabajador(dni);
     }
 
     // --- Métodos de Entradas e Informes (Transacción T15) ---

@@ -8,6 +8,6 @@ package gui;
  *
  * @author alumnogreibd
  */
-public class VGestionEntradas {
+public class VGestionEntradas{
     
 }
