@@ -4,8 +4,11 @@
  */
 package gui;
 import aplicacion.Animal;
+import java.time.LocalDate;
+import aplicacion.HistorialMedico;
 import aplicacion.Trabajador;
 import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +23,10 @@ public class VGestionAnimales extends javax.swing.JDialog {
     private aplicacion.FachadaAplicacion fa;
     
     private List<Animal> animalesActuales = new java.util.ArrayList<>();
+    private List<HistorialMedico> historialActual = new java.util.ArrayList<>();
+    private DefaultListModel<String> modeloDisponibles = new DefaultListModel<>();
+    private DefaultListModel<String> modeloAsignados = new DefaultListModel<>();
+    private List<String> todosLosCuidadoresDni = new java.util.ArrayList<>();
     
     /**
      * Constructor adaptado para integrarse en la arquitectura
@@ -28,7 +35,7 @@ public class VGestionAnimales extends javax.swing.JDialog {
         super(parent, modal);
         this.fgui = fgui;
         // Inicializamos la Fachada de Aplicación ANTES de llamar a cargarZonas()
-        //this.fa = fgui.getFachadaAplicacion(); 
+        this.fa = fgui.getFachadaAplicacion(); 
         
         initComponents();
         
@@ -44,6 +51,10 @@ public class VGestionAnimales extends javax.swing.JDialog {
         
         // Cargamos todos los animales al abrir
         buscarAnimales("", ""); 
+        
+        cuidadoresDisponiblesList2.setModel(modeloDisponibles);
+        cuidadoresNoDisponiblesList1.setModel(modeloAsignados);
+        cargarTodosLosCuidadores();
     }
 
     /**
@@ -63,6 +74,53 @@ public class VGestionAnimales extends javax.swing.JDialog {
             fila[3] = a.getNombreZona();
             fila[4] = a.getEstadoConservacion();
             modeloTabla.addRow(fila);
+        }
+    }
+    
+    private void buscarHistorial(int idAnimal) {
+        // Pedimos los historiales de ESE animal en concreto
+        historialActual = fa.obtenerHistorialPorAnimal(idAnimal);
+
+        javax.swing.table.DefaultTableModel modeloTabla = (javax.swing.table.DefaultTableModel) jTable2.getModel();
+        modeloTabla.setRowCount(0);
+
+        for (Historial h : historialActual) {
+            Object[] fila = new Object[4];
+            fila[0] = h.getCodigo(); // Adapta al nombre de tu método get
+            fila[1] = h.getFecha(); 
+            fila[2] = h.getDiagnostico();
+            fila[3] = h.getVeterinario(); 
+            modeloTabla.addRow(fila);
+        }
+    }
+    
+    private void cargarTodosLosCuidadores() {
+        // Asume que este método en Fachada te devuelve los DNI y Nombres de todos los cuidadores (Ej: "12345678A - Paco")
+        todosLosCuidadoresDni = fa.obtenerTodosLosCuidadores();
+        
+        modeloDisponibles.clear();
+        for (String c : todosLosCuidadoresDni) {
+            modeloDisponibles.addElement(c);
+        }
+    }
+
+    private void buscarCuidadoresAnimal(int idAnimal) {
+        modeloAsignados.clear();
+        modeloDisponibles.clear();
+        
+        // Pedimos a la BD los cuidadores asignados a ESTE animal
+        List<String> asignados = fa.obtenerCuidadoresPorAnimal(idAnimal);
+        
+        // Rellenamos la lista de asignados (derecha)
+        for (String asig : asignados) {
+            modeloAsignados.addElement(asig);
+        }
+        
+        // Rellenamos la lista de disponibles (izquierda) con todos los que NO estén ya asignados
+        for (String cuid : todosLosCuidadoresDni) {
+            if (!asignados.contains(cuid)) {
+                modeloDisponibles.addElement(cuid);
+            }
         }
     }
 
@@ -357,6 +415,11 @@ public class VGestionAnimales extends javax.swing.JDialog {
             }
         });
         jTable2.getTableHeader().setReorderingAllowed(false);
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(jTable2);
 
         jLabel4.setText("Nuevo / Editar Registro");
@@ -380,7 +443,9 @@ public class VGestionAnimales extends javax.swing.JDialog {
         borrarHistorialButton1.setText("Borrar");
         borrarHistorialButton1.addActionListener(this::borrarHistorialButton1ActionPerformed);
 
+        salirHistorialButton1.setForeground(new java.awt.Color(255, 0, 51));
         salirHistorialButton1.setText("Salir");
+        salirHistorialButton1.addActionListener(this::salirHistorialButton1ActionPerformed);
 
         javax.swing.GroupLayout historialPanel2Layout = new javax.swing.GroupLayout(historialPanel2);
         historialPanel2.setLayout(historialPanel2Layout);
@@ -479,6 +544,7 @@ public class VGestionAnimales extends javax.swing.JDialog {
         actualizarButton1.setText("Actualizar");
         actualizarButton1.addActionListener(this::actualizarButton1ActionPerformed);
 
+        salirCuidadoresButton3.setForeground(new java.awt.Color(255, 0, 51));
         salirCuidadoresButton3.setText("Salir");
         salirCuidadoresButton3.addActionListener(this::salirCuidadoresButton3ActionPerformed);
 
@@ -672,31 +738,128 @@ public class VGestionAnimales extends javax.swing.JDialog {
     }//GEN-LAST:event_buscarButton1ActionPerformed
 
     private void insertarNoDisponiblesButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarNoDisponiblesButton1ActionPerformed
-        // TODO add your handling code here:
+        // Cogemos los elementos seleccionados en la lista de Disponibles (izquierda)
+        List<String> seleccionados = cuidadoresDisponiblesList2.getSelectedValuesList();
+
+        // Los pasamos a la de Asignados y los borramos de Disponibles
+        for (String c : seleccionados) {
+            modeloAsignados.addElement(c);
+            modeloDisponibles.removeElement(c);
+            }
     }//GEN-LAST:event_insertarNoDisponiblesButton1ActionPerformed
 
     private void insertarDisponiblesButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarDisponiblesButton2ActionPerformed
-        // TODO add your handling code here:
+        // Cogemos los elementos seleccionados en la lista de Asignados (derecha)
+        List<String> seleccionados = cuidadoresNoDisponiblesList1.getSelectedValuesList();
+        
+        // Los devolvemos a Disponibles y los quitamos de Asignados
+        for (String c : seleccionados) {
+            modeloDisponibles.addElement(c);
+            modeloAsignados.removeElement(c);
+        }
     }//GEN-LAST:event_insertarDisponiblesButton2ActionPerformed
 
     private void actualizarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarButton1ActionPerformed
-        // TODO add your handling code here:
+        if (idTextField2.getText().isEmpty()) {
+            fgui.muestraAviso("Primero debes seleccionar un animal en la pestaña principal.");
+            return;
+        }
+
+        try {
+            int idAnimal = Integer.parseInt(idTextField2.getText());
+            
+            // Cogemos todos los elementos que han quedado en la lista de Asignados
+            List<String> cuidadoresFinales = new java.util.ArrayList<>();
+            for (int i = 0; i < modeloAsignados.getSize(); i++) {
+                cuidadoresFinales.add(modeloAsignados.getElementAt(i));
+            }
+            
+            // Le pasamos la lista completa a la Fachada para que borre los antiguos y ponga los nuevos
+            fa.actualizarCuidadoresAnimal(idAnimal, cuidadoresFinales);
+            fgui.muestraAviso("Cuidadores actualizados correctamente.");
+            
+        } catch (Exception e) {
+            fgui.muestraExcepcion("Error al actualizar cuidadores: " + e.getMessage());
+        }
     }//GEN-LAST:event_actualizarButton1ActionPerformed
 
     private void salirCuidadoresButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirCuidadoresButton3ActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_salirCuidadoresButton3ActionPerformed
 
     private void nuevoHistorialButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoHistorialButton1ActionPerformed
-        // TODO add your handling code here:
+        // Verificamos que hay un animal seleccionado en la pestaña 1
+        if (idTextField2.getText().isEmpty()) {
+            fgui.muestraAviso("Primero debes seleccionar un animal en la pestaña 'Animales'.");
+            return;
+        }
+
+        codigoTextField1.setText("");
+        codigoTextField1.setEditable(true); // Si quieres que se escriba a mano, si es automático ponlo a false
+        fechaTextField1.setText("");
+        diagnosticoTextField1.setText("");
+        jTable2.clearSelection();
+        fechaTextField1.requestFocus();
     }//GEN-LAST:event_nuevoHistorialButton1ActionPerformed
 
     private void guardarHistorialButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarHistorialButton1ActionPerformed
-        // TODO add your handling code here:
+        if (idTextField2.getText().isEmpty()) {
+            fgui.muestraAviso("Selecciona un animal en la pestaña principal primero.");
+            return;
+        }
+        if (diagnosticoTextField1.getText().isEmpty() || fechaTextField1.getText().isEmpty()) {
+            fgui.muestraAviso("La fecha y el diagnóstico son obligatorios.");
+            return;
+        }
+
+        try {
+            int idAnimal = Integer.parseInt(idTextField2.getText());
+            int codigo = codigoTextField1.getText().isEmpty() ? 0 : Integer.parseInt(codigoTextField1.getText());
+            
+            // Cuidado con el formato de fecha, aquí asumo java.sql.Date
+            java.sql.Date fecha = java.sql.Date.valueOf(fechaTextField1.getText()); 
+            String diagnostico = diagnosticoTextField1.getText();
+            String veterinario = veterinarioComboBox1.getSelectedItem() != null ? veterinarioComboBox1.getSelectedItem().toString() : null;
+
+            HistorialMedico h = new HistorialMedico(codigo, fecha, diagnostico, veterinario, idAnimal);
+
+            if (jTable2.getSelectedRow() == -1) {
+                fa.insertarHistorial(h);
+                fgui.muestraAviso("Historial registrado.");
+            } else {
+                fa.modificarHistorial(h);
+                fgui.muestraAviso("Historial actualizado.");
+            }
+            
+            buscarHistorial(idAnimal); // Refrescamos la tabla
+            nuevoHistorialButton1ActionPerformed(evt);
+            
+        } catch (IllegalArgumentException ex) {
+            fgui.muestraExcepcion("Formato de fecha incorrecto. Usa AAAA-MM-DD.");
+        } catch (Exception ex) {
+            fgui.muestraExcepcion("Error al guardar: " + ex.getMessage());
+        }
     }//GEN-LAST:event_guardarHistorialButton1ActionPerformed
 
     private void borrarHistorialButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarHistorialButton1ActionPerformed
-        // TODO add your handling code here:
+        if (codigoTextField1.getText().isEmpty()) {
+            fgui.muestraAviso("Selecciona un registro médico para borrar.");
+            return;
+        }
+
+        if (fgui.pideConfirmacion("¿Seguro que deseas borrar este registro médico?")) {
+            try {
+                int codigo = Integer.parseInt(codigoTextField1.getText());
+                fa.borrarHistorial(codigo);
+                fgui.muestraAviso("Registro eliminado.");
+                
+                int idAnimal = Integer.parseInt(idTextField2.getText());
+                buscarHistorial(idAnimal);
+                nuevoHistorialButton1ActionPerformed(evt);
+            } catch (Exception e) {
+                fgui.muestraExcepcion("Error al borrar: " + e.getMessage());
+            }
+        }
     }//GEN-LAST:event_borrarHistorialButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -715,8 +878,33 @@ public class VGestionAnimales extends javax.swing.JDialog {
             
             if (a.getNombreZona() != null) ZonaComboBox1.setSelectedItem(a.getNombreZona());
             if (a.getEstadoConservacion() != null) estadoConservaComboBox2.setSelectedItem(a.getEstadoConservacion());
+            
+            buscarHistorial(a.getIdAnimal());
+            
+            buscarCuidadoresAnimal(a.getIdAnimal());
         }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        int filaSeleccionada = jTable2.getSelectedRow();
+        
+        if (filaSeleccionada >= 0) {
+            HistorialMedico h = historialActual.get(filaSeleccionada);
+            
+            codigoTextField1.setText(String.valueOf(h.getCodigo()));
+            codigoTextField1.setEditable(false); // Bloqueamos el código
+            
+            // Asumiendo que getFecha devuelve algo que se puede pasar a String
+            fechaTextField1.setText(h.getFecha().toString()); 
+            diagnosticoTextField1.setText(h.getDiagnostico());
+            
+            if (h.getDniVeterinario() != null) veterinarioComboBox1.setSelectedItem(h.getDniVeterinario());
+        }
+    }//GEN-LAST:event_jTable2MouseClicked
+
+    private void salirHistorialButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirHistorialButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_salirHistorialButton1ActionPerformed
 
     private void cargarZonas() {
         ZonaComboBox1.removeAllItems();
@@ -724,6 +912,14 @@ public class VGestionAnimales extends javax.swing.JDialog {
             ZonaComboBox1.addItem(zona);
         }
     }  
+    
+    private void cargarVeterinarios() {
+        veterinarioComboBox1.removeAllItems();
+        // Asumo que tienes un método que devuelve los nombres o IDs de los veterinarios
+        for (String vet : fa.obtenerNombresVeterinarios()) { 
+            veterinarioComboBox1.addItem(vet);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ZonaComboBox1;
