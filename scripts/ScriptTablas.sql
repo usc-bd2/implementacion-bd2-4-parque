@@ -144,7 +144,7 @@ CREATE TABLE Entradas (
     precio FLOAT NOT NULL,
     fecha DATE NOT NULL,
     activo BOOLEAN NOT NULL DEFAULT TRUE,
-    idUsuario VARCHAR(20) NOT NULL,
+    idUsuario INTEGER NOT NULL,
     FOREIGN KEY (idUsuario) REFERENCES Usuarios(idUsuario)
         ON DELETE RESTRICT ON UPDATE CASCADE
 );
@@ -165,7 +165,7 @@ CREATE TABLE Espectaculos (
 
 CREATE TABLE Reservar (
     idReserva INTEGER NOT NULL,
-    idUsuario VARCHAR(20) NOT NULL,
+    idUsuario INTEGER NOT NULL,
     idEspectaculo INTEGER NOT NULL,
     plaza INTEGER NOT NULL,
     PRIMARY KEY (idReserva, idUsuario, idEspectaculo),
@@ -174,3 +174,4 @@ CREATE TABLE Reservar (
     FOREIGN KEY (idEspectaculo) REFERENCES Espectaculos(idEspectaculo)
         ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
