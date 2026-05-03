@@ -128,8 +128,8 @@ public class FachadaAplicacion {
         return ge.calcularRecaudacion(fechaInicio, fechaFin);
     }
 
-    public boolean verificarDisponibilidadEntradas(LocalDate fecha, int numeroEntradas) {
-        return ge.verificarDisponibilidad(fecha, numeroEntradas);
+    public boolean verificarDisponibilidadEntradas(java.time.LocalDate fecha, int numEntradas) {
+        return fbd.verificarDisponibilidadEntradas(fecha, numEntradas);
     }
 
     // ==========================================================

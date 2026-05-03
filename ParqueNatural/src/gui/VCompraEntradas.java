@@ -64,7 +64,7 @@ public class VCompraEntradas extends javax.swing.JFrame {
 
         labelNEntradas.setText("Número de entradas");
 
-        comboboxNentradas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboboxNentradas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
 
         botonConfirmarCompra.setText("Confirmar compra");
         botonConfirmarCompra.addActionListener(this::botonConfirmarCompraActionPerformed);

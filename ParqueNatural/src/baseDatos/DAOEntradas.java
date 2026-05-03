@@ -159,23 +159,23 @@ public class DAOEntradas extends AbstractDAO {
         return recaudacion;
     }
 
-    /**
-     * Anular una entrada (Se mantiene de tu código original)
-     * @param idEntrada
-     */
-    public void anularEntrada(int idEntrada) {
-        Connection con = this.getConexion();
-        PreparedStatement stmt = null;
+    public boolean verificarDisponibilidad(java.time.LocalDate fecha, int numEntradas) {
+        PreparedStatement stm = null;
         try {
-            String sql = "UPDATE Entradas SET activo = false WHERE idEntrada = ?";
-            stmt = con.prepareStatement(sql);
-            stmt.setInt(1, idEntrada);
-            stmt.executeUpdate();
+            stm = getConexion().prepareStatement(
+            "SELECT COUNT(*) FROM Entradas WHERE fecha = ? AND activo = true");
+            stm.setDate(1, java.sql.Date.valueOf(fecha));
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                int vendidas = rs.getInt(1);
+                return (vendidas + numEntradas) <= 1000; // aforo máximo diario
+            }
         } catch (SQLException e) {
-            muestraError(e);
+            getFachadaAplicacion().muestraExcepcion(e.getMessage());
         } finally {
-            cerrarRecursos(null, stmt);
+            try { if (stm != null) stm.close(); } catch (SQLException e) {}
         }
+        return false;
     }
 
     // --- Método auxiliar para no repetir código de cierre ---
