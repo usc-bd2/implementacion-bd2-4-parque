@@ -20,19 +20,21 @@ public class GestionUsuarios {
 
     //T2 - Eliminar usuario
     public void eliminarUsuario(int idUsuario){
-        //Aún no se implementó porque falta la funcionalidad de encontrar las reservas
+        fbd.eliminarUsuario(idUsuario);
     }
 
     //T3 - Crear cuenta
-    public void crearCuenta(Usuario u){
-        if (fbd.validarUsuario(u.getEmail(), u.getClave()) != null) return;
+    public void crearCuenta(Usuario u) throws Exception{
+        if (fbd.existeEmail(u.getEmail())) {
+            throw new Exception("El email '" + u.getEmail() + "' ya está registrado.");
+        }
         u.setPermisos(false); //usuario no admin
         fbd.insertarUsuario(u);
     }
 
     //T5 - Editar datos de usuario
     public void editarDatos(Usuario u){
-        //Si se quiere seguir con la memoria, conseguir una forma para conseguir los datos y mostrarlos por ventana
+        fbd.modificarUsuario(u);
     }
 
     //T9 - Cambiar permisos
@@ -42,6 +44,7 @@ public class GestionUsuarios {
             fbd.cambiarPermisos(u.getIdUsuario(), permisos);
         }
     }
+
     
     public java.util.List<Usuario> obtenerUsuarios(String id, String nombre) {
         return fbd.obtenerUsuarios(id, nombre);

@@ -157,4 +157,19 @@ public class DAOUsuarios extends AbstractDAO {
         }
         return lista;
     }
+
+    public boolean existeEmail(String email) {
+        boolean existe = false;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            stm = getConexion().prepareStatement("SELECT 1 FROM Usuarios WHERE email = ?");
+            stm.setString(1, email);
+            rs = stm.executeQuery();
+            existe = rs.next();
+        } catch (SQLException e) {
+            getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        }
+        return existe;
+    }
 }

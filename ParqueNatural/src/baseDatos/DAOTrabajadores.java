@@ -241,7 +241,7 @@ public class DAOTrabajadores extends AbstractDAO {
                     rs.getString("dirección"), rs.getString("telefonoContacto"), rs.getString("email"),
                     rs.getString("sexo").charAt(0), rs.getDate("fechaNacimiento").toLocalDate(), rs.getDouble("sueldo")
                 );
-            case "Guia":
+            case "Guía":
                 return new Guia(
                     rs.getString("DNI"), rs.getString("nombre"), rs.getString("ap1"), rs.getString("ap2"),
                     rs.getString("dirección"), rs.getString("telefonoContacto"), rs.getString("email"),

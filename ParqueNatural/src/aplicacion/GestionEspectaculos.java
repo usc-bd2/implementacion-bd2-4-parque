@@ -233,7 +233,7 @@ public class GestionEspectaculos {
         }
         
         // Validar duración
-        if (espectaculo.getDuracion() <= 0 || espectaculo.getDuracion() > 480) { // máximo 8 horas
+        if (espectaculo.getDuracion() == null || espectaculo.getDuracion() <= 0 || espectaculo.getDuracion() > 480) { // máximo 8 horas
             fachadaGUI.muestraAviso("La duración debe ser entre 1 y 480 minutos");
             return false;
         }

@@ -249,7 +249,7 @@ public class VGestionUsuarios extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nuevoButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoButton1ActionPerformed
+    private void nuevoButton1ActionPerformed(java.awt.event.ActionEvent evt){//GEN-FIRST:event_nuevoButton1ActionPerformed
         if (idTextField1.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "El ID no puede estar vacío.");
             return;
@@ -279,10 +279,14 @@ public class VGestionUsuarios extends javax.swing.JPanel {
         String email = emailTextField2.getText();
         String telefono = telefonoTextField2.getText();
         Boolean permisos = permisosCheckBox1.isSelected();
-                
-        aplicacion.Usuario u = new aplicacion.Usuario(ID,Nombre,ap1,ap2,clave,email,telefono,fecha,permisos);
-        
-        fa.crearCuenta(u);
+
+        try {
+            aplicacion.Usuario u = new aplicacion.Usuario(ID, Nombre, ap1, ap2, clave, email, telefono, fecha, permisos);
+            fa.crearCuenta(u);
+            JOptionPane.showMessageDialog(this, "Cuenta creada correctamente");
+        } catch (Exception e) {
+            fa.muestraExcepcion(e.getMessage());
+        }
     }//GEN-LAST:event_nuevoButton1ActionPerformed
 
     private void guardarButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarButton2ActionPerformed

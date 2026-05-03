@@ -157,12 +157,12 @@ public class VPrincipalUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMapaActionPerformed
-        new VAnimales(fa).setVisible(true);
+        VMapa vm = new VMapa(this, true);
+        vm.setVisible(true);
     }//GEN-LAST:event_botonMapaActionPerformed
 
     private void botonAnimalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnimalesActionPerformed
-        VMapa vm = new VMapa(this, true);
-        vm.setVisible(true);
+        new VAnimales(fa).setVisible(true);
     }//GEN-LAST:event_botonAnimalesActionPerformed
 
     private void botonComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonComprarActionPerformed
