@@ -5,19 +5,17 @@ import java.sql.Connection;
 
 public abstract class AbstractDAO {
 
-    private FachadaAplicacion fa;
-    private Connection conexion;
+    private final FachadaAplicacion fa;
+    private final Connection conexion;
+
+    // CONSTRUCTOR
+    public AbstractDAO(Connection conexion, FachadaAplicacion fa) {
+        this.conexion = conexion;
+        this.fa = fa;
+    }
 
     protected Connection getConexion() {
         return this.conexion;
-    }
-
-    protected void setConexion(Connection conexion) {
-        this.conexion = conexion;
-    }
-
-    protected void setFachadaAplicacion(FachadaAplicacion fa) {
-        this.fa = fa;
     }
 
     protected FachadaAplicacion getFachadaAplicacion() {
@@ -25,7 +23,7 @@ public abstract class AbstractDAO {
     }
 
     protected void muestraError(Exception e) {
-        System.out.println(e.getMessage());
-        fa.muestraExcepcion(e.getMessage());
+        System.out.println("Error SQL: " + e.getMessage()); 
+        fa.muestraExcepcion(e.getMessage()); 
     }
 }

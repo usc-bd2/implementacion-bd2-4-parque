@@ -10,4 +10,9 @@ public class Veterinario extends Trabajador {
         super(dni, nombre, ap1, ap2, direccion, telefonoContacto,
                 email, sexo, fechaNacimiento, sueldo);
     }
+    
+    @Override
+    public String getTipoTrabajo() {
+        return "Veterinario";
+    }
 }

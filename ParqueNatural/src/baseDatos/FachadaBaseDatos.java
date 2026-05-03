@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Properties;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class FachadaBaseDatos {
     private aplicacion.FachadaAplicacion fa;
     private Connection conexion;
 
-    // DAOs específicos basados en tu estructura de archivos
+    // Instancias únicas de los DAOs
     private DAOTrabajadores daoTrabajadores;
     private DAOEntradas daoEntradas;
     private DAOEspectaculos daoEspectaculos;
@@ -42,7 +43,7 @@ public class FachadaBaseDatos {
                             configuracion.getProperty("baseDatos"),
                     usuario);
 
-            // Inicialización de los DAOs
+            // Inicialización centralizada de los DAOs
             this.daoTrabajadores = new DAOTrabajadores(conexion, fa);
             this.daoEntradas = new DAOEntradas(conexion, fa);
             this.daoEspectaculos = new DAOEspectaculos(conexion, fa);
@@ -56,27 +57,67 @@ public class FachadaBaseDatos {
         }
     }
 
-    // --- Métodos de Trabajadores (Transacciones T12, T13, T14) ---
+    // ==========================================================
+    // DELEGADOS DE DAO TRABAJADORES
+    // ==========================================================
 
-    public List<Trabajador> consultarTrabajadores(String dni, String nombre, String tipo) {
-        return daoTrabajadores.obterTodosTrabajadores(dni, nombre, tipo);
+    public Trabajador buscarTrabajadorPorDni(String dni) {
+        return daoTrabajadores.buscarTrabajadorPorDni(dni);
     }
 
-    public void insertarTrabajador(Trabajador t, String tipo) {
-        daoTrabajadores.insertarTrabajador(t, tipo);
+    public List<Trabajador> listarTrabajadores() {
+        return daoTrabajadores.listarTrabajadores();
     }
 
-    public void modificarTrabajador(Trabajador t) {
-        daoTrabajadores.actualizarTrabajador(t);
+    public boolean darAltaTrabajador(Trabajador t) {
+        return daoTrabajadores.darAltaTrabajador(t);
     }
 
-    public void eliminarTrabajador(String dni) {
-        daoTrabajadores.eliminarTrabajador(dni);
+    public boolean modificarTrabajador(Trabajador t) {
+        return daoTrabajadores.modificarTrabajador(t);
     }
 
-    // --- Métodos de Entradas e Informes (Transacción T15) ---
+    public boolean darBajaTrabajador(String dni) {
+        return daoTrabajadores.darBajaTrabajador(dni);
+    }
 
-    public List<Entrada> consultarEntradas(java.util.Date desde, java.util.Date hasta) {
-        return daoEntradas.consultarEntradas(desde, hasta);
+    // ==========================================================
+    // DELEGADOS DE DAO ENTRADAS
+    // ==========================================================
+
+    public boolean comprarEntradas(LocalDate fecha, int numeroEntradas, int idUsuario) {
+        return daoEntradas.comprarEntradas(fecha, numeroEntradas, idUsuario);
+    }
+
+    public List<Entrada> consultarEntradasVendidas(LocalDate fechaInicio, LocalDate fechaFin) {
+        return daoEntradas.consultarEntradasVendidas(fechaInicio, fechaFin);
+    }
+
+    public double calcularRecaudacion(LocalDate fechaInicio, LocalDate fechaFin) {
+        return daoEntradas.calcularRecaudacion(fechaInicio, fechaFin);
+    }
+
+    // ==========================================================
+    // DELEGADOS DE DAO ESPECTACULOS
+    // ==========================================================
+
+    public List<Espectaculo> listarEspectaculos() {
+        return daoEspectaculos.listarEspectaculos();
+    }
+
+    public boolean reservarPlazaEspectaculo(int idEspectaculo, int idUsuario) {
+        return daoEspectaculos.reservarPlazaEspectaculo(idEspectaculo, idUsuario);
+    }
+
+    public boolean añadirEspectaculo(Espectaculo espectaculo) {
+        return daoEspectaculos.añadirEspectaculo(espectaculo);
+    }
+
+    public boolean modificarEspectaculo(Espectaculo espectaculo) {
+        return daoEspectaculos.modificarEspectaculo(espectaculo);
+    }
+
+    public boolean eliminarEspectaculo(int idEspectaculo) {
+        return daoEspectaculos.eliminarEspectaculo(idEspectaculo);
     }
 }

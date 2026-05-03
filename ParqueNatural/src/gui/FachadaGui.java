@@ -78,4 +78,8 @@ public class FachadaGui {
         aviso.setLocationRelativeTo(null);
         aviso.setVisible(true);
     }
+
+    public boolean pideConfirmacion(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

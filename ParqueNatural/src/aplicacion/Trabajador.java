@@ -3,15 +3,15 @@ package aplicacion;
 import java.time.LocalDate;
 
 public abstract class Trabajador {
-    private String dni;
-    private String nombre;
-    private String ap1;
-    private String ap2;
+    private final String dni;
+    private final String nombre;
+    private final String ap1;
+    private final String ap2;
     private String direccion;
     private String telefonoContacto;
     private String email;
-    private char sexo;
-    private LocalDate fechaNacimiento;
+    private final char sexo;
+    private final LocalDate fechaNacimiento;
     private double sueldo;
 
     public Trabajador(String dni, String nombre, String ap1, String ap2,
@@ -29,6 +29,7 @@ public abstract class Trabajador {
         this.sueldo = sueldo;
     }
 
+    // --- Getters y Setters---
     public String getDni()                  { return dni; }
     public String getNombre()               { return nombre; }
     public String getAp1()                  { return ap1; }
@@ -39,9 +40,18 @@ public abstract class Trabajador {
     public char getSexo()                   { return sexo; }
     public LocalDate getFechaNacimiento()   { return fechaNacimiento; }
     public double getSueldo()               { return sueldo; }
-
     public void setDireccion(String d)      { this.direccion = d; }
     public void setSueldo(double s)         { this.sueldo = s; }
     public void setEmail(String e)          { this.email = e; }
     public void setTelefonoContacto(String t){ this.telefonoContacto = t; }
+
+    // --- MÉTODOS ---
+    
+    // Método que une los dos apellidos para la tabla visual
+    public String getApellidos() {
+        return ap1 + " " + ap2;
+    }
+
+    // Método abstracto: obliga a que cada clase hija diga qué tipo de trabajador es
+    public abstract String getTipoTrabajo();
 }

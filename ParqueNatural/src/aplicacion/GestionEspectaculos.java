@@ -4,28 +4,26 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import baseDatos.DAOEspectaculos;
 import baseDatos.FachadaBaseDatos;
 import gui.FachadaGui;
 
 public class GestionEspectaculos {
     
-    private FachadaGui fdg;
-    private FachadaBaseDatos fbd;
-    private DAOEspectaculos daoEspectaculos;
+    private final FachadaGui fachadaGUI;
+    private final FachadaBaseDatos fachadaBaseDatos;
     
-    public GestionEspectaculos(fdg fgui, FachadaBaseDatos fbd) {
-        this.fdg = fgui;
-        this.fbd = fbd;
-        this.daoEspectaculos = new DAOEspectaculos(fgui, fbd);
+    public GestionEspectaculos(FachadaGui fgui, FachadaBaseDatos fbd) {
+        this.fachadaGUI = fgui;
+        this.fachadaBaseDatos = fbd;
+        // Eliminada la instanciación directa del DAOEspectaculos
     }
     
     // T8. Reservar plaza en espectáculo
     public boolean reservarPlazaEspectaculo(int idEspectaculo, int idUsuario) {
         try {
-            // Validar parámetros
+            // Validar parámetros numéricos
             if (idEspectaculo <= 0 || idUsuario <= 0) {
-                fdg.muestraAviso("Parámetros inválidos para la reserva");
+                fachadaGUI.muestraAviso("Parámetros inválidos para la reserva");
                 return false;
             }
             
@@ -45,12 +43,13 @@ public class GestionEspectaculos {
             // Verificar que el espectáculo no ha pasado
             if (espectaculo.getFecha().isBefore(LocalDate.now()) || 
                 (espectaculo.getFecha().isEqual(LocalDate.now()) && 
-                 espectaculo.getHoraInicio().isBefore(LocalTime.now()))) {
+                 espectaculo.getHoraInicioLocal().isBefore(LocalTime.now()))) {
                 fachadaGUI.muestraAviso("No se puede reservar en un espectáculo que ya ha pasado");
                 return false;
             }
             
-            boolean resultado = daoEspectaculos.reservarPlazaEspectaculo(idEspectaculo, idUsuario);
+            // Delegamos la petición a la fachada de BD
+            boolean resultado = fachadaBaseDatos.reservarPlazaEspectaculo(idEspectaculo, idUsuario);
             
             if (resultado) {
                 fachadaGUI.muestraAviso("Reserva realizada correctamente para el espectáculo: " + espectaculo.getNombre());
@@ -69,12 +68,12 @@ public class GestionEspectaculos {
     // T16. Añadir espectáculo
     public boolean añadirEspectaculo(Espectaculo espectaculo) {
         try {
-            // Validar datos del espectáculo
             if (!validarEspectaculo(espectaculo, false)) {
                 return false;
             }
             
-            boolean resultado = daoEspectaculos.añadirEspectaculo(espectaculo);
+            // Usamos la fachada BD
+            boolean resultado = fachadaBaseDatos.añadirEspectaculo(espectaculo);
             
             if (resultado) {
                 fachadaGUI.muestraAviso("Espectáculo '" + espectaculo.getNombre() + "' añadido correctamente");
@@ -93,19 +92,17 @@ public class GestionEspectaculos {
     // T17. Modificar espectáculo
     public boolean modificarEspectaculo(Espectaculo espectaculo) {
         try {
-            // Validar datos del espectáculo
             if (!validarEspectaculo(espectaculo, true)) {
                 return false;
             }
             
-            // Verificar que el espectáculo existe
             Espectaculo existente = buscarEspectaculo(espectaculo.getIdEspectaculo());
             if (existente == null) {
                 fachadaGUI.muestraAviso("El espectáculo no existe");
                 return false;
             }
             
-            boolean resultado = daoEspectaculos.modificarEspectaculo(espectaculo);
+            boolean resultado = fachadaBaseDatos.modificarEspectaculo(espectaculo);
             
             if (resultado) {
                 fachadaGUI.muestraAviso("Espectáculo '" + espectaculo.getNombre() + "' modificado correctamente");
@@ -122,22 +119,19 @@ public class GestionEspectaculos {
     }
     
     // T18. Eliminar espectáculo
-    public boolean eliminarEspectaculo(String idEspectaculo) {
+    public boolean eliminarEspectaculo(int idEspectaculo) {
         try {
-            // Validar parámetro
-            if (idEspectaculo == null || idEspectaculo.trim().isEmpty()) {
+            if (idEspectaculo <= 0) {
                 fachadaGUI.muestraAviso("ID de espectáculo inválido");
                 return false;
             }
             
-            // Verificar que el espectáculo existe
             Espectaculo espectaculo = buscarEspectaculo(idEspectaculo);
             if (espectaculo == null) {
                 fachadaGUI.muestraAviso("El espectáculo no existe");
                 return false;
             }
             
-            // Confirmar eliminación
             boolean confirmado = fachadaGUI.pideConfirmacion("¿Está seguro de que desea eliminar el espectáculo '" + 
                                                            espectaculo.getNombre() + "'? Esta acción no se puede deshacer.");
             
@@ -145,7 +139,7 @@ public class GestionEspectaculos {
                 return false;
             }
             
-            boolean resultado = daoEspectaculos.eliminarEspectaculo(idEspectaculo);
+            boolean resultado = fachadaBaseDatos.eliminarEspectaculo(idEspectaculo);
             
             if (resultado) {
                 fachadaGUI.muestraAviso("Espectáculo eliminado correctamente");
@@ -163,14 +157,14 @@ public class GestionEspectaculos {
     
     public Espectaculo buscarEspectaculo(int idEspectaculo) {
         try {
-            if (idEspectaculo == null || idEspectaculo.trim().isEmpty()) {
+            if (idEspectaculo <= 0) {
                 return null;
             }
             
-            List<Espectaculo> espectaculos = daoEspectaculos.listarEspectaculos();
+            List<Espectaculo> espectaculos = fachadaBaseDatos.listarEspectaculos();
             if (espectaculos != null) {
                 for (Espectaculo e : espectaculos) {
-                    if (e.getIdEspectaculo().equals(idEspectaculo)) {
+                    if (e.getIdEspectaculo() == idEspectaculo) { // Al ser int se usa ==
                         return e;
                     }
                 }
@@ -186,7 +180,7 @@ public class GestionEspectaculos {
     
     public List<Espectaculo> listarEspectaculos() {
         try {
-            return daoEspectaculos.listarEspectaculos();
+            return fachadaBaseDatos.listarEspectaculos();
         } catch (Exception e) {
             fachadaGUI.muestraAviso("Error al listar espectáculos: " + e.getMessage());
             return null;
@@ -216,8 +210,7 @@ public class GestionEspectaculos {
             return false;
         }
         
-        // Validar zona
-        if (espectaculo.getIdZona() == null || espectaculo.getIdZona().trim().isEmpty()) {
+        if (espectaculo.getZona() == null || espectaculo.getZona().trim().isEmpty()) {
             fachadaGUI.muestraAviso("La zona del espectáculo es obligatoria");
             return false;
         }

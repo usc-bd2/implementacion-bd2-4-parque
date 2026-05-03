@@ -14,4 +14,9 @@ public Guia(String dni, String nombre, String ap1, String ap2, String direccion,
 
     public String getEspecialidad()          { return especialidad; }
     public void setEspecialidad(String e)    { this.especialidad = e; }
+    
+    @Override
+    public String getTipoTrabajo() {
+        return "Guía";
+    }
 }

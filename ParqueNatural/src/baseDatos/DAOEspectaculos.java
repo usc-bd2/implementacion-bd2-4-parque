@@ -1,27 +1,33 @@
 package baseDatos;
 
 import aplicacion.Espectaculo;
-import aplicacion.*;
+import aplicacion.FachadaAplicacion;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DAOEspectaculos extends AbstractDAO {
 
+    // Constructor
     public DAOEspectaculos(Connection conexion, FachadaAplicacion fa) {
-        setConexion(conexion);
-        setFachadaAplicacion(fa);
+        super(conexion, fa);
     }
 
-    public List<Espectaculo> obtenerEspectaculos() {
+    /**
+     * Obtiene todos los espectáculos, calculando sus plazas libres.
+     * @return lista de espectáculos 
+     */
+    public List<Espectaculo> listarEspectaculos() { // Renombrado para coincidir con GestionEspectaculos
         List<Espectaculo> espectaculos = new ArrayList<>();
         Connection con = this.getConexion();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            String sql = "SELECT idEspectaculo, nombre, aforo, horaInicio, duracion, " +
-                        "showman, zona FROM Espectaculos ORDER BY horaInicio";
+            // Hacemos un JOIN/Subconsulta para traer las plazas libres ya calculadas
+            String sql = "SELECT e.idEspectaculo, e.nombre, e.aforo, e.horaInicio, e.duracion, e.showman, e.zona, " +
+                         "(e.aforo - (SELECT COUNT(*) FROM Reservar r WHERE r.idEspectaculo = e.idEspectaculo)) AS plazasLibres " +
+                         "FROM Espectaculos e ORDER BY e.horaInicio";
             
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
@@ -34,7 +40,8 @@ public class DAOEspectaculos extends AbstractDAO {
                     rs.getTimestamp("horaInicio"),
                     rs.getObject("duracion", Integer.class),
                     rs.getString("showman"),
-                    rs.getString("zona")
+                    rs.getString("zona"),
+                    rs.getInt("plazasLibres") // Usamos el constructor completo
                 );
                 espectaculos.add(espectaculo);
             }
@@ -42,122 +49,92 @@ public class DAOEspectaculos extends AbstractDAO {
         } catch (SQLException e) {
             muestraError(e);
         } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                muestraError(e);
-            }
+            cerrarRecursos(rs, stmt);
         }
-        
         return espectaculos;
     }
 
-    public Reserva reservarEspectaculo(int idUsuario, int idEspectaculo) {
+    /**
+     * T8. Reservar plaza en espectáculo
+     * Retorna true si tiene éxito, tal y como espera GestionEspectaculos.
+     * @param idEspectaculo
+     * @param idUsuario
+     * @return 
+     */
+    public boolean reservarPlazaEspectaculo(int idEspectaculo, int idUsuario) { // Renombrado y boolean
         Connection con = this.getConexion();
-        PreparedStatement stmt = null;
+        PreparedStatement stmtCheck = null;
+        PreparedStatement stmtInsert = null;
         ResultSet rs = null;
-        Reserva reserva = null;
+        boolean exito = false;
 
         try {
-            // Verificar si hay plazas disponibles
-            String checkSql = "SELECT aforo - (SELECT COUNT(*) FROM Reservas WHERE idEspectaculo = ?) as plazasDisponibles " +
-                             "FROM Espectaculos WHERE idEspectaculo = ?";
+            con.setAutoCommit(false); // Transacción para evitar overbooking
+
+            // 1. Verificar plazas disponibles y obtener el número de la siguiente plaza (asiento)
+            // Corregido: La tabla se llama 'Reservar'
+            String checkSql = "SELECT e.aforo, (SELECT COUNT(*) FROM Reservar WHERE idEspectaculo = ?) as ocupadas " +
+                              "FROM Espectaculos e WHERE e.idEspectaculo = ?";
             
-            stmt = con.prepareStatement(checkSql);
-            stmt.setInt(1, idEspectaculo);
-            stmt.setInt(2, idEspectaculo);
-            rs = stmt.executeQuery();
+            stmtCheck = con.prepareStatement(checkSql);
+            stmtCheck.setInt(1, idEspectaculo);
+            stmtCheck.setInt(2, idEspectaculo);
+            rs = stmtCheck.executeQuery();
             
-            if (rs.next() && rs.getInt("plazasDisponibles") > 0) {
-                // Hay plazas disponibles, crear reserva
-                stmt.close();
-                rs.close();
+            if (rs.next()) {
+                int aforo = rs.getInt("aforo");
+                int ocupadas = rs.getInt("ocupadas");
                 
-                String insertSql = "INSERT INTO Reservas (idUsuario, idEspectaculo, fechaReserva) " +
-                                  "VALUES (?, ?, CURRENT_TIMESTAMP)";
-                
-                stmt = con.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
-                stmt.setInt(1, idUsuario);
-                stmt.setInt(2, idEspectaculo);
-                
-                int affectedRows = stmt.executeUpdate();
-                
-                if (affectedRows > 0) {
-                    rs = stmt.getGeneratedKeys();
-                    if (rs.next()) {
-                        reserva = new Reserva(
-                            rs.getInt("idReserva"),
-                            idUsuario,
-                            idEspectaculo,
-                            new Timestamp(System.currentTimeMillis())
-                        );
+                if (aforo - ocupadas > 0) {
+                    // Hay hueco. El número de plaza asignada será la 'ocupadas + 1'
+                    int asientoAsignado = ocupadas + 1;
+                    
+                    // 2. Insertar en la tabla Reservar
+                    // Nota: idReserva se autogenerará si es SERIAL. Si no, quítalo del INSERT.
+                    String insertSql = "INSERT INTO Reservar (idUsuario, idEspectaculo, plaza) VALUES (?, ?, ?)";
+                    stmtInsert = con.prepareStatement(insertSql);
+                    stmtInsert.setInt(1, idUsuario);
+                    stmtInsert.setInt(2, idEspectaculo);
+                    stmtInsert.setInt(3, asientoAsignado);
+                    
+                    int affectedRows = stmtInsert.executeUpdate();
+                    if (affectedRows > 0) {
+                        con.commit();
+                        exito = true;
+                    } else {
+                        con.rollback();
                     }
                 }
             }
-            
         } catch (SQLException e) {
+            try { if (con != null) con.rollback(); } catch (SQLException ex) {}
             muestraError(e);
         } finally {
             try {
                 if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
+                if (stmtCheck != null) stmtCheck.close();
+                if (stmtInsert != null) stmtInsert.close();
+                con.setAutoCommit(true);
             } catch (SQLException e) {
                 muestraError(e);
             }
         }
-        
-        return reserva;
+        return exito;
     }
 
-    public Espectaculo obtenerEspectaculoPorId(int idEspectaculo) {
+    /**
+     * T16. Añadir espectáculo
+     * @param espectaculo
+     * @return 
+     */
+    public boolean añadirEspectaculo(Espectaculo espectaculo) { // Boolean
         Connection con = this.getConexion();
         PreparedStatement stmt = null;
-        ResultSet rs = null;
-        Espectaculo espectaculo = null;
+        boolean exito = false;
 
         try {
-            String sql = "SELECT idEspectaculo, nombre, aforo, horaInicio, duracion, " +
-                        "showman, zona FROM Espectaculos WHERE idEspectaculo = ?";
-            
-            stmt = con.prepareStatement(sql);
-            stmt.setInt(1, idEspectaculo);
-            
-            rs = stmt.executeQuery();
-            
-            if (rs.next()) {
-                espectaculo = new Espectaculo(
-                    rs.getInt("idEspectaculo"),
-                    rs.getString("nombre"),
-                    rs.getInt("aforo"),
-                    rs.getTimestamp("horaInicio"),
-                    rs.getObject("duracion", Integer.class),
-                    rs.getString("showman"),
-                    rs.getString("zona")
-                );
-            }
-            
-        } catch (SQLException e) {
-            muestraError(e);
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                muestraError(e);
-            }
-        }
-        
-        return espectaculo;
-    }
-
-    public void insertarEspectaculo(Espectaculo espectaculo) {
-        Connection con = this.getConexion();
-        PreparedStatement stmt = null;
-
-        try {
-            String sql = "INSERT INTO Espectaculos (nombre, aforo, horaInicio, duracion, " +
-                        "showman, zona) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Espectaculos (nombre, aforo, horaInicio, duracion, showman, zona) " +
+                         "VALUES (?, ?, ?, ?, ?, ?)";
             
             stmt = con.prepareStatement(sql);
             stmt.setString(1, espectaculo.getNombre());
@@ -167,26 +144,29 @@ public class DAOEspectaculos extends AbstractDAO {
             stmt.setString(5, espectaculo.getShowman());
             stmt.setString(6, espectaculo.getZona());
             
-            stmt.executeUpdate();
+            if (stmt.executeUpdate() > 0) exito = true;
             
         } catch (SQLException e) {
             muestraError(e);
         } finally {
-            try {
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                muestraError(e);
-            }
+            cerrarRecursos(null, stmt);
         }
+        return exito;
     }
 
-    public void actualizarEspectaculo(Espectaculo espectaculo) {
+    /**
+     * T17. Modificar espectáculo
+     * @param espectaculo
+     * @return 
+     */
+    public boolean modificarEspectaculo(Espectaculo espectaculo) { // Boolean
         Connection con = this.getConexion();
         PreparedStatement stmt = null;
+        boolean exito = false;
 
         try {
             String sql = "UPDATE Espectaculos SET nombre = ?, aforo = ?, horaInicio = ?, " +
-                        "duracion = ?, showman = ?, zona = ? WHERE idEspectaculo = ?";
+                         "duracion = ?, showman = ?, zona = ? WHERE idEspectaculo = ?";
             
             stmt = con.prepareStatement(sql);
             stmt.setString(1, espectaculo.getNombre());
@@ -197,103 +177,49 @@ public class DAOEspectaculos extends AbstractDAO {
             stmt.setString(6, espectaculo.getZona());
             stmt.setInt(7, espectaculo.getIdEspectaculo());
             
-            stmt.executeUpdate();
+            if (stmt.executeUpdate() > 0) exito = true;
             
         } catch (SQLException e) {
             muestraError(e);
         } finally {
-            try {
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                muestraError(e);
-            }
+            cerrarRecursos(null, stmt);
         }
+        return exito;
     }
 
-    public void eliminarEspectaculo(int idEspectaculo) {
+    /**
+     * T18. Eliminar espectáculo
+     * @param idEspectaculo
+     * @return 
+     */
+    public boolean eliminarEspectaculo(int idEspectaculo) { // Boolean e Integer
         Connection con = this.getConexion();
         PreparedStatement stmt = null;
+        boolean exito = false;
 
         try {
             String sql = "DELETE FROM Espectaculos WHERE idEspectaculo = ?";
-            
             stmt = con.prepareStatement(sql);
             stmt.setInt(1, idEspectaculo);
             
-            stmt.executeUpdate();
+            if (stmt.executeUpdate() > 0) exito = true;
             
         } catch (SQLException e) {
+            // El DAO lanzará error si viola integridad referencial (tiene reservas)
             muestraError(e);
         } finally {
-            try {
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                muestraError(e);
-            }
+            cerrarRecursos(null, stmt);
         }
+        return exito;
     }
 
-    public int obtenerPlazasDisponibles(int idEspectaculo) {
-        Connection con = this.getConexion();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        int plazasDisponibles = 0;
-
+    // --- Método auxiliar para cerrar recursos ---
+    private void cerrarRecursos(ResultSet rs, PreparedStatement stmt) {
         try {
-            String sql = "SELECT aforo - (SELECT COUNT(*) FROM Reservas WHERE idEspectaculo = ?) as plazasDisponibles " +
-                        "FROM Espectaculos WHERE idEspectaculo = ?";
-            
-            stmt = con.prepareStatement(sql);
-            stmt.setInt(1, idEspectaculo);
-            stmt.setInt(2, idEspectaculo);
-            
-            rs = stmt.executeQuery();
-            
-            if (rs.next()) {
-                plazasDisponibles = rs.getInt("plazasDisponibles");
-            }
-            
+            if (rs != null) rs.close();
+            if (stmt != null) stmt.close();
         } catch (SQLException e) {
             muestraError(e);
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                muestraError(e);
-            }
         }
-        
-        return plazasDisponibles;
-    }
-
-    public List<String> obtenerShowmans() {
-        List<String> showmans = new ArrayList<>();
-        Connection con = this.getConexion();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            String sql = "SELECT DISTINCT showman FROM Espectaculos WHERE showman IS NOT NULL ORDER BY showman";
-            
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            
-            while (rs.next()) {
-                showmans.add(rs.getString("showman"));
-            }
-            
-        } catch (SQLException e) {
-            muestraError(e);
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                muestraError(e);
-            }
-        }
-        
-        return showmans;
     }
 }

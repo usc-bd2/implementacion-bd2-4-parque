@@ -2,18 +2,18 @@ package aplicacion;
 
 import java.util.List;
 
-import baseDatos.DAOTrabajadores;
 import baseDatos.FachadaBaseDatos;
 import gui.FachadaGui;
 
 public class GestionTrabajadores {
     
-    private FachadaGui fachadaGUI;
-    private FachadaBaseDatos fachadaBaseDatos;
+    private final FachadaGui fachadaGUI;
+    private final FachadaBaseDatos fachadaBaseDatos;
     
-    public GestionTrabajadores(FachadaGUI fgui, FachadaBaseDatos fbd) {
+    public GestionTrabajadores(FachadaGui fgui, FachadaBaseDatos fbd) {
         this.fachadaGUI = fgui;
         this.fachadaBaseDatos = fbd;
+        // Eliminada la instanciación directa del DAOTrabajadores. ¡Usamos la Fachada!
     }
     
     // T12. Dar de alta a trabajadores
@@ -24,14 +24,15 @@ public class GestionTrabajadores {
                 return false;
             }
             
-            // Verificar que el trabajador no existe ya
-            Trabajador existente = daoTrabajadores.buscarTrabajadorPorDni(trabajador.getDni());
+            // Verificar que el trabajador no existe ya usando la fachada
+            Trabajador existente = fachadaBaseDatos.buscarTrabajadorPorDni(trabajador.getDni());
             if (existente != null) {
                 fachadaGUI.muestraAviso("Ya existe un trabajador con DNI: " + trabajador.getDni());
                 return false;
             }
             
-            boolean resultado = daoTrabajadores.darAltaTrabajador(trabajador);
+            // Alta delegada a la Fachada
+            boolean resultado = fachadaBaseDatos.darAltaTrabajador(trabajador);
             
             if (resultado) {
                 fachadaGUI.muestraAviso("Trabajador '" + trabajador.getNombre() + " " + trabajador.getApellidos() + 
@@ -58,20 +59,14 @@ public class GestionTrabajadores {
             }
             
             // Buscar trabajador
-            Trabajador trabajador = daoTrabajadores.buscarTrabajadorPorDni(dni);
+            Trabajador trabajador = fachadaBaseDatos.buscarTrabajadorPorDni(dni);
             if (trabajador == null) {
                 fachadaGUI.muestraAviso("No existe ningún trabajador con DNI: " + dni);
                 return false;
             }
             
-            // Verificar que ya no esté de baja
-            if ("Baja".equals(trabajador.getEstado())) {
-                fachadaGUI.muestraAviso("El trabajador ya está de baja");
-                return false;
-            }
-            
-            // Confirmar la baja
-            boolean confirmado = fachadaGUI.pideConfirmacion("¿Está seguro de que desea dar de baja al trabajador '" + 
+            // Confirmar la baja (Borrado)
+            boolean confirmado = fachadaGUI.pideConfirmacion("¿Está seguro de que desea dar de baja (eliminar) al trabajador '" + 
                                                            trabajador.getNombre() + " " + trabajador.getApellidos() + 
                                                            "' (DNI: " + dni + ")?");
             
@@ -79,12 +74,13 @@ public class GestionTrabajadores {
                 return false;
             }
             
-            boolean resultado = daoTrabajadores.darBajaTrabajador(dni);
+            // Ejecutar baja delegada a la Fachada
+            boolean resultado = fachadaBaseDatos.darBajaTrabajador(dni);
             
             if (resultado) {
                 fachadaGUI.muestraAviso("Trabajador dado de baja correctamente");
             } else {
-                fachadaGUI.muestraAviso("No se pudo dar de baja al trabajador. Puede que tenga tareas críticas pendientes o animales a su cargo");
+                fachadaGUI.muestraAviso("No se pudo dar de baja al trabajador. Puede que tenga tareas críticas o animales a su cargo");
             }
             
             return resultado;
@@ -104,13 +100,13 @@ public class GestionTrabajadores {
             }
             
             // Verificar que el trabajador existe
-            Trabajador existente = daoTrabajadores.buscarTrabajadorPorDni(trabajador.getDni());
+            Trabajador existente = fachadaBaseDatos.buscarTrabajadorPorDni(trabajador.getDni());
             if (existente == null) {
                 fachadaGUI.muestraAviso("No existe ningún trabajador con DNI: " + trabajador.getDni());
                 return false;
             }
             
-            boolean resultado = daoTrabajadores.modificarTrabajador(trabajador);
+            boolean resultado = fachadaBaseDatos.modificarTrabajador(trabajador);
             
             if (resultado) {
                 fachadaGUI.muestraAviso("Trabajador '" + trabajador.getNombre() + " " + trabajador.getApellidos() + 
@@ -132,9 +128,7 @@ public class GestionTrabajadores {
             if (dni == null || dni.trim().isEmpty()) {
                 return null;
             }
-            
-            return daoTrabajadores.buscarTrabajadorPorDni(dni);
-            
+            return fachadaBaseDatos.buscarTrabajadorPorDni(dni);
         } catch (Exception e) {
             fachadaGUI.muestraAviso("Error al buscar trabajador: " + e.getMessage());
             return null;
@@ -143,27 +137,16 @@ public class GestionTrabajadores {
     
     public List<Trabajador> listarTrabajadores() {
         try {
-            return daoTrabajadores.listarTrabajadores();
+            return fachadaBaseDatos.listarTrabajadores();
         } catch (Exception e) {
             fachadaGUI.muestraAviso("Error al listar trabajadores: " + e.getMessage());
             return null;
         }
     }
     
+    // Como al dar de baja se eliminan, listarTrabajadores ya devuelve solo los activos
     public List<Trabajador> listarTrabajadoresActivos() {
-        try {
-            List<Trabajador> todos = listarTrabajadores();
-            if (todos == null) return null;
-            
-            return todos.stream()
-                       .filter(t -> "Alta".equals(t.getEstado()))
-                       .sorted((t1, t2) -> t1.getApellidos().compareToIgnoreCase(t2.getApellidos()))
-                       .toList();
-                       
-        } catch (Exception e) {
-            fachadaGUI.muestraAviso("Error al listar trabajadores activos: " + e.getMessage());
-            return null;
-        }
+        return listarTrabajadores();
     }
     
     public List<Trabajador> listarTrabajadoresPorTipo(String tipoTrabajo) {
@@ -175,9 +158,9 @@ public class GestionTrabajadores {
             List<Trabajador> todos = listarTrabajadores();
             if (todos == null) return null;
             
+            // Filtro modificado: ya no busca "Alta", solo el tipo correcto
             return todos.stream()
                        .filter(t -> tipoTrabajo.equals(t.getTipoTrabajo()))
-                       .filter(t -> "Alta".equals(t.getEstado()))
                        .sorted((t1, t2) -> t1.getApellidos().compareToIgnoreCase(t2.getApellidos()))
                        .toList();
                        
@@ -206,7 +189,7 @@ public class GestionTrabajadores {
             return false;
         }
         
-        // Validar apellidos
+        // Validar apellidos (Nota: la clase original pide ap1 y ap2 separados, validamos usando el método combinado)
         if (trabajador.getApellidos() == null || trabajador.getApellidos().trim().isEmpty()) {
             fachadaGUI.muestraAviso("Los apellidos del trabajador son obligatorios");
             return false;
@@ -219,14 +202,8 @@ public class GestionTrabajadores {
         }
         
         // Validar teléfono
-        if (trabajador.getTelefono() == null || trabajador.getTelefono().trim().isEmpty()) {
+        if (trabajador.getTelefonoContacto() == null || trabajador.getTelefonoContacto().trim().isEmpty()) {
             fachadaGUI.muestraAviso("El teléfono del trabajador es obligatorio");
-            return false;
-        }
-        
-        // Validar formato de teléfono (básico)
-        if (!trabajador.getTelefono().matches("\\d{9}")) {
-            fachadaGUI.muestraAviso("El formato del teléfono no es válido (9 dígitos)");
             return false;
         }
         
@@ -242,8 +219,8 @@ public class GestionTrabajadores {
             return false;
         }
         
-        // Validar tipos de trabajo permitidos
-        String[] tiposPermitidos = {"Cuidador", "Veterinario", "Administrativo", "Mantenimiento", "Guía", "Seguridad"};
+        // Validar tipos de trabajo permitidos (basado en el esquema de la BD)
+        String[] tiposPermitidos = {"Cuidador", "Veterinario", "Showman", "Guía", "Seguridad"};
         boolean tipoValido = false;
         for (String tipo : tiposPermitidos) {
             if (tipo.equals(trabajador.getTipoTrabajo())) {
@@ -255,29 +232,6 @@ public class GestionTrabajadores {
         if (!tipoValido) {
             fachadaGUI.muestraAviso("El tipo de trabajo debe ser uno de: " + String.join(", ", tiposPermitidos));
             return false;
-        }
-        
-        // Si tiene acceso al sistema, validar datos de usuario
-        if (trabajador.getTieneAccesoSistema()) {
-            if (trabajador.getIdUsuario() == null || trabajador.getIdUsuario().trim().isEmpty()) {
-                fachadaGUI.muestraAviso("El ID de usuario es obligatorio si tiene acceso al sistema");
-                return false;
-            }
-            
-            if (trabajador.getContraseña() == null || trabajador.getContraseña().trim().isEmpty()) {
-                fachadaGUI.muestraAviso("La contraseña es obligatoria si tiene acceso al sistema");
-                return false;
-            }
-            
-            if (trabajador.getPermisos() == null || trabajador.getPermisos().trim().isEmpty()) {
-                fachadaGUI.muestraAviso("Los permisos son obligatorios si tiene acceso al sistema");
-                return false;
-            }
-            
-            if (!esModificacion && trabajador.getEmail() == null || trabajador.getEmail().trim().isEmpty()) {
-                fachadaGUI.muestraAviso("El email es obligatorio si tiene acceso al sistema");
-                return false;
-            }
         }
         
         return true;

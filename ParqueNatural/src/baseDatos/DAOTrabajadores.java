@@ -8,347 +8,264 @@ import java.util.List;
 public class DAOTrabajadores extends AbstractDAO {
 
     public DAOTrabajadores(Connection conexion, FachadaAplicacion fa) {
-        setConexion(conexion);
-        setFachadaAplicacion(fa);
+        super(conexion, fa);
     }
 
-    public Trabajador obtenerTrabajadorPorDni(String dni) {
+    /**
+     * Consulta base con LEFT JOIN para traer todos los trabajadores
+     * y descubrir a qué tabla hija (especialidad) pertenecen.
+     */
+    private final String SQL_BASE_SELECT = 
+        "SELECT t.DNI, t.nombre, t.ap1, t.ap2, t.dirección, t.telefonoContacto, t.email, t.sexo, t.fechaNacimiento, t.sueldo, " +
+        "CASE " +
+        "  WHEN v.DNI IS NOT NULL THEN 'Veterinario' " +
+        "  WHEN c.DNI IS NOT NULL THEN 'Cuidador' " +
+        "  WHEN s.DNI IS NOT NULL THEN 'Showman' " +
+        "  WHEN g.DNI IS NOT NULL THEN 'Guia' " +
+        "  WHEN sg.DNI IS NOT NULL THEN 'Seguridad' " +
+        "  ELSE 'Desconocido' " +
+        "END as tipo_calculado, " +
+        "g.especialidad as guia_esp, sg.equipamiento as seg_equip " +
+        "FROM Trabajadores t " +
+        "LEFT JOIN Veterinario v ON t.DNI = v.DNI " +
+        "LEFT JOIN Cuidador c ON t.DNI = c.DNI " +
+        "LEFT JOIN Showman s ON t.DNI = s.DNI " +
+        "LEFT JOIN Guia g ON t.DNI = g.DNI " +
+        "LEFT JOIN Seguridad sg ON t.DNI = sg.DNI ";
+
+    public Trabajador buscarTrabajadorPorDni(String dni) {
         Connection con = this.getConexion();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Trabajador trabajador = null;
 
         try {
-            String sql = "SELECT dni, nombre, ap1, ap2, direccion, telefonoContacto, " +
-                        "email, sexo, fechaNacimiento, sueldo, tipo FROM Trabajadores WHERE dni = ?";
-            
+            String sql = SQL_BASE_SELECT + "WHERE t.DNI = ?";
             stmt = con.prepareStatement(sql);
             stmt.setString(1, dni);
-            
             rs = stmt.executeQuery();
             
             if (rs.next()) {
-                String tipo = rs.getString("tipo");
-                
-                switch (tipo.toLowerCase()) {
-                    case "cuidador":
-                        trabajador = new Cuidador(
-                            rs.getString("dni"),
-                            rs.getString("nombre"),
-                            rs.getString("ap1"),
-                            rs.getString("ap2"),
-                            rs.getString("direccion"),
-                            rs.getString("telefonoContacto"),
-                            rs.getString("email"),
-                            rs.getString("sexo").charAt(0),
-                            rs.getDate("fechaNacimiento").toLocalDate(),
-                            rs.getDouble("sueldo")
-                        );
-                        break;
-                    case "veterinario":
-                        trabajador = new Veterinario(
-                            rs.getString("dni"),
-                            rs.getString("nombre"),
-                            rs.getString("ap1"),
-                            rs.getString("ap2"),
-                            rs.getString("direccion"),
-                            rs.getString("telefonoContacto"),
-                            rs.getString("email"),
-                            rs.getString("sexo").charAt(0),
-                            rs.getDate("fechaNacimiento").toLocalDate(),
-                            rs.getDouble("sueldo")
-                        );
-                        break;
-                    case "showman":
-                        trabajador = new Showman(
-                            rs.getString("dni"),
-                            rs.getString("nombre"),
-                            rs.getString("ap1"),
-                            rs.getString("ap2"),
-                            rs.getString("direccion"),
-                            rs.getString("telefonoContacto"),
-                            rs.getString("email"),
-                            rs.getString("sexo").charAt(0),
-                            rs.getDate("fechaNacimiento").toLocalDate(),
-                            rs.getDouble("sueldo")
-                        );
-                        break;
-                    case "guia":
-                        trabajador = new Guia(
-                            rs.getString("dni"),
-                            rs.getString("nombre"),
-                            rs.getString("ap1"),
-                            rs.getString("ap2"),
-                            rs.getString("direccion"),
-                            rs.getString("telefonoContacto"),
-                            rs.getString("email"),
-                            rs.getString("sexo").charAt(0),
-                            rs.getDate("fechaNacimiento").toLocalDate(),
-                            rs.getDouble("sueldo")
-                        );
-                        break;
-                }
+                trabajador = crearTrabajadorPorTipo(rs);
             }
-            
         } catch (SQLException e) {
             muestraError(e);
         } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                muestraError(e);
-            }
+            cerrarRecursos(rs, stmt);
         }
-        
         return trabajador;
     }
 
-    public List<Trabajador> obtenerTrabajadoresPorTipo(String tipo) {
+    public List<Trabajador> listarTrabajadores() {
         List<Trabajador> trabajadores = new ArrayList<>();
         Connection con = this.getConexion();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
-            String sql = "SELECT dni, nombre, ap1, ap2, direccion, telefonoContacto, " +
-                        "email, sexo, fechaNacimiento, sueldo, tipo FROM Trabajadores " +
-                        "WHERE LOWER(tipo) = LOWER(?) ORDER BY nombre";
-            
-            stmt = con.prepareStatement(sql);
-            stmt.setString(1, tipo);
-            
+            stmt = con.prepareStatement(SQL_BASE_SELECT);
             rs = stmt.executeQuery();
             
             while (rs.next()) {
-                Trabajador trabajador = crearTrabajadorPorTipo(rs);
-                if (trabajador != null) {
-                    trabajadores.add(trabajador);
-                }
+                Trabajador t = crearTrabajadorPorTipo(rs);
+                if (t != null) trabajadores.add(t);
             }
-            
         } catch (SQLException e) {
             muestraError(e);
         } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                muestraError(e);
-            }
+            cerrarRecursos(rs, stmt);
         }
-        
         return trabajadores;
     }
 
-    public List<Trabajador> obtenerTodosTrabajadores() {
-        List<Trabajador> trabajadores = new ArrayList<>();
+    /**
+     * T12. Dar de alta a trabajadores.
+     * Inserta en Trabajadores Y en la tabla de su especialidad (Transaccional)
+     * @param t
+     * @return 
+     */
+    public boolean darAltaTrabajador(Trabajador t) {
         Connection con = this.getConexion();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+        PreparedStatement stmtPadre = null;
+        PreparedStatement stmtHijo = null;
+        boolean exito = false;
 
         try {
-            String sql = "SELECT dni, nombre, ap1, ap2, direccion, telefonoContacto, " +
-                        "email, sexo, fechaNacimiento, sueldo, tipo FROM Trabajadores " +
-                        "ORDER BY tipo, nombre";
+            con.setAutoCommit(false); // Iniciar transacción
+
+            // 1. Insertar en tabla padre Trabajadores
+            String sqlPadre = "INSERT INTO Trabajadores (DNI, nombre, ap1, ap2, dirección, telefonoContacto, email, sexo, fechaNacimiento, sueldo) " +
+                              "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
+            stmtPadre = con.prepareStatement(sqlPadre);
+            stmtPadre.setString(1, t.getDni());
+            stmtPadre.setString(2, t.getNombre());
+            stmtPadre.setString(3, t.getAp1());
+            stmtPadre.setString(4, t.getAp2());
+            stmtPadre.setString(5, t.getDireccion());
+            stmtPadre.setString(6, t.getTelefonoContacto());
+            stmtPadre.setString(7, t.getEmail());
+            stmtPadre.setString(8, String.valueOf(t.getSexo()));
+            stmtPadre.setDate(9, Date.valueOf(t.getFechaNacimiento()));
+            stmtPadre.setDouble(10, t.getSueldo());
             
-            while (rs.next()) {
-                Trabajador trabajador = crearTrabajadorPorTipo(rs);
-                if (trabajador != null) {
-                    trabajadores.add(trabajador);
+            stmtPadre.executeUpdate();
+
+            // 2. Insertar en la tabla hija correspondiente
+            String tipo = t.getTipoTrabajo();
+            String sqlHijo = "";
+            
+            switch (tipo) {
+                case "Guía" -> {
+                    sqlHijo = "INSERT INTO Guia (DNI, especialidad) VALUES (?, ?)";
+                    stmtHijo = con.prepareStatement(sqlHijo);
+                    stmtHijo.setString(1, t.getDni());
+                    stmtHijo.setString(2, ((Guia)t).getEspecialidad());
                 }
+                case "Seguridad" -> {
+                    sqlHijo = "INSERT INTO Seguridad (DNI, equipamiento) VALUES (?, ?)";
+                    stmtHijo = con.prepareStatement(sqlHijo);
+                    stmtHijo.setString(1, t.getDni());
+                    stmtHijo.setString(2, ((Seguridad)t).getEquipamiento());
+                }
+                case "Cuidador", "Veterinario", "Showman" -> {
+                    // Estas tablas solo tienen la columna DNI
+                    sqlHijo = "INSERT INTO " + tipo + " (DNI) VALUES (?)";
+                    stmtHijo = con.prepareStatement(sqlHijo);
+                    stmtHijo.setString(1, t.getDni());
+                }
+                default -> throw new SQLException("Tipo de trabajador no soportado: " + tipo);
             }
             
+            stmtHijo.executeUpdate();
+            
+            con.commit(); // Confirmar transacción
+            exito = true;
+
         } catch (SQLException e) {
+            try { if (con != null) con.rollback(); } catch (SQLException ex) {}
             muestraError(e);
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
+                if (stmtPadre != null) stmtPadre.close();
+                if (stmtHijo != null) stmtHijo.close();
+                con.setAutoCommit(true);
             } catch (SQLException e) {
                 muestraError(e);
             }
         }
-        
-        return trabajadores;
+        return exito;
     }
 
-    public void insertarTrabajador(Trabajador trabajador, String tipo) {
+    /**
+     * T14. Modificar trabajador (Solo se modifican los atributos del padre según el documento)
+     */
+    public boolean modificarTrabajador(Trabajador t) {
         Connection con = this.getConexion();
         PreparedStatement stmt = null;
+        boolean exito = false;
 
         try {
-            String sql = "INSERT INTO Trabajadores (dni, nombre, ap1, ap2, direccion, " +
-                        "telefonoContacto, email, sexo, fechaNacimiento, sueldo, tipo) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            // Documento: "El administrador modifica los campos necesarios (excepto el DNI...)"
+            String sql = "UPDATE Trabajadores SET nombre=?, ap1=?, ap2=?, dirección=?, telefonoContacto=?, email=?, sueldo=? WHERE DNI=?";
             
             stmt = con.prepareStatement(sql);
-            stmt.setString(1, trabajador.getDni());
-            stmt.setString(2, trabajador.getNombre());
-            stmt.setString(3, trabajador.getAp1());
-            stmt.setString(4, trabajador.getAp2());
-            stmt.setString(5, trabajador.getDireccion());
-            stmt.setString(6, trabajador.getTelefonoContacto());
-            stmt.setString(7, trabajador.getEmail());
-            stmt.setString(8, String.valueOf(trabajador.getSexo()));
-            stmt.setDate(9, Date.valueOf(trabajador.getFechaNacimiento()));
-            stmt.setDouble(10, trabajador.getSueldo());
-            stmt.setString(11, tipo);
+            stmt.setString(1, t.getNombre());
+            stmt.setString(2, t.getAp1());
+            stmt.setString(3, t.getAp2());
+            stmt.setString(4, t.getDireccion());
+            stmt.setString(5, t.getTelefonoContacto());
+            stmt.setString(6, t.getEmail());
+            stmt.setDouble(7, t.getSueldo());
+            stmt.setString(8, t.getDni());
             
-            stmt.executeUpdate();
+            if (stmt.executeUpdate() > 0) exito = true;
             
         } catch (SQLException e) {
             muestraError(e);
         } finally {
-            try {
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                muestraError(e);
-            }
+            cerrarRecursos(null, stmt);
         }
+        return exito;
     }
 
-    public void actualizarTrabajador(Trabajador trabajador) {
+    /**
+     * T13. Dar de baja a trabajador (Borrarlo de la BD)
+     * @param dni
+     */
+    public boolean darBajaTrabajador(String dni) {
         Connection con = this.getConexion();
         PreparedStatement stmt = null;
+        boolean exito = false;
 
         try {
-            String sql = "UPDATE Trabajadores SET nombre = ?, ap1 = ?, ap2 = ?, " +
-                        "direccion = ?, telefonoContacto = ?, email = ?, sueldo = ? " +
-                        "WHERE dni = ?";
-            
-            stmt = con.prepareStatement(sql);
-            stmt.setString(1, trabajador.getNombre());
-            stmt.setString(2, trabajador.getAp1());
-            stmt.setString(3, trabajador.getAp2());
-            stmt.setString(4, trabajador.getDireccion());
-            stmt.setString(5, trabajador.getTelefonoContacto());
-            stmt.setString(6, trabajador.getEmail());
-            stmt.setDouble(7, trabajador.getSueldo());
-            stmt.setString(8, trabajador.getDni());
-            
-            stmt.executeUpdate();
-            
-        } catch (SQLException e) {
-            muestraError(e);
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                muestraError(e);
-            }
-        }
-    }
-
-    public void eliminarTrabajador(String dni) {
-        Connection con = this.getConexion();
-        PreparedStatement stmt = null;
-
-        try {
-            String sql = "DELETE FROM Trabajadores WHERE dni = ?";
-            
+            // Nota: Al borrar de la tabla padre 'Trabajadores', si definiste ON DELETE CASCADE
+            // en tu SQL, se borrará automáticamente de la tabla hija (Cuidador, etc.)
+            String sql = "DELETE FROM Trabajadores WHERE DNI = ?";
             stmt = con.prepareStatement(sql);
             stmt.setString(1, dni);
             
-            stmt.executeUpdate();
+            if (stmt.executeUpdate() > 0) exito = true;
             
         } catch (SQLException e) {
+            // Lanzará error si el trabajador está asignado a HistorialMedico o CuidadoAnimal 
+            // (Violación de restricción ON DELETE RESTRICT)
             muestraError(e);
         } finally {
-            try {
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                muestraError(e);
-            }
+            cerrarRecursos(null, stmt);
         }
+        return exito;
     }
 
-    public List<String> obtenerTiposTrabajadores() {
-        List<String> tipos = new ArrayList<>();
-        Connection con = this.getConexion();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            String sql = "SELECT DISTINCT tipo FROM Trabajadores ORDER BY tipo";
-            
-            stmt = con.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            
-            while (rs.next()) {
-                tipos.add(rs.getString("tipo"));
-            }
-            
-        } catch (SQLException e) {
-            muestraError(e);
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                muestraError(e);
-            }
-        }
-        
-        return tipos;
-    }
+    // --- Métodos Auxiliares ---
 
     private Trabajador crearTrabajadorPorTipo(ResultSet rs) throws SQLException {
-        String tipo = rs.getString("tipo");
+        String tipoCalculado = rs.getString("tipo_calculado");
         
-        return switch (tipo.toLowerCase()) {
-            case "cuidador" -> new Cuidador(
-                    rs.getString("dni"),
-                    rs.getString("nombre"),
-                    rs.getString("ap1"),
-                    rs.getString("ap2"),
-                    rs.getString("direccion"),
-                    rs.getString("telefonoContacto"),
-                    rs.getString("email"),
-                    rs.getString("sexo").charAt(0),
-                    rs.getDate("fechaNacimiento").toLocalDate(),
-                    rs.getDouble("sueldo")
-            );
-            case "veterinario" -> new Veterinario(
-                    rs.getString("dni"),
-                    rs.getString("nombre"),
-                    rs.getString("ap1"),
-                    rs.getString("ap2"),
-                    rs.getString("direccion"),
-                    rs.getString("telefonoContacto"),
-                    rs.getString("email"),
-                    rs.getString("sexo").charAt(0),
-                    rs.getDate("fechaNacimiento").toLocalDate(),
-                    rs.getDouble("sueldo")
-            );
-            case "showman" -> new Showman(
-                    rs.getString("dni"),
-                    rs.getString("nombre"),
-                    rs.getString("ap1"),
-                    rs.getString("ap2"),
-                    rs.getString("direccion"),
-                    rs.getString("telefonoContacto"),
-                    rs.getString("email"),
-                    rs.getString("sexo").charAt(0),
-                    rs.getDate("fechaNacimiento").toLocalDate(),
-                    rs.getDouble("sueldo")
-            );
-            case "guia" -> new Guia(
-                    rs.getString("dni"),
-                    rs.getString("nombre"),
-                    rs.getString("ap1"),
-                    rs.getString("ap2"),
-                    rs.getString("direccion"),
-                    rs.getString("telefonoContacto"),
-                    rs.getString("email"),
-                    rs.getString("sexo").charAt(0),
-                    rs.getDate("fechaNacimiento").toLocalDate(),
-                    rs.getDouble("sueldo")
-            );
-            default -> null;
-        };
+        switch (tipoCalculado) {
+            case "Cuidador":
+                return new Cuidador(
+                    rs.getString("DNI"), rs.getString("nombre"), rs.getString("ap1"), rs.getString("ap2"),
+                    rs.getString("dirección"), rs.getString("telefonoContacto"), rs.getString("email"),
+                    rs.getString("sexo").charAt(0), rs.getDate("fechaNacimiento").toLocalDate(), rs.getDouble("sueldo")
+                );
+            case "Veterinario":
+                return new Veterinario(
+                    rs.getString("DNI"), rs.getString("nombre"), rs.getString("ap1"), rs.getString("ap2"),
+                    rs.getString("dirección"), rs.getString("telefonoContacto"), rs.getString("email"),
+                    rs.getString("sexo").charAt(0), rs.getDate("fechaNacimiento").toLocalDate(), rs.getDouble("sueldo")
+                );
+            case "Showman":
+                return new Showman(
+                    rs.getString("DNI"), rs.getString("nombre"), rs.getString("ap1"), rs.getString("ap2"),
+                    rs.getString("dirección"), rs.getString("telefonoContacto"), rs.getString("email"),
+                    rs.getString("sexo").charAt(0), rs.getDate("fechaNacimiento").toLocalDate(), rs.getDouble("sueldo")
+                );
+            case "Guia":
+                return new Guia(
+                    rs.getString("DNI"), rs.getString("nombre"), rs.getString("ap1"), rs.getString("ap2"),
+                    rs.getString("dirección"), rs.getString("telefonoContacto"), rs.getString("email"),
+                    rs.getString("sexo").charAt(0), rs.getDate("fechaNacimiento").toLocalDate(), rs.getDouble("sueldo"),
+                    rs.getString("guia_esp") // Le pasamos la especialidad
+                );
+            case "Seguridad":
+                return new Seguridad(
+                    rs.getString("DNI"), rs.getString("nombre"), rs.getString("ap1"), rs.getString("ap2"),
+                    rs.getString("dirección"), rs.getString("telefonoContacto"), rs.getString("email"),
+                    rs.getString("sexo").charAt(0), rs.getDate("fechaNacimiento").toLocalDate(), rs.getDouble("sueldo"),
+                    rs.getString("seg_equip") // Le pasamos el equipamiento
+                );
+            default:
+                return null;
+        }
+    }
+
+    private void cerrarRecursos(ResultSet rs, PreparedStatement stmt) {
+        try {
+            if (rs != null) rs.close();
+            if (stmt != null) stmt.close();
+        } catch (SQLException e) {
+            muestraError(e);
+        }
     }
 }
