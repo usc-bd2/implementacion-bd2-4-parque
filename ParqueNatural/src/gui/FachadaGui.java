@@ -11,7 +11,7 @@ public class FachadaGui {
     private VPrincipalAdmin vPrincipalAdmin;
     // Aquí iremos añadiendo las demás conforme las vayas creando en NetBeans:
     // private VGestionTrabajadores vGestionTrabajadores;
-    // private VGestionEspectaculos vGestionEspectaculos;
+    private VGestionEspectaculos vGestionEspectaculos;
 
     public FachadaGui(FachadaAplicacion fa) {
         this.fa = fa;
@@ -64,7 +64,11 @@ public class FachadaGui {
     }
 
     public void abrirGestionEspectaculos() {
-        muestraAviso("Módulo de Gestión de Espectáculos en construcción...");
+        if (vGestionEspectaculos == null) {
+            // Pasamos 'vPrincipalAdmin' como padre para que sea modal sobre ella
+            vGestionEspectaculos = new VGestionEspectaculos(vPrincipalAdmin, true, this);
+        }
+        vGestionEspectaculos.setVisible(true);
     }
     
     public void abrirGestionEntradas() {

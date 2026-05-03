@@ -132,6 +132,7 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
         botonEntradas.setText("Entradas");
 
         botonEspectaculo.setText("Espectaculos");
+        botonEspectaculo.addActionListener(this::botonEspectaculoActionPerformed);
 
         javax.swing.GroupLayout panelOperacionesLayout = new javax.swing.GroupLayout(panelOperaciones);
         panelOperaciones.setLayout(panelOperacionesLayout);
@@ -256,6 +257,10 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
     private void botonTrabajadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonTrabajadoresActionPerformed
         fgui.abrirGestionTrabajadores();
     }//GEN-LAST:event_botonTrabajadoresActionPerformed
+
+    private void botonEspectaculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEspectaculoActionPerformed
+        fgui.abrirGestionEspectaculos();
+    }//GEN-LAST:event_botonEspectaculoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAnimales;

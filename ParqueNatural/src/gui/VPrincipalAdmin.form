@@ -272,6 +272,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Espectaculos"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonEspectaculoActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
