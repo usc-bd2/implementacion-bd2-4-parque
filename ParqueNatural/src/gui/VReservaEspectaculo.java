@@ -228,5 +228,4 @@ public class VReservaEspectaculo extends javax.swing.JFrame {
         jComboBox1.addItem("Todos");
         espectaculos.stream().map(Espectaculo::getNombre).distinct().forEach(jComboBox1::addItem);
     }
-    
 }

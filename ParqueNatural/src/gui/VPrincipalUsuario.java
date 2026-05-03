@@ -173,7 +173,8 @@ public class VPrincipalUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_botonComprarActionPerformed
 
     private void botonReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReservarActionPerformed
-        // T8 - dev2 lo implementa
+        VReservaEspectaculo v = new VReservaEspectaculo(fa, usuarioActual);
+        v.setVisible(true);
     }//GEN-LAST:event_botonReservarActionPerformed
 
     private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
