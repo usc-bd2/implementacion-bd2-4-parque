@@ -26,7 +26,7 @@ public class FachadaAplicacion {
         FachadaAplicacion fa = new FachadaAplicacion();
         fa.iniciaInterfazUsuario();
     }
--
+
     public void iniciaInterfazUsuario() {
         fgui.iniciaVista();
     }
