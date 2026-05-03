@@ -16,4 +16,9 @@ public class Seguridad extends Trabajador {
 
     public String getEquipamiento()          { return equipamiento; }
     public void setEquipamiento(String e)    { this.equipamiento = e; }
+    
+    @Override
+    public String getTipoTrabajo() {
+        return "Seguridad";
+    }
 }

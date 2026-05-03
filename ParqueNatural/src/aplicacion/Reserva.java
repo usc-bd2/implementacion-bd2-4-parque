@@ -7,15 +7,13 @@ package aplicacion;
 public class Reserva {
 
     private int idReserva;
-    private String idUsuario;
+    private int idUsuario;
     private int idEspectaculo;
     private int plaza;
 
 
-    // Constructores
-    public Reserva() {}
-
-    public Reserva(int idReserva, String idUsuario, int idEspectaculo, int plaza) {
+    // Constructor principal
+    public Reserva(int idReserva, int idUsuario, int idEspectaculo, int plaza) {
         this.idReserva      = idReserva;
         this.idUsuario      = idUsuario;
         this.idEspectaculo  = idEspectaculo;
@@ -32,11 +30,11 @@ public class Reserva {
         this.idReserva = idReserva;
     }
 
-    public String getIdUsuario() {
+    public int getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(String idUsuario) {
+    public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
 

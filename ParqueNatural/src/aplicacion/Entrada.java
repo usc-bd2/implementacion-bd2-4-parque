@@ -3,11 +3,11 @@ package aplicacion;
 import java.time.LocalDate;
 
 public class Entrada {
-    private int idEntrada;
-    private double precio;
-    private LocalDate fecha;
+    private final int idEntrada;
+    private final double precio;
+    private final LocalDate fecha;
     private boolean activo;
-    private int idUsuario;
+    private final int idUsuario;
 
     public Entrada(int idEntrada, double precio, LocalDate fecha, boolean activo, int idUsuario) {
         this.idEntrada = idEntrada;
