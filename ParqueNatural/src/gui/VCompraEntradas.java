@@ -4,6 +4,9 @@
  */
 package gui;
 
+import aplicacion.FachadaAplicacion;
+import aplicacion.Usuario;
+
 /**
  *
  * @author alumnogreibd
@@ -17,6 +20,10 @@ public class VCompraEntradas extends javax.swing.JFrame {
      */
     public VCompraEntradas() {
         initComponents();
+    }
+
+    VCompraEntradas(FachadaAplicacion fa, Usuario usuarioActual) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     /**
