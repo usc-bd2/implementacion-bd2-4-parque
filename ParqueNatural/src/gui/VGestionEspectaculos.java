@@ -31,7 +31,7 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
 
         textArea1 = new java.awt.TextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        titular = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
@@ -56,10 +56,10 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Gestión de espectaculos");
-        jScrollPane1.setViewportView(jTextArea1);
+        titular.setColumns(20);
+        titular.setRows(5);
+        titular.setText("Gestión de espectaculos");
+        jScrollPane1.setViewportView(titular);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -278,7 +278,6 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -286,5 +285,6 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private java.awt.TextArea textArea1;
+    private javax.swing.JTextArea titular;
     // End of variables declaration//GEN-END:variables
 }
