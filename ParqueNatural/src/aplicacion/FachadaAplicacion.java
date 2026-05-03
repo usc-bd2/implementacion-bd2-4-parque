@@ -6,20 +6,20 @@ import java.util.List;
 public class FachadaAplicacion {
     private final gui.FachadaGui fgui;
     private final baseDatos.FachadaBaseDatos fbd;
-    
-    // Gestores de la capa de aplicación
+    private final GestionUsuarios gu;
+    private final GestionAnimales ga;
     private final GestionEntradas ge;
     private final GestionEspectaculos gee;
-    private final GestionTrabajadores gt; // Añadido el gestor de trabajadores
+    private final GestionTrabajadores gt;
 
     public FachadaAplicacion() {
         fgui = new gui.FachadaGui(this);
         fbd  = new baseDatos.FachadaBaseDatos(this);
-        
-        // Inicializamos los gestores pasándoles las fachadas
+        gu   = new GestionUsuarios(fgui, fbd);
+        ga   = new GestionAnimales(fgui, fbd);
         ge   = new GestionEntradas(fgui, fbd);
         gee  = new GestionEspectaculos(fgui, fbd);
-        gt   = new GestionTrabajadores(fgui, fbd); // Inicializado
+        gt   = new GestionTrabajadores(fgui, fbd);
     }
 
     public static void main(String[] args) {
@@ -32,25 +32,98 @@ public class FachadaAplicacion {
     }
 
     public void muestraExcepcion(String e) {
-        fgui.muestraAviso(e);
+        fgui.muestraExcepcion(e);
     }
 
-    // ==========================================================
-    // DELEGADOS DE GESTIÓN DE ENTRADAS (T7, T15)
-    // ==========================================================
-    
+    // Usuarios (T1-T5, T9)
+    //  T1
+    public aplicacion.Usuario autenticar(String email, String clave) {
+        return gu.autenticar(email, clave);
+    }
+    //  T3
+    public void crearCuenta(Usuario u) {
+        gu.crearCuenta(u);
+    }
+    //  T5
+    public void editarDatos(Usuario u) {
+        gu.editarDatos(u);
+    }
+    //  T2
+    public void eliminarUsuario(int idUsuario) {
+        gu.eliminarUsuario(idUsuario);
+    }
+    //  T9
+    public void cambiarPermisos(String email, String clave, boolean permisos) {
+        gu.cambiarPermisos(email, clave, permisos);
+    }
+
+    public List<Usuario> obtenerUsuarios(String id, String nombre) {
+        return gu.obtenerUsuarios(id, nombre);
+    }
+
+    public void abrirPortalUsuario(aplicacion.Usuario u) {
+        fgui.abrirPortalUsuario(u);
+    }
+
+    public void abrirPortalAdmin() {
+        fgui.abrirPortalAdmin();
+    }
+
+    // Animales (T6, T10, T11)
+    public List<Animal> obtenerAnimales(String nombre, String zona) {
+        return ga.obtenerAnimales(nombre, zona);
+    }
+
+    public void visualizarAnimal(int idAnimal) {
+        ga.visualizarAnimal(idAnimal);
+    }
+
+    public void insertarAnimal(Animal a) {
+        ga.insertarAnimal(a);
+    }
+
+    public void borrarAnimal(int idAnimal) {
+        ga.borrarAnimal(idAnimal);
+    }
+
+    public void modificarAnimal(Animal a) {
+        ga.modificarAnimal(a);
+    }
+
+    // ── Historial médico ──────────────────────────────────────────
+    public List<HistorialMedico> obtenerHistorial(int idAnimal) {
+        return ga.obtenerHistorial(idAnimal);
+    }
+
+    public void insertarHistorial(HistorialMedico h) {
+        ga.insertarHistorial(h);
+    }
+
+    public void modificarHistorial(HistorialMedico h) {
+        ga.modificarHistorial(h);
+    }
+
+    public void borrarHistorial(int codigo) {
+        ga.borrarHistorial(codigo);
+    }
+
+    // ── Zonas (para rellenar el ComboBox) ─────────────────────────
+    public List<String> obtenerNombresZonas() {
+        return ga.obtenerNombresZonas();
+    }
+
     public boolean comprarEntradas(LocalDate fecha, int numeroEntradas, int idUsuario) {
         return ge.comprarEntradas(fecha, numeroEntradas, idUsuario);
     }
-    
+
     public List<Entrada> consultarEntradasVendidas(LocalDate fechaInicio, LocalDate fechaFin) {
         return ge.consultarEntradasVendidas(fechaInicio, fechaFin);
     }
-    
+
     public double calcularRecaudacion(LocalDate fechaInicio, LocalDate fechaFin) {
         return ge.calcularRecaudacion(fechaInicio, fechaFin);
     }
-    
+
     public boolean verificarDisponibilidadEntradas(LocalDate fecha, int numeroEntradas) {
         return ge.verificarDisponibilidad(fecha, numeroEntradas);
     }
@@ -58,11 +131,11 @@ public class FachadaAplicacion {
     // ==========================================================
     // DELEGADOS DE GESTIÓN DE ESPECTÁCULOS (T8, T16, T17, T18)
     // ==========================================================
-    
+
     public List<Espectaculo> listarEspectaculos() {
         return gee.listarEspectaculos();
     }
-    
+
     public List<Espectaculo> listarEspectaculosPorFecha(LocalDate fecha) {
         return gee.listarEspectaculosPorFecha(fecha);
     }
@@ -71,19 +144,19 @@ public class FachadaAplicacion {
     public boolean reservarPlazaEspectaculo(int idEspectaculo, int idUsuario) {
         return gee.reservarPlazaEspectaculo(idEspectaculo, idUsuario);
     }
-    
+
     public boolean añadirEspectaculo(Espectaculo espectaculo) {
         return gee.añadirEspectaculo(espectaculo);
     }
-    
+
     public boolean modificarEspectaculo(Espectaculo espectaculo) {
         return gee.modificarEspectaculo(espectaculo);
     }
-    
+
     public boolean eliminarEspectaculo(int idEspectaculo) {
         return gee.eliminarEspectaculo(idEspectaculo);
     }
-    
+
     public Espectaculo buscarEspectaculo(int idEspectaculo) {
         return gee.buscarEspectaculo(idEspectaculo);
     }
@@ -91,28 +164,29 @@ public class FachadaAplicacion {
     // ==========================================================
     // DELEGADOS DE GESTIÓN DE TRABAJADORES (T12, T13, T14)
     // ==========================================================
-    
+
     public List<Trabajador> listarTrabajadores() {
         return gt.listarTrabajadores();
     }
-    
+
     public List<Trabajador> listarTrabajadoresPorTipo(String tipoTrabajo) {
         return gt.listarTrabajadoresPorTipo(tipoTrabajo);
     }
-    
+
     public boolean darAltaTrabajador(Trabajador trabajador) {
         return gt.darAltaTrabajador(trabajador);
     }
-    
+
     public boolean modificarTrabajador(Trabajador trabajador) {
         return gt.modificarTrabajador(trabajador);
     }
-    
+
     public boolean darBajaTrabajador(String dni) {
         return gt.darBajaTrabajador(dni);
     }
-    
+
     public Trabajador buscarTrabajadorPorDni(String dni) {
         return gt.buscarTrabajadorPorDni(dni);
     }
+
 }

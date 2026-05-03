@@ -1,36 +1,45 @@
 package gui;
 
-import aplicacion.FachadaAplicacion;
-import javax.swing.JOptionPane;
+import aplicacion.Animal;
+
+import javax.swing.*;
 
 public class FachadaGui {
-    
-    private FachadaAplicacion fa;
-    
+
+    private aplicacion.FachadaAplicacion fa;
+    private VPrincipalUsuario vpUsuario;
     // Declaración de las ventanas principales
     private VPrincipalAdmin vPrincipalAdmin;
     private VGestionTrabajadores vGestionTrabajadores;
     private VGestionEspectaculos vGestionEspectaculos;
 
-    public FachadaGui(FachadaAplicacion fa) {
+    public FachadaGui(aplicacion.FachadaAplicacion fa) {
         this.fa = fa;
     }
 
-    /**
-     * Método que arranca la aplicación visualmente.
-     * Se llama desde el main() de FachadaAplicacion.
-     */
     public void iniciaVista() {
-        // Instanciamos la ventana principal pasándole esta misma fachada (this)
-        vPrincipalAdmin = new VPrincipalAdmin(this);
-        // La hacemos visible
-        vPrincipalAdmin.setVisible(true);
+        VLogin vl = new VLogin(fa);
+        vl.setVisible(true);
     }
 
-    // ==========================================================
-    // MÉTODOS DE DIÁLOGOS Y MENSAJES (Pop-ups)
-    // ==========================================================
+    // Llamado tras login según el rol
+    public void abrirPortalUsuario(aplicacion.Usuario u) {
+        VPrincipalUsuario vp = new VPrincipalUsuario(fa, u);
+        vp.setVisible(true);
+    }
 
+
+    public void abrirPortalAdmin() {
+        // TODO: abrir VPrincipalAdmin cuando dev2 la implemente
+    }
+
+    // Muestra la ficha de un animal
+    public void visualizaAnimal(Animal a) {
+        VAnimales va = new VAnimales(fa);
+        va.setVisible(true);
+    }
+
+    // Muestra ventana de aviso o error
     public void muestraExcepcion(String txtException) {
         JOptionPane.showMessageDialog(vPrincipalAdmin, txtException, "Error Crítico", JOptionPane.ERROR_MESSAGE);
     }
@@ -43,10 +52,6 @@ public class FachadaGui {
         int opcion = JOptionPane.showConfirmDialog(vPrincipalAdmin, txtMensaje, "Confirmar acción", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         return opcion == JOptionPane.YES_OPTION;
     }
-
-    // ==========================================================
-    // MÉTODOS DE NAVEGACIÓN (Abrir otras ventanas)
-    // ==========================================================
 
     public void abrirGestionTrabajadores() {
         if (vGestionTrabajadores == null) {
@@ -61,21 +66,5 @@ public class FachadaGui {
             vGestionEspectaculos = new VGestionEspectaculos(vPrincipalAdmin, true, this);
         }
         vGestionEspectaculos.setVisible(true);
-    }
-    
-    public void abrirGestionEntradas() {
-        muestraAviso("Módulo de Venta de Entradas en construcción...");
-    }
-
-    // ==========================================================
-    // CONEXIÓN CON LA LÓGICA DE NEGOCIO
-    // ==========================================================
-    
-    /**
-     * Permite a las ventanas visuales acceder a las funciones de la aplicación.
-     * Ejemplo de uso desde un botón: fgui.getFachadaAplicacion().eliminarTrabajador("12345678A");
-     */
-    public FachadaAplicacion getFachadaAplicacion() {
-        return fa;
     }
 }
