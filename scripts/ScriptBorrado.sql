@@ -116,6 +116,10 @@ INSERT INTO Servicios (nombre, nombreZona, horario) VALUES
 ('Paseo en Tren', 'Área de Descanso', '10:00-18:00'),
 ('Zona de Picnic', 'Área de Descanso', '09:00-20:00');
 
+DELETE FROM Reservar;
+DELETE FROM Entradas;
+DELETE FROM Usuarios;
+
 -- ======================================================
 -- DATOS DE USUARIOS
 -- ======================================================

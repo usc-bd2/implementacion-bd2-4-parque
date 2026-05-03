@@ -128,25 +128,25 @@ CREATE TABLE CuidadoAnimal (
 );
 
 CREATE TABLE Usuarios (
-    idUsuario VARCHAR(20) PRIMARY KEY,
-    nombre INTEGER NOT NULL,
+    idUsuario INTEGER PRIMARY KEY,
+    nombre VARCHAR(40),
     ap1 VARCHAR(40),
     ap2 VARCHAR(40),
-    clave VARCHAR(40) NOT NULL,
+    clave CHAR(8),
     email VARCHAR(40),
     telefono CHAR(12),
     fechaNacimiento DATE,
-    permisos BOOLEAN NOT NULL DEFAULT FALSE
+    permisos BOOLEAN
 );
 
 CREATE TABLE Entradas (
     idEntrada INTEGER PRIMARY KEY,
-    precio FLOAT NOT NULL,
-    fecha DATE NOT NULL,
-    activo BOOLEAN NOT NULL DEFAULT TRUE,
-    idUsuario VARCHAR(20) NOT NULL,
-    FOREIGN KEY (idUsuario) REFERENCES Usuarios(idUsuario)
-        ON DELETE RESTRICT ON UPDATE CASCADE
+    precio FLOAT,
+    fecha DATE,
+    activo BOOLEAN,
+    idUsuario INTEGER,
+    FOREIGN KEY (idUsuario) REFERENCES Usuarios(idUsuario) 
+    	ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE Espectaculos (
@@ -164,13 +164,11 @@ CREATE TABLE Espectaculos (
 );
 
 CREATE TABLE Reservar (
-    idReserva INTEGER NOT NULL,
-    idUsuario VARCHAR(20) NOT NULL,
-    idEspectaculo INTEGER NOT NULL,
-    plaza INTEGER NOT NULL,
+    idReserva INTEGER,
+    idUsuario INTEGER,
+    idEspectaculo INTEGER,
+    plaza INTEGER,
     PRIMARY KEY (idReserva, idUsuario, idEspectaculo),
-    FOREIGN KEY (idUsuario) REFERENCES Usuarios(idUsuario)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-    FOREIGN KEY (idEspectaculo) REFERENCES Espectaculos(idEspectaculo)
-        ON DELETE RESTRICT ON UPDATE CASCADE
+    FOREIGN KEY (idUsuario) REFERENCES Usuarios(idUsuario) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (idEspectaculo) REFERENCES Espectaculos(idEspectaculo) ON DELETE RESTRICT ON UPDATE CASCADE
 );
