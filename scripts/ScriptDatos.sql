@@ -7,14 +7,13 @@
 -- DATOS DE ZONAS
 -- ======================================================
 
--- DATOS DE ZONAS
 INSERT INTO Zonas (nombre, capacidad, accesoPublico) VALUES
-('Zona de Selva Tropical', 50, TRUE),
-('Zona de Sabana', 40, TRUE),
-('Zona Polar', 30, TRUE),
+('Selva Tropical', 50, TRUE),
+('Sabana Africana', 40, TRUE),
+('Polar', 30, TRUE),
 ('Aviario', 100, TRUE),
 ('Reptilario', 25, TRUE),
-('Zona Acuática', 60, TRUE),
+('Zona de Acuario', 60, TRUE),
 ('Zona de Contacto', 20, TRUE),
 ('Área de Descanso', 200, TRUE),
 ('Zona de Restauración', 150, TRUE),
@@ -22,19 +21,21 @@ INSERT INTO Zonas (nombre, capacidad, accesoPublico) VALUES
 ('Clínica Veterinaria', 3, FALSE),
 ('Cuarentena', 10, FALSE);
 
+-- ======================================================
+-- DATOS DE ANIMALES
+-- ======================================================
 
---ANIMALES
 INSERT INTO Animales (idAnimal, nombreCientifico, nombreComun, alimentacion, estadoConservacion, descripcion, nombreZona, cuidador) VALUES
-(1, 'Panthera leo', 'León', 'Carnívoro', 'Vulnerable', 'El león es un mamífero carnívoro de la familia de los félidos.', 'Zona de Sabana', '11111111A'),
-(2, 'Panthera tigris', 'Tigre', 'Carnívoro', 'En Peligro', 'El tigre es el félido más grande del mundo.', 'Zona de Selva Tropical', '11111111A'),
-(3, 'Elephas maximus', 'Elefante asiático', 'Herbívoro', 'En Peligro', 'El elefante asiático es más pequeño que el africano.', 'Zona de Sabana', '22222222B'),
-(4, 'Giraffa camelopardalis', 'Jirafa', 'Herbívoro', 'Vulnerable', 'La jirafa es el animal terrestre más alto del mundo.', 'Zona de Sabana', '22222222B'),
-(5, 'Ursus maritimus', 'Oso polar', 'Carnívoro', 'Vulnerable', 'El oso polar es un superdepredador del Ártico.', 'Zona Polar', '33333333C'),
+(1, 'Panthera leo', 'León', 'Carnívoro', 'Vulnerable', 'El león es un mamífero carnívoro de la familia de los félidos. Vive en la sabana africana.', 'Sabana Africana', '11111111A'),
+(2, 'Panthera tigris', 'Tigre', 'Carnívoro', 'En Peligro', 'El tigre es el félido más grande del mundo.', 'Selva Tropical', '11111111A'),
+(3, 'Elephas maximus', 'Elefante asiático', 'Herbívoro', 'En Peligro', 'El elefante asiático es más pequeño que el africano.', 'Sabana Africana', '22222222B'),
+(4, 'Giraffa camelopardalis', 'Jirafa', 'Herbívoro', 'Vulnerable', 'La jirafa es el animal terrestre más alto del mundo.', 'Sabana Africana', '22222222B'),
+(5, 'Ursus maritimus', 'Oso polar', 'Carnívoro', 'Vulnerable', 'El oso polar es un superdepredador del Ártico.', 'Polar', '33333333C'),
 (6, 'Ara macao', 'Guacamayo rojo', 'Omnívoro', 'Preocupación Menor', 'Ave de colores brillantes originaria de la selva amazónica.', 'Aviario', '33333333C'),
 (7, 'Python reticulatus', 'Pitón reticulada', 'Carnívoro', 'Preocupación Menor', 'Una de las serpientes más largas del mundo.', 'Reptilario', '44444444D'),
-(8, 'Delphinapterus leucas', 'Beluga', 'Carnívoro', 'Preocupación Menor', 'La ballena beluga es conocida como la canaria del mar.', 'Zona Acuática', '44444444D'),
+(8, 'Delphinapterus leucas', 'Beluga', 'Carnívoro', 'Preocupación Menor', 'La ballena beluga es conocida como la canaria del mar.', 'Zona de Acuario', '44444444D'),
 (9, 'Lama glama', 'Llama', 'Herbívoro', 'Domesticado', 'Animal domesticado originario de los Andes.', 'Zona de Contacto', '55555555E'),
-(10, 'Pygoscelis adeliae', 'Pingüino Adelia', 'Carnívoro', 'Preocupación Menor', 'Habitante característico de la Antártida.', 'Zona Polar', '55555555E');
+(10, 'Pygoscelis adeliae', 'Pingüino Adelia', 'Carnívoro', 'Preocupación Menor', 'Habitante característico de la Antártida.', 'Polar', '55555555E');
 
 -- ======================================================
 -- DATOS DE TRABAJADORES
@@ -120,37 +121,37 @@ INSERT INTO Servicios (nombre, nombreZona, horario) VALUES
 -- ======================================================
 
 INSERT INTO Usuarios (idUsuario, nombre, ap1, ap2, clave, email, telefono, fechaNacimiento, permisos) VALUES
-('USR001', 1, 'Pérez', 'González', 'clave123', 'ana.perez@email.com', '611111111', '1990-03-15', FALSE),
-('USR002', 1, 'López', 'Martínez', 'clave456', 'carlos.lopez@email.com', '622222222', '1985-07-20', FALSE),
-('USR003', 1, 'Sánchez', 'Rodríguez', 'clave789', 'marta.sanchez@email.com', '633333333', '1995-11-10', FALSE),
-('USR004', 1, 'García', 'Fernández', 'claveabc', 'david.garcia@email.com', '644444444', '1988-01-25', FALSE),
-('USR005', 1, 'Martínez', 'Gómez', 'clavedef', 'laura.martinez@email.com', '655555555', '1992-05-30', FALSE),
-('USR006', 1, 'admin', 'Sistema', 'admin123', 'admin@parque.com', '666666666', '1980-01-01', TRUE),
-('USR007', 1, 'Ruiz', 'Díaz', 'clave123', 'javier.ruiz@email.com', '677777777', '1998-09-12', FALSE),
-('USR008', 1, 'Jiménez', 'Álvarez', 'clave456', 'elena.jimenez@email.com', '688888888', '1993-04-18', FALSE),
-('USR009', 1, 'Romero', 'Navarro', 'clave789', 'pablo.romero@email.com', '699999999', '1987-12-03', FALSE),
-('USR010', 1, 'Torres', 'Moreno', 'claveabc', 'isabel.torres@email.com', '600000000', '1996-08-22', FALSE);
+(1, 'Ana', 'Pérez', 'González', 'clave123', 'ana.perez@email.com', '611111111', '1990-03-15', FALSE),
+(2, 'Carlos', 'López', 'Martínez', 'clave456', 'carlos.lopez@email.com', '622222222', '1985-07-20', FALSE),
+(3, 'Marta', 'Sánchez', 'Rodríguez', 'clave789', 'marta.sanchez@email.com', '633333333', '1995-11-10', FALSE),
+(4, 'David', 'García', 'Fernández', 'claveabc', 'david.garcia@email.com', '644444444', '1988-01-25', FALSE),
+(5, 'Laura', 'Martínez', 'Gómez', 'clavedef', 'laura.martinez@email.com', '655555555', '1992-05-30', FALSE),
+(6, 'Admin', 'admin', 'Sistema', 'admin123', 'admin@parque.com', '666666666', '1980-01-01', TRUE),
+(7, 'Javier', 'Ruiz', 'Díaz', 'clave123', 'javier.ruiz@email.com', '677777777', '1998-09-12', FALSE),
+(8, 'Elena', 'Jiménez', 'Álvarez', 'clave456', 'elena.jimenez@email.com', '688888888', '1993-04-18', FALSE),
+(9, 'Pablo', 'Romero', 'Navarro', 'clave789', 'pablo.romero@email.com', '699999999', '1987-12-03', FALSE),
+(10, 'Isabel', 'Torres', 'Moreno', 'claveabc', 'isabel.torres@email.com', '600000000', '1996-08-22', FALSE);
 
 -- ======================================================
 -- DATOS DE ENTRADAS
 -- ======================================================
 
 INSERT INTO Entradas (idEntrada, precio, fecha, activo, idUsuario) VALUES
-(1, 25.50, '2026-04-10', TRUE, 'USR001'),
-(2, 25.50, '2026-04-10', TRUE, 'USR002'),
-(3, 25.50, '2026-04-11', TRUE, 'USR003'),
-(4, 25.50, '2026-04-12', TRUE, 'USR001'),
-(5, 25.50, '2026-04-12', FALSE, 'USR004'),
-(6, 25.50, '2026-04-13', TRUE, 'USR005'),
-(7, 25.50, '2026-04-13', TRUE, 'USR007'),
-(8, 25.50, '2026-04-14', TRUE, 'USR008'),
-(9, 25.50, '2026-04-15', TRUE, 'USR009'),
-(10, 25.50, '2026-04-15', TRUE, 'USR010'),
-(11, 25.50, '2026-04-16', TRUE, 'USR001'),
-(12, 25.50, '2026-04-16', TRUE, 'USR002'),
-(13, 25.50, '2026-04-17', TRUE, 'USR003'),
-(14, 25.50, '2026-04-18', FALSE, 'USR004'),
-(15, 25.50, '2026-04-19', TRUE, 'USR005');
+(1, 25.50, '2026-04-10', TRUE, 1),
+(2, 25.50, '2026-04-10', TRUE, 2),
+(3, 25.50, '2026-04-11', TRUE, 3),
+(4, 25.50, '2026-04-12', TRUE, 1),
+(5, 25.50, '2026-04-12', FALSE, 4),
+(6, 25.50, '2026-04-13', TRUE, 5),
+(7, 25.50, '2026-04-13', TRUE, 7),
+(8, 25.50, '2026-04-14', TRUE, 8),
+(9, 25.50, '2026-04-15', TRUE, 9),
+(10, 25.50, '2026-04-15', TRUE, 10),
+(11, 25.50, '2026-04-16', TRUE, 1),
+(12, 25.50, '2026-04-16', TRUE, 2),
+(13, 25.50, '2026-04-17', TRUE, 3),
+(14, 25.50, '2026-04-18', FALSE, 4),
+(15, 25.50, '2026-04-19', TRUE, 5);
 
 -- ======================================================
 -- DATOS DE ESPECTÁCULOS
@@ -165,31 +166,31 @@ INSERT INTO Espectaculos (idEspectaculo, nombre, aforo, horaInicio, duracion, sh
 (6, 'Demostración de Reptiles', 30, '2026-04-11 14:30:00', 60, '99999999I', 'Reptilario'),
 (7, 'Alimentación de Pingüinos', 40, '2026-04-12 11:00:00', 30, '88888888H', 'Polar'),
 (8, 'Alimentación de Pingüinos', 40, '2026-04-12 13:00:00', 30, '88888888H', 'Polar'),
-(9, 'Espectáculo de Leones Marinos', 45, '2026-04-13 10:00:00', 50, '99999999I', 'Zona Acuática'),
-(10, 'Espectáculo de Leones Marinos', 45, '2026-04-13 12:00:00', 50, '99999999I', 'Zona Acuática'),
-(11, 'Espectáculo de Leones Marinos', 45, '2026-04-13 14:00:00', 50, '99999999I', 'Zona Acuática'),
+(9, 'Espectáculo de Leones Marinos', 45, '2026-04-13 10:00:00', 50, '99999999I', 'Zona de Acuario'),
+(10, 'Espectáculo de Leones Marinos', 45, '2026-04-13 12:00:00', 50, '99999999I', 'Zona de Acuario'),
+(11, 'Espectáculo de Leones Marinos', 45, '2026-04-13 14:00:00', 50, '99999999I', 'Zona de Acuario'),
 (12, 'Charlas de Conservación', 60, '2026-04-14 11:00:00', 40, '88888888H', 'Área de Descanso'),
 (13, 'Charlas de Conservación', 60, '2026-04-14 13:00:00', 40, '88888888H', 'Área de Descanso'),
-(14, 'Espectáculo Nocturno', 80, '2026-04-15 20:00:00', 90, '99999999I', 'Zona de Sabana'),
-(15, 'Espectáculo Nocturno', 80, '2026-04-16 20:00:00', 90, '99999999I', 'Zona de Sabana');
+(14, 'Espectáculo Nocturno', 80, '2026-04-15 20:00:00', 90, '99999999I', 'Sabana Africana'),
+(15, 'Espectáculo Nocturno', 80, '2026-04-16 20:00:00', 90, '99999999I', 'Sabana Africana');
 
 -- ======================================================
 -- DATOS DE RESERVAS
 -- ======================================================
 
 INSERT INTO Reservar (idReserva, idUsuario, idEspectaculo, plaza) VALUES
-(1, 'USR001', 1, 15),
-(2, 'USR002', 1, 16),
-(3, 'USR003', 2, 8),
-(4, 'USR001', 4, 22),
-(5, 'USR004', 4, 23),
-(6, 'USR005', 7, 5),
-(7, 'USR007', 7, 6),
-(8, 'USR008', 9, 30),
-(9, 'USR009', 9, 31),
-(10, 'USR010', 10, 12),
-(11, 'USR001', 11, 18),
-(12, 'USR002', 12, 25),
-(13, 'USR003', 14, 42),
-(14, 'USR005', 14, 43),
-(15, 'USR007', 15, 55);
+(1, 1, 1, 15),
+(2, 2, 1, 16),
+(3, 3, 2, 8),
+(4, 1, 4, 22),
+(5, 4, 4, 23),
+(6, 5, 7, 5),
+(7, 7, 7, 6),
+(8, 8, 9, 30),
+(9, 9, 9, 31),
+(10, 10, 10, 12),
+(11, 1, 11, 18),
+(12, 2, 12, 25),
+(13, 3, 14, 42),
+(14, 5, 14, 43),
+(15, 7, 15, 55);
