@@ -53,7 +53,7 @@ public class FachadaAplicacion {
         return gu.autenticar(email, clave);
     }
     //  T3
-    public void crearCuenta(Usuario u) {
+    public void crearCuenta(Usuario u) throws Exception {
         gu.crearCuenta(u);
     }
     //  T5

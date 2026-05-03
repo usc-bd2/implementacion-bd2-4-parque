@@ -4,6 +4,8 @@
  */
 package gui;
 
+import javax.swing.*;
+
 /**
  *
  * @author alumnogreibd
@@ -142,11 +144,15 @@ public class VCrearCuenta extends javax.swing.JFrame {
         }
 
         // T3/T4 - Crear cuenta
-        aplicacion.Usuario u = new aplicacion.Usuario(nombre, "", "", clave, email, telefono, fechaNacimiento);
-        fa.crearCuenta(u);
-    
-        fa.muestraExcepcion("Cuenta creada correctamente");
-        dispose();
+        try {
+            aplicacion.Usuario u = new aplicacion.Usuario(nombre, "", "", clave, email, telefono, fechaNacimiento);
+            fa.crearCuenta(u);
+            JOptionPane.showMessageDialog(this, "Cuenta creada correctamente");
+            dispose();
+
+        } catch (Exception e) {
+            fa.muestraExcepcion(e.getMessage());
+        }
     }//GEN-LAST:event_botonCrearCuentaActionPerformed
 
 

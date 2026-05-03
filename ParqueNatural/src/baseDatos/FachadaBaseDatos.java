@@ -186,4 +186,8 @@ public class FachadaBaseDatos {
         return daoEspectaculos.eliminarEspectaculo(idEspectaculo);
     }
 
+    public boolean existeEmail(String email){
+        return daoUsuarios.existeEmail(email);
+    }
+
 }
