@@ -28,9 +28,11 @@ public class FachadaGui {
         vp.setVisible(true);
     }
 
-
-    public void abrirPortalAdmin() {
-        // TODO: abrir VPrincipalAdmin cuando dev2 la implemente
+public void abrirPortalAdmin() {
+        if (vPrincipalAdmin == null) {
+            vPrincipalAdmin = new VPrincipalAdmin(this);
+        }
+        vPrincipalAdmin.setVisible(true);
     }
 
     // Muestra la ficha de un animal
