@@ -31,7 +31,7 @@ CREATE TABLE Zonas (
 );
 
 CREATE TABLE Animales (
-    idAnimal INTEGER PRIMARY KEY,
+    idAnimal SERIAL PRIMARY KEY,
     nombreCientifico VARCHAR(40),
     nombreComun VARCHAR(40),
     alimentacion VARCHAR(40) NOT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE Guia (
 -- ======================================================
 
 CREATE TABLE HistorialMedico (
-    codigo INTEGER PRIMARY KEY,
+    codigo SERIAL PRIMARY KEY,
     idAnimal INTEGER NOT NULL,
     fecha DATE NOT NULL DEFAULT CURRENT_DATE,
     diagnostico VARCHAR(300) NOT NULL,
@@ -128,7 +128,7 @@ CREATE TABLE CuidadoAnimal (
 );
 
 CREATE TABLE Usuarios (
-    idUsuario INTEGER PRIMARY KEY,
+    idUsuario SERIAL PRIMARY KEY,
     nombre VARCHAR(40) NOT NULL,
     ap1 VARCHAR(40),
     ap2 VARCHAR(40),
@@ -140,7 +140,7 @@ CREATE TABLE Usuarios (
 );
 
 CREATE TABLE Entradas (
-    idEntrada INTEGER PRIMARY KEY,
+    idEntrada SERIAL PRIMARY KEY,
     precio FLOAT NOT NULL,
     fecha DATE NOT NULL,
     activo BOOLEAN NOT NULL DEFAULT TRUE,
@@ -150,7 +150,7 @@ CREATE TABLE Entradas (
 );
 
 CREATE TABLE Espectaculos (
-    idEspectaculo INTEGER PRIMARY KEY,
+    idEspectaculo SERIAL PRIMARY KEY,
     nombre VARCHAR(40) NOT NULL,
     aforo INTEGER NOT NULL,
     horaInicio TIMESTAMP NOT NULL,
@@ -164,7 +164,7 @@ CREATE TABLE Espectaculos (
 );
 
 CREATE TABLE Reservar (
-    idReserva INTEGER NOT NULL,
+    idReserva SERIAL PRIMARY KEY,
     idUsuario INTEGER NOT NULL,
     idEspectaculo INTEGER NOT NULL,
     plaza INTEGER NOT NULL,
