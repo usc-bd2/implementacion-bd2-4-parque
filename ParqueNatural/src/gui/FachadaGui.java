@@ -1,76 +1,85 @@
 package gui;
 
 import aplicacion.FachadaAplicacion;
+import javax.swing.JOptionPane;
 
 public class FachadaGui {
     
-    private final FachadaAplicacion fa; 
+    private FachadaAplicacion fa;
+    
+    // Declaración de las ventanas principales
+    private VPrincipalAdmin vPrincipalAdmin;
+    // Aquí iremos añadiendo las demás conforme las vayas creando en NetBeans:
+    // private VGestionTrabajadores vGestionTrabajadores;
+    // private VGestionEspectaculos vGestionEspectaculos;
 
-    // 2. El constructor ahora recibe 'FachadaAplicacion' en lugar de 'FachadaBaseDatos'
     public FachadaGui(FachadaAplicacion fa) {
-        this.fa = fa;//
+        this.fa = fa;
     }
 
     /**
-     * Método de arranque: Muestra la primera ventana del sistema.
-     * Según el documento, es la ventana de Autenticación.
+     * Método que arranca la aplicación visualmente.
+     * Se llama desde el main() de FachadaAplicacion.
      */
     public void iniciaVista() {
-        // Creamos la ventana de Login y le pasamos ESTA fachada y la de BD
-        VAutentificacion vLogin = new VAutentificacion(this, fbd);
-        vLogin.setLocationRelativeTo(null); // Centrar en pantalla
-        vLogin.setVisible(true);
+        // Instanciamos la ventana principal pasándole esta misma fachada (this)
+        vPrincipalAdmin = new VPrincipalAdmin(this);
+        // La hacemos visible
+        vPrincipalAdmin.setVisible(true);
     }
 
-    /**
-     * Método llamado desde VAutentificacion tras un login exitoso de Administrador
-     */
-    public void iniciarVistaAdmin() {
-        if (vAdmin == null) {
-            vAdmin = new VPrincipalAdmin(this, fbd);
-        }
-        vAdmin.setLocationRelativeTo(null);
-        vAdmin.setVisible(true);
+    // ==========================================================
+    // MÉTODOS DE DIÁLOGOS Y MENSAJES (Pop-ups)
+    // ==========================================================
+
+    public void muestraExcepcion(String txtException) {
+        JOptionPane.showMessageDialog(vPrincipalAdmin, txtException, "Error Crítico", JOptionPane.ERROR_MESSAGE);
     }
 
-    /**
-     * Método llamado desde VAutentificacion tras un login exitoso de Usuario estándar
-     */
-    public void iniciarVistaUsuario() {
-        // VPrincipalUsuario vUsuario = new VPrincipalUsuario(this, fbd);
-        // vUsuario.setLocationRelativeTo(null);
-        // vUsuario.setVisible(true);
+    public void muestraAviso(String txtAviso) {
+        JOptionPane.showMessageDialog(vPrincipalAdmin, txtAviso, "Aviso", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    /**
-     * Métodos para abrir los JDialogs (Gestión de trabajadores, espectáculos, etc.)
-     * Estos se llamarían desde los botones de la VPrincipalAdmin
-     */
+    public boolean pideConfirmacion(String txtMensaje) {
+        int opcion = JOptionPane.showConfirmDialog(vPrincipalAdmin, txtMensaje, "Confirmar acción", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        return opcion == JOptionPane.YES_OPTION;
+    }
+
+    // ==========================================================
+    // MÉTODOS DE NAVEGACIÓN (Abrir otras ventanas)
+    // ==========================================================
+
     public void abrirGestionTrabajadores() {
-        // Al ser JDialog, suele pedir un Frame padre (vAdmin) y si es modal (true)
-        VGestionTrabajadores vTrabajadores = new VGestionTrabajadores(vAdmin, true, this, fbd);
-        vTrabajadores.setLocationRelativeTo(vAdmin);
-        vTrabajadores.setVisible(true);
+        // Cuando tengas la ventana VGestionTrabajadores diseñada, descomenta esto:
+        /*
+        if (vGestionTrabajadores == null) {
+            vGestionTrabajadores = new VGestionTrabajadores(this);
+        }
+        vGestionTrabajadores.setLocationRelativeTo(vPrincipalAdmin); // Centrar sobre la principal
+        vGestionTrabajadores.setVisible(true);
+        */
+        
+        // Por ahora, mostramos un aviso para probar que el botón funciona:
+        muestraAviso("Módulo de Gestión de Trabajadores en construcción...");
     }
 
     public void abrirGestionEspectaculos() {
-        VgestionEspectaculos vEspectaculos = new VgestionEspectaculos(vAdmin, true, this, fbd);
-        vEspectaculos.setLocationRelativeTo(vAdmin);
-        vEspectaculos.setVisible(true);
+        muestraAviso("Módulo de Gestión de Espectáculos en construcción...");
+    }
+    
+    public void abrirGestionEntradas() {
+        muestraAviso("Módulo de Venta de Entradas en construcción...");
     }
 
+    // ==========================================================
+    // CONEXIÓN CON LA LÓGICA DE NEGOCIO
+    // ==========================================================
+    
     /**
-     * Método general para mostrar avisos o errores (reaprovechando tu clase VAviso)
-     * @param mensaje
+     * Permite a las ventanas visuales acceder a las funciones de la aplicación.
+     * Ejemplo de uso desde un botón: fgui.getFachadaAplicacion().eliminarTrabajador("12345678A");
      */
-    public void muestraAviso(String mensaje) {
-        // Suponiendo que tienes un VAviso(Dialog padre, modal, String mensaje)
-        VAviso aviso = new VAviso(null, true, mensaje);
-        aviso.setLocationRelativeTo(null);
-        aviso.setVisible(true);
-    }
-
-    public boolean pideConfirmacion(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public FachadaAplicacion getFachadaAplicacion() {
+        return fa;
     }
 }

@@ -20,5 +20,6 @@
 /home/alumnogreibd/BDII/implementacion-bd2-4-parque/ParqueNatural/src/gui/VComprarEntradas.java
 /home/alumnogreibd/BDII/implementacion-bd2-4-parque/ParqueNatural/src/gui/VGestionEntradas.java
 /home/alumnogreibd/BDII/implementacion-bd2-4-parque/ParqueNatural/src/gui/VGestionEspectaculos.java
+/home/alumnogreibd/BDII/implementacion-bd2-4-parque/ParqueNatural/src/gui/VGestionTrabajadores.java
 /home/alumnogreibd/BDII/implementacion-bd2-4-parque/ParqueNatural/src/gui/VPrincipalAdmin.java
-/home/alumnogreibd/BDII/implementacion-bd2-4-parque/ParqueNatural/src/gui/VTrabajadores.java
+/home/alumnogreibd/BDII/implementacion-bd2-4-parque/ParqueNatural/src/gui/VReservaEspectaculo.java
