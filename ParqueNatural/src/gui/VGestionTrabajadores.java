@@ -75,6 +75,8 @@ public class VGestionTrabajadores extends javax.swing.JFrame {
 
         jLabel2.setText("Nombre");
 
+        jTextField2.addActionListener(this::jTextField2ActionPerformed);
+
         jLabel3.setText("Tipo");
 
         jButton1.setText("Buscar");
@@ -95,7 +97,11 @@ public class VGestionTrabajadores extends javax.swing.JFrame {
 
         jLabel4.setText("DNI");
 
+        jTextField4.addActionListener(this::jTextField4ActionPerformed);
+
         jLabel5.setText("Nombre");
+
+        jTextField5.addActionListener(this::jTextField5ActionPerformed);
 
         jLabel6.setText("Tipo");
 
@@ -274,6 +280,18 @@ public class VGestionTrabajadores extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
 
     /**
      * @param args the command line arguments
