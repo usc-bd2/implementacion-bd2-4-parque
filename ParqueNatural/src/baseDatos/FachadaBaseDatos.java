@@ -161,6 +161,10 @@ public class FachadaBaseDatos {
     public double calcularRecaudacion(LocalDate fechaInicio, LocalDate fechaFin) {
         return daoEntradas.calcularRecaudacion(fechaInicio, fechaFin);
     }
+    
+    public boolean verificarDisponibilidadEntradas(java.time.LocalDate fecha, int numEntradas) {
+        return daoEntradas.verificarDisponibilidad(fecha, numEntradas);
+    }
 
     // ==========================================================
     // DELEGADOS DE DAO ESPECTACULOS
