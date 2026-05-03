@@ -43,13 +43,7 @@
                           <Component id="botonConfirmarCompra" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="botonAnularentrada" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
-                          <Component id="comboboxNentradas" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="comboboxNentradas" pref="125" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -102,7 +96,6 @@
               <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="botonConfirmarCompra" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="botonAnularentrada" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="botonSalir" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="0" pref="20" max="32767" attributes="0"/>
@@ -133,9 +126,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="textNombre">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textNombreActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="labelFechaVisita">
       <Properties>
@@ -143,9 +133,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="textFechaVisita">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textFechaVisitaActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="labelPrecio">
       <Properties>
@@ -185,15 +172,13 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonConfirmarCompraActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="botonAnularentrada">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Anular entrada"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="botonSalir">
       <Properties>
         <Property name="text" type="java.lang.String" value="Salir"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonSalirActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

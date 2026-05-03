@@ -45,7 +45,6 @@ public class VCompraEntradas extends javax.swing.JFrame {
         labelNEntradas = new javax.swing.JLabel();
         comboboxNentradas = new javax.swing.JComboBox<>();
         botonConfirmarCompra = new javax.swing.JButton();
-        botonAnularentrada = new javax.swing.JButton();
         botonSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -57,11 +56,7 @@ public class VCompraEntradas extends javax.swing.JFrame {
 
         labelNombre.setText("Nombre");
 
-        textNombre.addActionListener(this::textNombreActionPerformed);
-
         labelFechaVisita.setText("Fecha de visita");
-
-        textFechaVisita.addActionListener(this::textFechaVisitaActionPerformed);
 
         labelPrecio.setText("Precio");
 
@@ -74,9 +69,8 @@ public class VCompraEntradas extends javax.swing.JFrame {
         botonConfirmarCompra.setText("Confirmar compra");
         botonConfirmarCompra.addActionListener(this::botonConfirmarCompraActionPerformed);
 
-        botonAnularentrada.setText("Anular entrada");
-
         botonSalir.setText("Salir");
+        botonSalir.addActionListener(this::botonSalirActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -99,11 +93,7 @@ public class VCompraEntradas extends javax.swing.JFrame {
                             .addComponent(labelNEntradas)
                             .addComponent(botonConfirmarCompra))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(botonAnularentrada)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(comboboxNentradas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(comboboxNentradas, 0, 125, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(94, 94, 94)
@@ -142,21 +132,12 @@ public class VCompraEntradas extends javax.swing.JFrame {
                 .addGap(65, 65, 65)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonConfirmarCompra)
-                    .addComponent(botonAnularentrada)
                     .addComponent(botonSalir))
                 .addGap(0, 20, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void textNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textNombreActionPerformed
-
-    private void textFechaVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFechaVisitaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textFechaVisitaActionPerformed
 
     private void botonConfirmarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConfirmarCompraActionPerformed
         try {
@@ -199,6 +180,10 @@ public class VCompraEntradas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonConfirmarCompraActionPerformed
 
+    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_botonSalirActionPerformed
+
 
     /**
      * @param args the command line arguments
@@ -226,7 +211,6 @@ public class VCompraEntradas extends javax.swing.JFrame {
     //}
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botonAnularentrada;
     private javax.swing.JButton botonConfirmarCompra;
     private javax.swing.JButton botonSalir;
     private javax.swing.JComboBox<String> comboboxNentradas;
