@@ -25,7 +25,7 @@ public class VGestionAnimales extends javax.swing.JFrame {
     public VGestionAnimales() {
         initComponents();
         cargarZonas(); //Para la comboBox
-        buscarAnimales(); //Para la tabla 
+       // buscarAnimales(); //Para la tabla 
         //TODO: Esperar a que implementen los de dev2 para los cuidadores
     }
 
