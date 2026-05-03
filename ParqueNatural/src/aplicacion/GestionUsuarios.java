@@ -20,7 +20,7 @@ public class GestionUsuarios {
 
     //T2 - Eliminar usuario
     public void eliminarUsuario(int idUsuario){
-        //Aún no se implementó porque falta la funcionalidad de encontrar las reservas
+        fbd.eliminarUsuario(idUsuario);
     }
 
     //T3 - Crear cuenta
@@ -32,7 +32,7 @@ public class GestionUsuarios {
 
     //T5 - Editar datos de usuario
     public void editarDatos(Usuario u){
-        //Si se quiere seguir con la memoria, conseguir una forma para conseguir los datos y mostrarlos por ventana
+        fbd.modificarUsuario(u);
     }
 
     //T9 - Cambiar permisos

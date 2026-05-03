@@ -9,8 +9,7 @@ import java.util.List;
 public class DAOUsuarios extends AbstractDAO {
 
     public DAOUsuarios(Connection conexion, aplicacion.FachadaAplicacion fa) {
-        super.setConexion(conexion);
-        super.setFachadaAplicacion(fa);
+        super(conexion, fa);
     }
 
     // T1 - Autenticación

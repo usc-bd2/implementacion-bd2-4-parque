@@ -8,8 +8,7 @@ import java.util.List;
 public class DAOAnimales extends AbstractDAO {
 
     public DAOAnimales(Connection conexion, aplicacion.FachadaAplicacion fa) {
-        super.setConexion(conexion);
-        super.setFachadaAplicacion(fa);
+        super(conexion, fa);
     }
 
     // T6 - Consultar animales con filtros
