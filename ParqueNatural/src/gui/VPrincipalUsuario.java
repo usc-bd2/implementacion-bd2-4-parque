@@ -157,7 +157,9 @@ public class VPrincipalUsuario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonMapaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMapaActionPerformed
+        System.out.println("Abriendo mapa...");
         VMapa vm = new VMapa(this, true);
+        vm.setLocationRelativeTo(this);
         vm.setVisible(true);
     }//GEN-LAST:event_botonMapaActionPerformed
 
