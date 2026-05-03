@@ -71,6 +71,8 @@ public class VGestionTrabajadores extends javax.swing.JFrame {
 
         jLabel1.setText("DNI");
 
+        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+
         jLabel2.setText("Nombre");
 
         jLabel3.setText("Tipo");
@@ -80,13 +82,13 @@ public class VGestionTrabajadores extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "DNI", "Nombre", "Email", "Tipo", "Sueldo"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
@@ -268,6 +270,10 @@ public class VGestionTrabajadores extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
