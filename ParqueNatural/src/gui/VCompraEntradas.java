@@ -16,16 +16,14 @@ import javax.swing.JOptionPane;
 public class VCompraEntradas extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VCompraEntradas.class.getName());
+    private FachadaAplicacion fa;
+    private Usuario usuarioActual;
 
-    /**
-     * Creates new form VCompraEntradas
-     */
-    private aplicacion.FachadaAplicacion fa;
-    private aplicacion.Usuario usuarioActual;
 
     VCompraEntradas(FachadaAplicacion fa, Usuario usuarioActual) {
         initComponents();
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -201,6 +199,10 @@ public class VCompraEntradas extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonConfirmarCompraActionPerformed
 
+
+    /**
+     * @param args the command line arguments
+     */
     //public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
