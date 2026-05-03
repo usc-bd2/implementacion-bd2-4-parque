@@ -6,6 +6,8 @@ package gui;
 
 import aplicacion.FachadaAplicacion;
 import aplicacion.Usuario;
+import java.time.LocalDate;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,12 +20,11 @@ public class VCompraEntradas extends javax.swing.JFrame {
     /**
      * Creates new form VCompraEntradas
      */
-    public VCompraEntradas() {
-        initComponents();
-    }
+    private aplicacion.FachadaAplicacion fa;
+    private aplicacion.Usuario usuarioActual;
 
     VCompraEntradas(FachadaAplicacion fa, Usuario usuarioActual) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        initComponents();
     }
 
     /**
@@ -73,6 +74,7 @@ public class VCompraEntradas extends javax.swing.JFrame {
         comboboxNentradas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         botonConfirmarCompra.setText("Confirmar compra");
+        botonConfirmarCompra.addActionListener(this::botonConfirmarCompraActionPerformed);
 
         botonAnularentrada.setText("Anular entrada");
 
@@ -158,16 +160,54 @@ public class VCompraEntradas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textFechaVisitaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
+    private void botonConfirmarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConfirmarCompraActionPerformed
+        try {
+            String fechaStr = textFechaVisita.getText().trim();
+            if (fechaStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Introduzca una fecha (YYYY-MM-DD)");
+                return;
+            }
+        
+            LocalDate fecha = LocalDate.parse(fechaStr);
+            int numEntradas = Integer.parseInt((String) comboboxNentradas.getSelectedItem());
+        
+            // Comprobar disponibilidad
+            if (!fa.verificarDisponibilidadEntradas(fecha, numEntradas)) {
+                int disponibles = fa.verificarDisponibilidadEntradas(fecha, 999) ? 1000 : 
+                                (1000 - fa.consultarEntradasVendidas(fecha, fecha).size());
+                JOptionPane.showMessageDialog(this, 
+                    "No hay suficientes entradas disponibles para ese día.\n" +
+                    "Disponibles: " + disponibles);
+                return;
+            }
+        
+            double precioTotal = numEntradas * 25.50;
+            int confirm = JOptionPane.showConfirmDialog(this, 
+                "Confirmar compra de " + numEntradas + " entrada(s) para el " + fecha + 
+                "\nPrecio total: " + precioTotal + "€",
+                "Confirmar compra", JOptionPane.YES_NO_OPTION);
+        
+            if (confirm == JOptionPane.YES_OPTION) {
+                boolean ok = fa.comprarEntradas(fecha, numEntradas, usuarioActual.getIdUsuario());
+                if (ok) {
+                    JOptionPane.showMessageDialog(this, "Compra realizada con éxito");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error en la compra");
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_botonConfirmarCompraActionPerformed
+
+    //public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
+        /*try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -180,9 +220,9 @@ public class VCompraEntradas extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VCompraEntradas().setVisible(true));
-    }
-
+        ///java.awt.EventQueue.invokeLater(() -> new VCompraEntradas().setVisible(true));
+    //}
+        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAnularentrada;
     private javax.swing.JButton botonConfirmarCompra;
