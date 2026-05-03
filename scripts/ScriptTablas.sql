@@ -107,7 +107,7 @@ CREATE TABLE Guia (
 
 CREATE TABLE HistorialMedico (
     codigo SERIAL PRIMARY KEY,
-    idAnimal INTEGER NOT NULL,
+    idAnimal SERIAL NOT NULL,
     fecha DATE NOT NULL DEFAULT CURRENT_DATE,
     diagnostico VARCHAR(300) NOT NULL,
     veterinario CHAR(9) NOT NULL,
@@ -119,7 +119,7 @@ CREATE TABLE HistorialMedico (
 
 CREATE TABLE CuidadoAnimal (
     DNI CHAR(9) NOT NULL,
-    idAnimal INTEGER NOT NULL,
+    idAnimal SERIAL NOT NULL,
     PRIMARY KEY (DNI, idAnimal),
     FOREIGN KEY (DNI) REFERENCES Cuidador(DNI)
         ON DELETE RESTRICT ON UPDATE CASCADE,
@@ -165,13 +165,13 @@ CREATE TABLE Espectaculos (
 
 CREATE TABLE Reservar (
     idReserva SERIAL PRIMARY KEY,
-    idUsuario INTEGER NOT NULL,
+    idUsuario SERIAL NOT NULL,
     idEspectaculo INTEGER NOT NULL,
     plaza INTEGER NOT NULL,
-    PRIMARY KEY (idReserva, idUsuario, idEspectaculo),
     FOREIGN KEY (idUsuario) REFERENCES Usuarios(idUsuario)
         ON DELETE RESTRICT ON UPDATE CASCADE,
     FOREIGN KEY (idEspectaculo) REFERENCES Espectaculos(idEspectaculo)
         ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
 

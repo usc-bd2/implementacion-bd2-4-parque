@@ -22,22 +22,6 @@ INSERT INTO Zonas (nombre, capacidad, accesoPublico) VALUES
 ('Cuarentena', 10, FALSE);
 
 -- ======================================================
--- DATOS DE ANIMALES
--- ======================================================
-
-INSERT INTO Animales (idAnimal, nombreCientifico, nombreComun, alimentacion, estadoConservacion, descripcion, nombreZona, cuidador) VALUES
-(1, 'Panthera leo', 'León', 'Carnívoro', 'Vulnerable', 'El león es un mamífero carnívoro de la familia de los félidos. Vive en la sabana africana.', 'Sabana Africana', '11111111A'),
-(2, 'Panthera tigris', 'Tigre', 'Carnívoro', 'En Peligro', 'El tigre es el félido más grande del mundo.', 'Selva Tropical', '11111111A'),
-(3, 'Elephas maximus', 'Elefante asiático', 'Herbívoro', 'En Peligro', 'El elefante asiático es más pequeño que el africano.', 'Sabana Africana', '22222222B'),
-(4, 'Giraffa camelopardalis', 'Jirafa', 'Herbívoro', 'Vulnerable', 'La jirafa es el animal terrestre más alto del mundo.', 'Sabana Africana', '22222222B'),
-(5, 'Ursus maritimus', 'Oso polar', 'Carnívoro', 'Vulnerable', 'El oso polar es un superdepredador del Ártico.', 'Polar', '33333333C'),
-(6, 'Ara macao', 'Guacamayo rojo', 'Omnívoro', 'Preocupación Menor', 'Ave de colores brillantes originaria de la selva amazónica.', 'Aviario', '33333333C'),
-(7, 'Python reticulatus', 'Pitón reticulada', 'Carnívoro', 'Preocupación Menor', 'Una de las serpientes más largas del mundo.', 'Reptilario', '44444444D'),
-(8, 'Delphinapterus leucas', 'Beluga', 'Carnívoro', 'Preocupación Menor', 'La ballena beluga es conocida como la canaria del mar.', 'Zona de Acuario', '44444444D'),
-(9, 'Lama glama', 'Llama', 'Herbívoro', 'Domesticado', 'Animal domesticado originario de los Andes.', 'Zona de Contacto', '55555555E'),
-(10, 'Pygoscelis adeliae', 'Pingüino Adelia', 'Carnívoro', 'Preocupación Menor', 'Habitante característico de la Antártida.', 'Polar', '55555555E');
-
--- ======================================================
 -- DATOS DE TRABAJADORES
 -- ======================================================
 
@@ -57,20 +41,27 @@ INSERT INTO Trabajadores (DNI, nombre, ap1, ap2, direccion, telefonoContacto, em
 -- ESPECIALIZACIONES DE TRABAJADORES
 -- ======================================================
 
--- Veterinarios
 INSERT INTO Veterinario (DNI) VALUES ('66666666F'), ('77777777G');
-
--- Cuidadores
 INSERT INTO Cuidador (DNI) VALUES ('11111111A'), ('22222222B'), ('33333333C'), ('44444444D'), ('55555555E');
-
--- Showmans
 INSERT INTO Showman (DNI) VALUES ('88888888H'), ('99999999I');
-
--- Seguridad
 INSERT INTO Seguridad (DNI, equipamiento) VALUES ('10101010J', 'Walkie, Linterna, Chaleco');
-
--- Guías
 INSERT INTO Guia (DNI, especialidad) VALUES ('11111111A', 'Grandes felinos'), ('22222222B', 'Herbívoros africanos'), ('33333333C', 'Fauna polar');
+
+-- ======================================================
+-- DATOS DE ANIMALES
+-- ======================================================
+
+INSERT INTO Animales (idAnimal, nombreCientifico, nombreComun, alimentacion, estadoConservacion, descripcion, nombreZona, cuidador) VALUES
+(1, 'Panthera leo', 'León', 'Carnívoro', 'Vulnerable', 'El león es un mamífero carnívoro de la familia de los félidos.', 'Sabana Africana', '11111111A'),
+(2, 'Panthera tigris', 'Tigre', 'Carnívoro', 'En Peligro', 'El tigre es el félido más grande del mundo.', 'Selva Tropical', '11111111A'),
+(3, 'Elephas maximus', 'Elefante asiático', 'Herbívoro', 'En Peligro', 'El elefante asiático es más pequeño que el africano.', 'Sabana Africana', '22222222B'),
+(4, 'Giraffa camelopardalis', 'Jirafa', 'Herbívoro', 'Vulnerable', 'La jirafa es el animal terrestre más alto del mundo.', 'Sabana Africana', '22222222B'),
+(5, 'Ursus maritimus', 'Oso polar', 'Carnívoro', 'Vulnerable', 'El oso polar es un superdepredador del Ártico.', 'Polar', '33333333C'),
+(6, 'Ara macao', 'Guacamayo rojo', 'Omnívoro', 'Preocupación Menor', 'Ave de colores brillantes originaria de la selva amazónica.', 'Aviario', '33333333C'),
+(7, 'Python reticulatus', 'Pitón reticulada', 'Carnívoro', 'Preocupación Menor', 'Una de las serpientes más largas del mundo.', 'Reptilario', '44444444D'),
+(8, 'Delphinapterus leucas', 'Beluga', 'Carnívoro', 'Preocupación Menor', 'La ballena beluga es conocida como la canaria del mar.', 'Zona de Acuario', '44444444D'),
+(9, 'Lama glama', 'Llama', 'Herbívoro', 'Domesticado', 'Animal domesticado originario de los Andes.', 'Zona de Contacto', '55555555E'),
+(10, 'Pygoscelis adeliae', 'Pingüino Adelia', 'Carnívoro', 'Preocupación Menor', 'Habitante característico de la Antártida.', 'Polar', '55555555E');
 
 -- ======================================================
 -- RELACIÓN CUIDADO ANIMAL
@@ -120,38 +111,38 @@ INSERT INTO Servicios (nombre, nombreZona, horario) VALUES
 -- DATOS DE USUARIOS
 -- ======================================================
 
-INSERT INTO Usuarios (idUsuario, nombre, ap1, ap2, clave, email, telefono, fechaNacimiento, permisos) VALUES
-(1, 'Ana', 'Pérez', 'González', 'clave123', 'ana.perez@email.com', '611111111', '1990-03-15', FALSE),
-(2, 'Carlos', 'López', 'Martínez', 'clave456', 'carlos.lopez@email.com', '622222222', '1985-07-20', FALSE),
-(3, 'Marta', 'Sánchez', 'Rodríguez', 'clave789', 'marta.sanchez@email.com', '633333333', '1995-11-10', FALSE),
-(4, 'David', 'García', 'Fernández', 'claveabc', 'david.garcia@email.com', '644444444', '1988-01-25', FALSE),
-(5, 'Laura', 'Martínez', 'Gómez', 'clavedef', 'laura.martinez@email.com', '655555555', '1992-05-30', FALSE),
-(6, 'Admin', 'admin', 'Sistema', 'admin123', 'admin@parque.com', '666666666', '1980-01-01', TRUE),
-(7, 'Javier', 'Ruiz', 'Díaz', 'clave123', 'javier.ruiz@email.com', '677777777', '1998-09-12', FALSE),
-(8, 'Elena', 'Jiménez', 'Álvarez', 'clave456', 'elena.jimenez@email.com', '688888888', '1993-04-18', FALSE),
-(9, 'Pablo', 'Romero', 'Navarro', 'clave789', 'pablo.romero@email.com', '699999999', '1987-12-03', FALSE),
-(10, 'Isabel', 'Torres', 'Moreno', 'claveabc', 'isabel.torres@email.com', '600000000', '1996-08-22', FALSE);
+INSERT INTO Usuarios (nombre, ap1, ap2, clave, email, telefono, fechaNacimiento, permisos) VALUES
+('Ana', 'Pérez', 'González', 'clave123', 'ana.perez@email.com', '611111111', '1990-03-15', FALSE),
+('Carlos', 'López', 'Martínez', 'clave456', 'carlos.lopez@email.com', '622222222', '1985-07-20', FALSE),
+('Marta', 'Sánchez', 'Rodríguez', 'clave789', 'marta.sanchez@email.com', '633333333', '1995-11-10', FALSE),
+('David', 'García', 'Fernández', 'claveabc', 'david.garcia@email.com', '644444444', '1988-01-25', FALSE),
+('Laura', 'Martínez', 'Gómez', 'clavedef', 'laura.martinez@email.com', '655555555', '1992-05-30', FALSE),
+('Admin', 'admin', 'Sistema', 'admin123', 'admin@parque.com', '666666666', '1980-01-01', TRUE),
+('Javier', 'Ruiz', 'Díaz', 'clave123', 'javier.ruiz@email.com', '677777777', '1998-09-12', FALSE),
+('Elena', 'Jiménez', 'Álvarez', 'clave456', 'elena.jimenez@email.com', '688888888', '1993-04-18', FALSE),
+('Pablo', 'Romero', 'Navarro', 'clave789', 'pablo.romero@email.com', '699999999', '1987-12-03', FALSE),
+('Isabel', 'Torres', 'Moreno', 'claveabc', 'isabel.torres@email.com', '600000000', '1996-08-22', FALSE);
 
 -- ======================================================
 -- DATOS DE ENTRADAS
 -- ======================================================
 
-INSERT INTO Entradas (idEntrada, precio, fecha, activo, idUsuario) VALUES
-(1, 25.50, '2026-04-10', TRUE, 1),
-(2, 25.50, '2026-04-10', TRUE, 2),
-(3, 25.50, '2026-04-11', TRUE, 3),
-(4, 25.50, '2026-04-12', TRUE, 1),
-(5, 25.50, '2026-04-12', FALSE, 4),
-(6, 25.50, '2026-04-13', TRUE, 5),
-(7, 25.50, '2026-04-13', TRUE, 7),
-(8, 25.50, '2026-04-14', TRUE, 8),
-(9, 25.50, '2026-04-15', TRUE, 9),
-(10, 25.50, '2026-04-15', TRUE, 10),
-(11, 25.50, '2026-04-16', TRUE, 1),
-(12, 25.50, '2026-04-16', TRUE, 2),
-(13, 25.50, '2026-04-17', TRUE, 3),
-(14, 25.50, '2026-04-18', FALSE, 4),
-(15, 25.50, '2026-04-19', TRUE, 5);
+INSERT INTO Entradas (precio, fecha, activo, idUsuario) VALUES
+(25.50, '2026-04-10', TRUE, 1),
+(25.50, '2026-04-10', TRUE, 2),
+(25.50, '2026-04-11', TRUE, 3),
+(25.50, '2026-04-12', TRUE, 1),
+(25.50, '2026-04-12', FALSE, 4),
+(25.50, '2026-04-13', TRUE, 5),
+(25.50, '2026-04-13', TRUE, 7),
+(25.50, '2026-04-14', TRUE, 8),
+(25.50, '2026-04-15', TRUE, 9),
+(25.50, '2026-04-15', TRUE, 10),
+(25.50, '2026-04-16', TRUE, 1),
+(25.50, '2026-04-16', TRUE, 2),
+(25.50, '2026-04-17', TRUE, 3),
+(25.50, '2026-04-18', FALSE, 4),
+(25.50, '2026-04-19', TRUE, 5);
 
 -- ======================================================
 -- DATOS DE ESPECTÁCULOS
@@ -178,19 +169,19 @@ INSERT INTO Espectaculos (idEspectaculo, nombre, aforo, horaInicio, duracion, sh
 -- DATOS DE RESERVAS
 -- ======================================================
 
-INSERT INTO Reservar (idReserva, idUsuario, idEspectaculo, plaza) VALUES
-(1, 1, 1, 15),
-(2, 2, 1, 16),
-(3, 3, 2, 8),
-(4, 1, 4, 22),
-(5, 4, 4, 23),
-(6, 5, 7, 5),
-(7, 7, 7, 6),
-(8, 8, 9, 30),
-(9, 9, 9, 31),
-(10, 10, 10, 12),
-(11, 1, 11, 18),
-(12, 2, 12, 25),
-(13, 3, 14, 42),
-(14, 5, 14, 43),
-(15, 7, 15, 55);
+INSERT INTO Reservar (idUsuario, idEspectaculo, plaza) VALUES
+(1, 1, 15),
+(2, 1, 16),
+(3, 2, 8),
+(1, 4, 22),
+(4, 4, 23),
+(5, 7, 5),
+(7, 7, 6),
+(8, 9, 30),
+(9, 9, 31),
+(10, 10, 12),
+(1, 11, 18),
+(2, 12, 25),
+(3, 14, 42),
+(5, 14, 43),
+(7, 15, 55);
