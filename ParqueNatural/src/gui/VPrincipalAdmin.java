@@ -4,6 +4,9 @@
  */
 package gui;
 
+import aplicacion.FachadaAplicacion;
+import javax.swing.JFrame;
+
 /**
  *
  * @author alumnogreibd
@@ -13,6 +16,7 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VPrincipalAdmin.class.getName());
 
     private FachadaGui fgui;
+    private FachadaAplicacion fa;
     
     /**
      * Creates new form VPrincipalAdmin
@@ -130,6 +134,7 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
         panelOperaciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Operaciones"));
 
         botonEntradas.setText("Entradas");
+        botonEntradas.addActionListener(this::botonEntradasActionPerformed);
 
         botonEspectaculo.setText("Espectaculos");
         botonEspectaculo.addActionListener(this::botonEspectaculoActionPerformed);
@@ -158,8 +163,10 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
         panelInformes.setBorder(javax.swing.BorderFactory.createTitledBorder("Informes"));
 
         botonEntradasVendidas.setText("Entradas vendidas");
+        botonEntradasVendidas.addActionListener(this::botonEntradasVendidasActionPerformed);
 
         botonHistorial.setText("Historial médico");
+        botonHistorial.addActionListener(this::botonHistorialActionPerformed);
 
         javax.swing.GroupLayout panelInformesLayout = new javax.swing.GroupLayout(panelInformes);
         panelInformes.setLayout(panelInformesLayout);
@@ -243,11 +250,17 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAnimalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnimalesActionPerformed
-        // TODO add your handling code here:
+        VGestionAnimales v = new VGestionAnimales();
+        v.setVisible(true);
     }//GEN-LAST:event_botonAnimalesActionPerformed
 
     private void botonUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonUsuariosActionPerformed
-        // TODO add your handling code here:
+        VGestionUsuarios vg = new VGestionUsuarios(fa);
+        JFrame frame = new JFrame("Gestión de Usuarios");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.add(vg);
+        frame.pack();
+        frame.setVisible(true);
     }//GEN-LAST:event_botonUsuariosActionPerformed
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
@@ -261,6 +274,21 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
     private void botonEspectaculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEspectaculoActionPerformed
         fgui.abrirGestionEspectaculos();
     }//GEN-LAST:event_botonEspectaculoActionPerformed
+
+    private void botonEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntradasActionPerformed
+        VGestionEntradas v = new VGestionEntradas();
+        v.setVisible(true);
+    }//GEN-LAST:event_botonEntradasActionPerformed
+
+    private void botonEntradasVendidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntradasVendidasActionPerformed
+        VGestionEntradas v = new VGestionEntradas();
+        v.setVisible(true);
+    }//GEN-LAST:event_botonEntradasVendidasActionPerformed
+
+    private void botonHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonHistorialActionPerformed
+        VGestionAnimales v = new VGestionAnimales();
+        v.setVisible(true);
+    }//GEN-LAST:event_botonHistorialActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAnimales;

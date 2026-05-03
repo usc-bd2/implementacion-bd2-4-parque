@@ -267,6 +267,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Entradas"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonEntradasActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="botonEspectaculo">
           <Properties>
@@ -317,11 +320,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Entradas vendidas"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonEntradasVendidasActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="botonHistorial">
           <Properties>
             <Property name="text" type="java.lang.String" value="Historial m&#xe9;dico"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonHistorialActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
