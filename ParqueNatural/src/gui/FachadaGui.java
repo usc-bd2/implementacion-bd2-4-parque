@@ -1,23 +1,14 @@
 package gui;
 
-// Importas las clases necesarias de tu proyecto
-import baseDatos.FachadaBaseDatos;
+import aplicacion.FachadaAplicacion;
 
 public class FachadaGui {
     
-    // Referencia a la fachada de base de datos o lógica de negocio
-    private final FachadaBaseDatos fbd; 
-    
-    // Referencias a las ventanas principales si quieres mantenerlas abiertas/ocultas
-    private VPrincipalAdmin vAdmin;
-    // private VPrincipalUsuario vUsuario;
+    private final FachadaAplicacion fa; 
 
-    /**
-     * Constructor
-     * @param fbd
-     */
-    public FachadaGui(FachadaBaseDatos fbd) {
-        this.fbd = fbd;
+    // 2. El constructor ahora recibe 'FachadaAplicacion' en lugar de 'FachadaBaseDatos'
+    public FachadaGui(FachadaAplicacion fa) {
+        this.fa = fa;//
     }
 
     /**
