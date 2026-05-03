@@ -166,7 +166,8 @@ public class VPrincipalUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_botonAnimalesActionPerformed
 
     private void botonComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonComprarActionPerformed
-        // T7 - dev2 lo implementa
+        VCompraEntradas v = new VCompraEntradas(fa, usuarioActual);
+        v.setVisible(true);
     }//GEN-LAST:event_botonComprarActionPerformed
 
     private void botonReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReservarActionPerformed
