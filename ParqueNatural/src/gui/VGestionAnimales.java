@@ -78,24 +78,23 @@ public class VGestionAnimales extends javax.swing.JDialog {
     }
     
     private void buscarHistorial(int idAnimal) {
-        // Pedimos los historiales de ESE animal en concreto
-        historialActual = fa.obtenerHistorialPorAnimal(idAnimal);
+        historialActual = fa.obtenerHistorial(idAnimal);
 
         javax.swing.table.DefaultTableModel modeloTabla = (javax.swing.table.DefaultTableModel) jTable2.getModel();
         modeloTabla.setRowCount(0);
 
-        for (Historial h : historialActual) {
+        for (HistorialMedico h : historialActual) {
             Object[] fila = new Object[4];
-            fila[0] = h.getCodigo(); // Adapta al nombre de tu método get
+            fila[0] = h.getCodigo(); 
             fila[1] = h.getFecha(); 
             fila[2] = h.getDiagnostico();
-            fila[3] = h.getVeterinario(); 
+            fila[3] = h.getDniVeterinario(); 
             modeloTabla.addRow(fila);
         }
     }
     
     private void cargarTodosLosCuidadores() {
-        // Asume que este método en Fachada te devuelve los DNI y Nombres de todos los cuidadores (Ej: "12345678A - Paco")
+        // Pedimos los DNIS a la fachada, que ahora sí tiene el método
         todosLosCuidadoresDni = fa.obtenerTodosLosCuidadores();
         
         modeloDisponibles.clear();
@@ -816,12 +815,13 @@ public class VGestionAnimales extends javax.swing.JDialog {
             int idAnimal = Integer.parseInt(idTextField2.getText());
             int codigo = codigoTextField1.getText().isEmpty() ? 0 : Integer.parseInt(codigoTextField1.getText());
             
-            // Cuidado con el formato de fecha, aquí asumo java.sql.Date
-            java.sql.Date fecha = java.sql.Date.valueOf(fechaTextField1.getText()); 
+            // 1. Corregimos el tipo de fecha a LocalDate
+            java.time.LocalDate fecha = java.time.LocalDate.parse(fechaTextField1.getText()); 
             String diagnostico = diagnosticoTextField1.getText();
             String veterinario = veterinarioComboBox1.getSelectedItem() != null ? veterinarioComboBox1.getSelectedItem().toString() : null;
 
-            HistorialMedico h = new HistorialMedico(codigo, fecha, diagnostico, veterinario, idAnimal);
+            // 2. Corregimos el orden: idAnimal va antes que veterinario
+            HistorialMedico h = new HistorialMedico(codigo, fecha, diagnostico, idAnimal, veterinario);
 
             if (jTable2.getSelectedRow() == -1) {
                 fa.insertarHistorial(h);
@@ -834,8 +834,9 @@ public class VGestionAnimales extends javax.swing.JDialog {
             buscarHistorial(idAnimal); // Refrescamos la tabla
             nuevoHistorialButton1ActionPerformed(evt);
             
-        } catch (IllegalArgumentException ex) {
-            fgui.muestraExcepcion("Formato de fecha incorrecto. Usa AAAA-MM-DD.");
+        } catch (java.time.format.DateTimeParseException ex) {
+            // Cambiamos la excepción que se captura al fallar el parseo de LocalDate
+            fgui.muestraExcepcion("Formato de fecha incorrecto. Usa AAAA-MM-DD (Ejemplo: 2024-05-20).");
         } catch (Exception ex) {
             fgui.muestraExcepcion("Error al guardar: " + ex.getMessage());
         }

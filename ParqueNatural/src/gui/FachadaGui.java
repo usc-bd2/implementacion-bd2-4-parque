@@ -1,12 +1,13 @@
 package gui;
 
 import aplicacion.Animal;
+import aplicacion.FachadaAplicacion;
 
 import javax.swing.*;
 
 public class FachadaGui {
 
-    private aplicacion.FachadaAplicacion fa;
+    private FachadaAplicacion fa;
     private VPrincipalUsuario vpUsuario;
     // Declaración de las ventanas principales
     private VPrincipalAdmin vPrincipalAdmin;
@@ -69,5 +70,9 @@ public class FachadaGui {
             vGestionEspectaculos = new VGestionEspectaculos(vPrincipalAdmin, true, this);
         }
         vGestionEspectaculos.setVisible(true);
+    }
+    
+    public FachadaAplicacion getFachadaAplicacion(){
+        return this.fa;
     }
 }
