@@ -8,17 +8,28 @@ package gui;
  *
  * @author alumnogreibd
  */
-public class VGestionTrabajadores extends javax.swing.JFrame {
+public class VGestionTrabajadores extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VGestionTrabajadores.class.getName());
+        
+    private FachadaGui fgui;
 
     /**
-     * Creates new form VGestionTrabajadores
+     * Constructor adaptado
      */
-    public VGestionTrabajadores() {
+    public VGestionTrabajadores(java.awt.Frame parent, boolean modal, FachadaGui fgui) {
+        super(parent, modal); // Ahora sí funcionará porque es un JDialog
+        this.fgui = fgui;
         initComponents();
+        this.setLocationRelativeTo(parent);
+        inicializarCombos();
     }
 
+    private void inicializarCombos() {
+        String[] tipos = {"Cuidador", "Veterinario", "Showman", "Guía", "Seguridad"};
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(tipos));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(tipos));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,7 +73,7 @@ public class VGestionTrabajadores extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jComboBox2 = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -126,7 +137,9 @@ public class VGestionTrabajadores extends javax.swing.JFrame {
 
         jButton4.setText("Dar de baja");
 
+        jButton5.setForeground(new java.awt.Color(255, 0, 51));
         jButton5.setText("Salir");
+        jButton5.addActionListener(this::jButton5ActionPerformed);
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox2.addActionListener(this::jComboBox2ActionPerformed);
@@ -293,30 +306,9 @@ public class VGestionTrabajadores extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField5ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VGestionTrabajadores().setVisible(true));
-    }
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -12,7 +12,7 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VGestionEspectaculos.class.getName());
 
-private FachadaGui fgui; // Referencia a la fachada
+    private FachadaGui fgui; // Referencia a la fachada
 
     /**
      * Constructor modificado para integrarse en la aplicación

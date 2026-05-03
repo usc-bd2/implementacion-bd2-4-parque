@@ -9,8 +9,7 @@ public class FachadaGui {
     
     // Declaración de las ventanas principales
     private VPrincipalAdmin vPrincipalAdmin;
-    // Aquí iremos añadiendo las demás conforme las vayas creando en NetBeans:
-    // private VGestionTrabajadores vGestionTrabajadores;
+    private VGestionTrabajadores vGestionTrabajadores;
     private VGestionEspectaculos vGestionEspectaculos;
 
     public FachadaGui(FachadaAplicacion fa) {
@@ -50,17 +49,10 @@ public class FachadaGui {
     // ==========================================================
 
     public void abrirGestionTrabajadores() {
-        // Cuando tengas la ventana VGestionTrabajadores diseñada, descomenta esto:
-        /*
         if (vGestionTrabajadores == null) {
-            vGestionTrabajadores = new VGestionTrabajadores(this);
+            vGestionTrabajadores = new VGestionTrabajadores(vPrincipalAdmin, true, this);
         }
-        vGestionTrabajadores.setLocationRelativeTo(vPrincipalAdmin); // Centrar sobre la principal
         vGestionTrabajadores.setVisible(true);
-        */
-        
-        // Por ahora, mostramos un aviso para probar que el botón funciona:
-        muestraAviso("Módulo de Gestión de Trabajadores en construcción...");
     }
 
     public void abrirGestionEspectaculos() {
