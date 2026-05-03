@@ -72,7 +72,7 @@ public class FachadaGui {
      * Método general para mostrar avisos o errores (reaprovechando tu clase VAviso)
      * @param mensaje
      */
-    public void muestraExcepcion(String mensaje) {
+    public void muestraAviso(String mensaje) {
         // Suponiendo que tienes un VAviso(Dialog padre, modal, String mensaje)
         VAviso aviso = new VAviso(null, true, mensaje);
         aviso.setLocationRelativeTo(null);

@@ -9,49 +9,49 @@ import gui.FachadaGui;
 
 public class GestionEntradas {
     
-    private FachadaGui fachadaGUI;
-    private FachadaBaseDatos fachadaBaseDatos;
+    private FachadaGui fdg;
+    private FachadaBaseDatos fbd;
     private DAOEntradas daoEntradas;
     
-    public GestionEntradas(FachadaGUI fgui, FachadaBaseDatos fbd) {
-        this.fachadaGUI = fgui;
-        this.fachadaBaseDatos = fbd;
+    public GestionEntradas(FachadaGui fdg, FachadaBaseDatos fbd) {
+        this.fdg = fdg;
+        this.fbd = fbd;
         this.daoEntradas = new DAOEntradas(fgui, fbd);
     }
     
     // T7. Compra de entradas
-    public boolean comprarEntradas(LocalDate fecha, int numeroEntradas, String idUsuario) {
+    public boolean comprarEntradas(LocalDate fecha, int numeroEntradas, int idUsuario) {
         try {
             // Validar parámetros
-            if (fecha == null || numeroEntradas <= 0 || idUsuario == null || idUsuario.trim().isEmpty()) {
-                fachadaGUI.muestraAviso("Parámetros inválidos para la compra de entradas");
+            if (fecha == null || numeroEntradas <= 0 || idUsuario <= 0) {
+                fdg.muestraAviso("Parámetros inválidos para la compra de entradas");
                 return false;
             }
             
             // Validar que la fecha no sea pasada
             if (fecha.isBefore(LocalDate.now())) {
-                fachadaGUI.muestraAviso("No se pueden comprar entradas para fechas pasadas");
+                fdg.muestraAviso("No se pueden comprar entradas para fechas pasadas");
                 return false;
             }
             
             // Validar número máximo de entradas por compra
             if (numeroEntradas > 10) {
-                fachadaGUI.muestraAviso("No se pueden comprar más de 10 entradas en una sola transacción");
+                fdg.muestraAviso("No se pueden comprar más de 10 entradas en una sola transacción");
                 return false;
             }
             
             boolean resultado = daoEntradas.comprarEntradas(fecha, numeroEntradas, idUsuario);
             
             if (resultado) {
-                fachadaGUI.muestraAviso("Entradas compradas correctamente para el " + fecha);
+                fdg.muestraAviso("Entradas compradas correctamente para el " + fecha);
             } else {
-                fachadaGUI.muestraAviso("No se pudo completar la compra. Puede que no haya disponibilidad");
+                fdg.muestraAviso("No se pudo completar la compra. Puede que no haya disponibilidad");
             }
             
             return resultado;
             
         } catch (Exception e) {
-            fachadaGUI.muestraAviso("Error al comprar entradas: " + e.getMessage());
+            fdg.muestraAviso("Error al comprar entradas: " + e.getMessage());
             return false;
         }
     }
@@ -61,19 +61,19 @@ public class GestionEntradas {
         try {
             // Validar parámetros
             if (fechaInicio == null || fechaFin == null) {
-                fachadaGUI.muestraAviso("Las fechas de consulta no pueden ser nulas");
+                fdg.muestraAviso("Las fechas de consulta no pueden ser nulas");
                 return null;
             }
             
             if (fechaInicio.isAfter(fechaFin)) {
-                fachadaGUI.muestraAviso("La fecha de inicio no puede ser posterior a la fecha de fin");
+                fdg.muestraAviso("La fecha de inicio no puede ser posterior a la fecha de fin");
                 return null;
             }
             
             return daoEntradas.consultarEntradasVendidas(fechaInicio, fechaFin);
             
         } catch (Exception e) {
-            fachadaGUI.muestraAviso("Error al consultar entradas vendidas: " + e.getMessage());
+            fdg.muestraAviso("Error al consultar entradas vendidas: " + e.getMessage());
             return null;
         }
     }
@@ -82,12 +82,12 @@ public class GestionEntradas {
         try {
             // Validar parámetros
             if (fechaInicio == null || fechaFin == null) {
-                fachadaGUI.muestraAviso("Las fechas para el cálculo de recaudación no pueden ser nulas");
+                fdg.muestraAviso("Las fechas para el cálculo de recaudación no pueden ser nulas");
                 return 0.0;
             }
             
             if (fechaInicio.isAfter(fechaFin)) {
-                fachadaGUI.muestraAviso("La fecha de inicio no puede ser posterior a la fecha de fin");
+                fdg.muestraAviso("La fecha de inicio no puede ser posterior a la fecha de fin");
                 return 0.0;
             }
             
@@ -96,7 +96,7 @@ public class GestionEntradas {
             // Mostrar resumen
             List<Entrada> entradas = consultarEntradasVendidas(fechaInicio, fechaFin);
             if (entradas != null) {
-                fachadaGUI.muestraAviso("Resumen del periodo " + fechaInicio + " a " + fechaFin + ":\n" +
+                fdg.muestraAviso("Resumen del periodo " + fechaInicio + " a " + fechaFin + ":\n" +
                                       "Entradas vendidas: " + entradas.size() + "\n" +
                                       "Recaudación total: " + String.format("%.2f", recaudacion) + "€");
             }
@@ -104,7 +104,7 @@ public class GestionEntradas {
             return recaudacion;
             
         } catch (Exception e) {
-            fachadaGUI.muestraAviso("Error al calcular recaudación: " + e.getMessage());
+            fdg.muestraAviso("Error al calcular recaudación: " + e.getMessage());
             return 0.0;
         }
     }
@@ -130,7 +130,7 @@ public class GestionEntradas {
             return disponibles >= numeroEntradas;
             
         } catch (Exception e) {
-            fachadaGUI.muestraAviso("Error al verificar disponibilidad: " + e.getMessage());
+            fdg.muestraAviso("Error al verificar disponibilidad: " + e.getMessage());
             return false;
         }
     }
@@ -154,7 +154,7 @@ public class GestionEntradas {
             return aforoMaximo - vendidas.size();
             
         } catch (Exception e) {
-            fachadaGUI.muestraAviso("Error al obtener disponibilidad: " + e.getMessage());
+            fdg.muestraAviso("Error al obtener disponibilidad: " + e.getMessage());
             return 0;
         }
     }

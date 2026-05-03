@@ -10,23 +10,22 @@ import gui.FachadaGui;
 
 public class GestionEspectaculos {
     
-    private FachadaGui fachadaGUI;
-    private FachadaBaseDatos fachadaBaseDatos;
+    private FachadaGui fdg;
+    private FachadaBaseDatos fbd;
     private DAOEspectaculos daoEspectaculos;
     
-    public GestionEspectaculos(FachadaGUI fgui, FachadaBaseDatos fbd) {
-        this.fachadaGUI = fgui;
-        this.fachadaBaseDatos = fbd;
+    public GestionEspectaculos(fdg fgui, FachadaBaseDatos fbd) {
+        this.fdg = fgui;
+        this.fbd = fbd;
         this.daoEspectaculos = new DAOEspectaculos(fgui, fbd);
     }
     
     // T8. Reservar plaza en espectáculo
-    public boolean reservarPlazaEspectaculo(String idEspectaculo, String idUsuario) {
+    public boolean reservarPlazaEspectaculo(int idEspectaculo, int idUsuario) {
         try {
             // Validar parámetros
-            if (idEspectaculo == null || idEspectaculo.trim().isEmpty() || 
-                idUsuario == null || idUsuario.trim().isEmpty()) {
-                fachadaGUI.muestraAviso("Parámetros inválidos para la reserva");
+            if (idEspectaculo <= 0 || idUsuario <= 0) {
+                fdg.muestraAviso("Parámetros inválidos para la reserva");
                 return false;
             }
             
@@ -162,7 +161,7 @@ public class GestionEspectaculos {
         }
     }
     
-    public Espectaculo buscarEspectaculo(String idEspectaculo) {
+    public Espectaculo buscarEspectaculo(int idEspectaculo) {
         try {
             if (idEspectaculo == null || idEspectaculo.trim().isEmpty()) {
                 return null;
