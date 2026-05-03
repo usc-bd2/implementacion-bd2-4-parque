@@ -6,27 +6,64 @@ package gui;
 import aplicacion.Animal;
 import aplicacion.Trabajador;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author manue
+ * @author alumnogreibd
  */
-public class VGestionAnimales extends javax.swing.JFrame {
+public class VGestionAnimales extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VGestionAnimales.class.getName());
 
+    private FachadaGui fgui;
     private aplicacion.FachadaAplicacion fa;
     
     private List<Animal> animalesActuales = new java.util.ArrayList<>();
     
     /**
-     * Creates new form VGestionAnimal
+     * Constructor adaptado para integrarse en la arquitectura
      */
-    public VGestionAnimales() {
+    public VGestionAnimales(java.awt.Frame parent, boolean modal, FachadaGui fgui) {
+        super(parent, modal);
+        this.fgui = fgui;
+        // Inicializamos la Fachada de Aplicación ANTES de llamar a cargarZonas()
+        //this.fa = fgui.getFachadaAplicacion(); 
+        
         initComponents();
-        cargarZonas(); //Para la comboBox
-       // buscarAnimales(); //Para la tabla 
-        //TODO: Esperar a que implementen los de dev2 para los cuidadores
+        
+        // Evitamos que al cerrar esta ventana se cierre toda la aplicación
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(parent);
+        
+        cargarZonas(); // Carga las zonas de la BD
+        
+        // Inicializamos los estados de conservación
+        String[] estados = {"Preocupación menor", "Casi amenazada", "Vulnerable", "Peligro de extinción", "Peligro crítico", "Extinta en estado silvestre"};
+        estadoConservaComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(estados));
+        
+        // Cargamos todos los animales al abrir
+        buscarAnimales("", ""); 
+    }
+
+    /**
+     * Pide la lista a la BD delegando el filtro principal y rellena la tabla
+     */
+    private void buscarAnimales(String filtroNombre, String filtroZona) {
+        animalesActuales = fa.obtenerAnimales(filtroNombre, filtroZona); 
+
+        DefaultTableModel modeloTabla = (DefaultTableModel) jTable1.getModel();
+        modeloTabla.setRowCount(0);
+
+        for (Animal a : animalesActuales) {
+            Object[] fila = new Object[5];
+            fila[0] = a.getIdAnimal();
+            fila[1] = a.getNombreComun();
+            fila[2] = a.getNombreCientifico();
+            fila[3] = a.getNombreZona();
+            fila[4] = a.getEstadoConservacion();
+            modeloTabla.addRow(fila);
+        }
     }
 
     /**
@@ -127,6 +164,11 @@ public class VGestionAnimales extends javax.swing.JFrame {
             }
         });
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel3.setText("Datos del animal seleccionado:");
@@ -158,6 +200,7 @@ public class VGestionAnimales extends javax.swing.JFrame {
         eliminarAnimalButton4.setText("Eliminar");
         eliminarAnimalButton4.addActionListener(this::eliminarAnimalButton4ActionPerformed);
 
+        salirAnimalButton1.setForeground(new java.awt.Color(255, 0, 51));
         salirAnimalButton1.setText("Salir");
         salirAnimalButton1.addActionListener(this::salirAnimalButton1ActionPerformed);
 
@@ -187,16 +230,13 @@ public class VGestionAnimales extends javax.swing.JFrame {
                     .addGroup(animalPanel1Layout.createSequentialGroup()
                         .addGroup(animalPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(animalPanel1Layout.createSequentialGroup()
-                                .addGroup(animalPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(animalPanel1Layout.createSequentialGroup()
-                                        .addComponent(idLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(idTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(animalPanel1Layout.createSequentialGroup()
-                                        .addComponent(nombreCientificoLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(nombreCientificoTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(19, 19, 19))
+                                .addComponent(idLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(idTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(animalPanel1Layout.createSequentialGroup()
+                                .addComponent(nombreCientificoLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nombreCientificoTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(animalPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel3)
                                 .addGroup(animalPanel1Layout.createSequentialGroup()
@@ -517,23 +557,118 @@ public class VGestionAnimales extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void salirAnimalButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirAnimalButton1ActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_salirAnimalButton1ActionPerformed
 
     private void eliminarAnimalButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarAnimalButton4ActionPerformed
-        // TODO add your handling code here:
+        if (idTextField2.getText().isEmpty()) {
+            fgui.muestraAviso("Selecciona un animal de la tabla para eliminarlo.");
+            return;
+        }
+
+        boolean confirmado = fgui.pideConfirmacion("¿Estás seguro de eliminar este animal?");
+        if (confirmado) {
+            try {
+                int id = Integer.parseInt(idTextField2.getText());
+                fa.borrarAnimal(id);
+                fgui.muestraAviso("Animal eliminado.");
+                
+                buscarAnimales("", "");
+                nuevoAnimalButton2ActionPerformed(evt);
+            } catch (Exception e) {
+                fgui.muestraExcepcion("Error al eliminar: " + e.getMessage());
+            }
+        }
     }//GEN-LAST:event_eliminarAnimalButton4ActionPerformed
 
     private void guardarAnimalButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarAnimalButton2ActionPerformed
-        // TODO add your handling code here:
+        if (nombreComunTextField2.getText().isEmpty() || nombreCientificoTextField2.getText().isEmpty()) {
+            fgui.muestraAviso("El nombre común y científico son obligatorios.");
+            return;
+        }
+
+        int id = Integer.parseInt(idTextField2.getText()); 
+        String nombreComun = nombreComunTextField2.getText();
+        String nombreCientifico = nombreCientificoTextField2.getText();
+        String alimentacion = alimentacionTextField1.getText();
+        String descripcion = descripcionTextField1.getText();
+        String zona = ZonaComboBox1.getSelectedItem() != null ? ZonaComboBox1.getSelectedItem().toString() : "";
+        String estado = estadoConservaComboBox2.getSelectedItem() != null ? estadoConservaComboBox2.getSelectedItem().toString() : "";
+
+        try {
+            // ORDEN EXACTO: idAnimal, nombreCientifico, nombreComun, alimentacion, estadoConservacion, descripcion, nombreZona, cuidador
+            Animal animal = new Animal(id, nombreCientifico, nombreComun, alimentacion, estado, descripcion, zona, null);
+
+            if (jTable1.getSelectedRow() == -1) {
+                fa.insertarAnimal(animal);
+                fgui.muestraAviso("Animal registrado correctamente.");
+            } else {
+                fa.modificarAnimal(animal);
+                fgui.muestraAviso("Animal actualizado correctamente.");
+            }
+            
+            buscarAnimales("", "");
+            nuevoAnimalButton2ActionPerformed(evt);
+            
+        } catch (Exception ex) {
+            fgui.muestraExcepcion("Error al guardar el animal: " + ex.getMessage());
+        }
     }//GEN-LAST:event_guardarAnimalButton2ActionPerformed
 
     private void nuevoAnimalButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoAnimalButton2ActionPerformed
-        // TODO add your handling code here:
+        int siguienteId = 1;
+        for (Animal a : animalesActuales) {
+            if (a.getIdAnimal() >= siguienteId) {
+                siguienteId = a.getIdAnimal() + 1;
+            }
+        }
+        
+        idTextField2.setText(String.valueOf(siguienteId));
+        idTextField2.setEditable(false); 
+
+        nombreComunTextField2.setText("");
+        nombreCientificoTextField2.setText("");
+        alimentacionTextField1.setText("");
+        descripcionTextField1.setText("");
+        jTable1.clearSelection(); 
+        nombreComunTextField2.requestFocus();
     }//GEN-LAST:event_nuevoAnimalButton2ActionPerformed
 
     private void buscarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarButton1ActionPerformed
-        // TODO add your handling code here:
+        String filtroComun = nombreComunTextField1.getText().trim();
+        String filtroCientifico = nombreCientificoTextField1.getText().trim().toLowerCase();
+        String filtroId = idTextField1.getText().trim();
+
+        // 1. Buscamos por la base de datos
+        animalesActuales = fa.obtenerAnimales(filtroComun, "");
+
+        // 2. Filtramos localmente por ID y nombre científico si hace falta
+        if (!filtroCientifico.isEmpty() || !filtroId.isEmpty()) {
+            java.util.List<Animal> animalesFiltrados = new java.util.ArrayList<>();
+            for (Animal a : animalesActuales) {
+                boolean coincideCientifico = filtroCientifico.isEmpty() || a.getNombreCientifico().toLowerCase().contains(filtroCientifico);
+                boolean coincideId = filtroId.isEmpty() || String.valueOf(a.getIdAnimal()).equals(filtroId);
+
+                if (coincideCientifico && coincideId) {
+                    animalesFiltrados.add(a);
+                }
+            }
+            animalesActuales = animalesFiltrados; 
+        }
+
+        // 3. Volcamos a la tabla
+        DefaultTableModel modeloTabla = (DefaultTableModel) jTable1.getModel();
+        modeloTabla.setRowCount(0);
+
+        for (Animal a : animalesActuales) {
+            Object[] fila = new Object[5];
+            fila[0] = a.getIdAnimal();
+            fila[1] = a.getNombreComun();
+            fila[2] = a.getNombreCientifico();
+            fila[3] = a.getNombreZona();
+            fila[4] = a.getEstadoConservacion();
+            modeloTabla.addRow(fila);
+        }
     }//GEN-LAST:event_buscarButton1ActionPerformed
 
     private void insertarNoDisponiblesButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarNoDisponiblesButton1ActionPerformed
@@ -563,6 +698,25 @@ public class VGestionAnimales extends javax.swing.JFrame {
     private void borrarHistorialButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarHistorialButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_borrarHistorialButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int filaSeleccionada = jTable1.getSelectedRow();
+        
+        if (filaSeleccionada >= 0) {
+            Animal a = animalesActuales.get(filaSeleccionada);
+            
+            idTextField2.setText(String.valueOf(a.getIdAnimal()));
+            idTextField2.setEditable(false); // Bloqueamos el ID para evitar sobreescrituras
+            
+            nombreComunTextField2.setText(a.getNombreComun());
+            nombreCientificoTextField2.setText(a.getNombreCientifico());
+            alimentacionTextField1.setText(a.getAlimentacion());
+            descripcionTextField1.setText(a.getDescripcion());
+            
+            if (a.getNombreZona() != null) ZonaComboBox1.setSelectedItem(a.getNombreZona());
+            if (a.getEstadoConservacion() != null) estadoConservaComboBox2.setSelectedItem(a.getEstadoConservacion());
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
     private void cargarZonas() {
         ZonaComboBox1.removeAllItems();
