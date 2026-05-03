@@ -57,7 +57,7 @@ public class VAnimales extends javax.swing.JFrame {
 
         textoZona.setText("Zona:");
 
-        comboZona.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todas", "Zona Acuática", "Zona de Sabana", "Zona Polar", "Zona de Selva Tropical", "Zona de Contacto", "Aviario", "Reptiliario" }));
+        comboZona.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todas", "Sabana Africana", "Selva Tropical", "Polar", "Aviario", "Reptiliario", "Zona de acuario", "Zona de Contacto" }));
 
         botonBuscar.setText("Buscar");
         botonBuscar.addActionListener(this::botonBuscarActionPerformed);
