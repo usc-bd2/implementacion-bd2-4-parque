@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DAOEntradas extends AbstractDAO {
 
-    // 1. Constructor limpio usando super()
+    
     public DAOEntradas(Connection conexion, FachadaAplicacion fa) {
         super(conexion, fa);
     }

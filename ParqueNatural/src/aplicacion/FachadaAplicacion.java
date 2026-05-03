@@ -189,4 +189,5 @@ public class FachadaAplicacion {
         return gt.buscarTrabajadorPorDni(dni);
     }
 
+    
 }
