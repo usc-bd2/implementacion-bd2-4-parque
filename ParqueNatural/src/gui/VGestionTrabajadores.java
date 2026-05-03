@@ -71,7 +71,11 @@ public class VGestionTrabajadores extends javax.swing.JFrame {
 
         jLabel1.setText("DNI");
 
+        jTextField1.addActionListener(this::jTextField1ActionPerformed);
+
         jLabel2.setText("Nombre");
+
+        jTextField2.addActionListener(this::jTextField2ActionPerformed);
 
         jLabel3.setText("Tipo");
 
@@ -80,20 +84,24 @@ public class VGestionTrabajadores extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "DNI", "Nombre", "Email", "Tipo", "Sueldo"
             }
         ));
         jScrollPane2.setViewportView(jTable1);
 
         jLabel4.setText("DNI");
 
+        jTextField4.addActionListener(this::jTextField4ActionPerformed);
+
         jLabel5.setText("Nombre");
+
+        jTextField5.addActionListener(this::jTextField5ActionPerformed);
 
         jLabel6.setText("Tipo");
 
@@ -268,6 +276,22 @@ public class VGestionTrabajadores extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField5ActionPerformed
 
     /**
      * @param args the command line arguments
