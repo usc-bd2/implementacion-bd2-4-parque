@@ -31,7 +31,7 @@ CREATE TABLE Zonas (
 );
 
 CREATE TABLE Animales (
-    idAnimal SERIAL PRIMARY KEY,
+    idAnimal INTEGER PRIMARY KEY,
     nombreCientifico VARCHAR(40),
     nombreComun VARCHAR(40),
     alimentacion VARCHAR(40) NOT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE Guia (
 -- ======================================================
 
 CREATE TABLE HistorialMedico (
-    codigo SERIAL PRIMARY KEY,
+    codigo INTEGER PRIMARY KEY,
     idAnimal INTEGER NOT NULL,
     fecha DATE NOT NULL DEFAULT CURRENT_DATE,
     diagnostico VARCHAR(300) NOT NULL,
@@ -128,7 +128,7 @@ CREATE TABLE CuidadoAnimal (
 );
 
 CREATE TABLE Usuarios (
-    idUsuario SERIAL PRIMARY KEY,
+    idUsuario INTEGER PRIMARY KEY,
     nombre VARCHAR(40) NOT NULL,
     ap1 VARCHAR(40),
     ap2 VARCHAR(40),
@@ -140,7 +140,7 @@ CREATE TABLE Usuarios (
 );
 
 CREATE TABLE Entradas (
-    idEntrada SERIAL PRIMARY KEY,
+    idEntrada INTEGER PRIMARY KEY,
     precio FLOAT NOT NULL,
     fecha DATE NOT NULL,
     activo BOOLEAN NOT NULL DEFAULT TRUE,
@@ -150,7 +150,7 @@ CREATE TABLE Entradas (
 );
 
 CREATE TABLE Espectaculos (
-    idEspectaculo SERIAL PRIMARY KEY,
+    idEspectaculo INTEGER PRIMARY KEY,
     nombre VARCHAR(40) NOT NULL,
     aforo INTEGER NOT NULL,
     horaInicio TIMESTAMP NOT NULL,
@@ -164,7 +164,7 @@ CREATE TABLE Espectaculos (
 );
 
 CREATE TABLE Reservar (
-    idReserva SERIAL PRIMARY KEY,
+    idReserva INTEGER NOT NULL,
     idUsuario INTEGER NOT NULL,
     idEspectaculo INTEGER NOT NULL,
     plaza INTEGER NOT NULL,
@@ -174,3 +174,4 @@ CREATE TABLE Reservar (
     FOREIGN KEY (idEspectaculo) REFERENCES Espectaculos(idEspectaculo)
         ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
