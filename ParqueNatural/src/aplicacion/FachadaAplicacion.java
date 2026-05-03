@@ -34,6 +34,18 @@ public class FachadaAplicacion {
     public void muestraExcepcion(String e) {
         fgui.muestraExcepcion(e);
     }
+    
+    // ==========================================================
+    // MÉTODOS PARA CAMBIAR DE PORTAL (LOGIN)
+    // ==========================================================
+
+    public void abrirPortalAdmin() {
+        fgui.abrirPortalAdmin();
+    }
+
+    public void abrirPortalUsuario(Usuario u) {
+        fgui.abrirPortalUsuario(u);
+    }
 
     // Usuarios (T1-T5, T9)
     //  T1
@@ -59,14 +71,6 @@ public class FachadaAplicacion {
 
     public List<Usuario> obtenerUsuarios(String id, String nombre) {
         return gu.obtenerUsuarios(id, nombre);
-    }
-
-    public void abrirPortalUsuario(aplicacion.Usuario u) {
-        fgui.abrirPortalUsuario(u);
-    }
-
-    public void abrirPortalAdmin() {
-        fgui.abrirPortalAdmin();
     }
 
     // Animales (T6, T10, T11)
