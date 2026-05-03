@@ -66,27 +66,26 @@ public class DAOUsuarios extends AbstractDAO {
 
     // T3/T4 - Crear cuenta
     public void insertarUsuario(Usuario u) {
-        PreparedStatement stm = null;
-        try {
-            stm = getConexion().prepareStatement(
-                    "INSERT INTO Usuarios(nombre, ap1, ap2, clave, email, " +
-                            "telefono, fechaNacimiento, permisos) " +
-                            "VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
-            stm.setString(1, u.getNombre());
-            stm.setString(2, u.getAp1());
-            stm.setString(3, u.getAp2());
-            stm.setString(4, u.getClave());
-            stm.setString(5, u.getEmail());
-            stm.setString(6, u.getTelefono());
-            stm.setDate(7, Date.valueOf(u.getFechaNacimiento()));
-            stm.setBoolean(8, u.isPermisos());
-            stm.executeUpdate();
-        } catch (SQLException e) {
-            getFachadaAplicacion().muestraExcepcion(e.getMessage());
-        } finally {
-            try { if (stm != null) stm.close(); } catch (SQLException e) {}
-        }
+    PreparedStatement stm = null;
+    try {
+        stm = getConexion().prepareStatement(
+            "INSERT INTO Usuarios(nombre, ap1, ap2, clave, email, telefono, fechaNacimiento, permisos) " +
+            "VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+        stm.setString(1, u.getNombre());
+        stm.setString(2, u.getAp1());
+        stm.setString(3, u.getAp2());
+        stm.setString(4, u.getClave());
+        stm.setString(5, u.getEmail());
+        stm.setString(6, u.getTelefono());
+        stm.setDate(7, java.sql.Date.valueOf(u.getFechaNacimiento()));
+        stm.setBoolean(8, u.isPermisos());
+        stm.executeUpdate();
+    } catch (SQLException e) {
+        getFachadaAplicacion().muestraExcepcion(e.getMessage());
+    } finally {
+        try { if (stm != null) stm.close(); } catch (SQLException e) {}
     }
+}
 
     // T5 - Editar datos
     public void modificarUsuario(Usuario u) {
