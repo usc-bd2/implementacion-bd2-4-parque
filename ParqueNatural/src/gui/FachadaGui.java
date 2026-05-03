@@ -11,6 +11,7 @@ public class FachadaGui {
     private VPrincipalAdmin vPrincipalAdmin;
     private VGestionTrabajadores vGestionTrabajadores;
     private VGestionEspectaculos vGestionEspectaculos;
+    private VGestionEntradas vGestionEntradas;
 
     public FachadaGui(FachadaAplicacion fa) {
         this.fa = fa;
@@ -64,7 +65,10 @@ public class FachadaGui {
     }
     
     public void abrirGestionEntradas() {
-        muestraAviso("Módulo de Venta de Entradas en construcción...");
+        if (vGestionEntradas == null) {
+            vGestionEntradas = new VGestionEntradas(vPrincipalAdmin, true, this);
+        } 
+        vGestionEntradas.setVisible(true);
     }
 
     // ==========================================================

@@ -8,15 +8,20 @@ package gui;
  *
  * @author alumnogreibd
  */
-public class VGestionEntradas extends javax.swing.JFrame {
+public class VGestionEntradas extends javax.swing.JDialog {
+    
+    private FachadaGui fgui;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VGestionEntradas.class.getName());
 
     /**
      * Creates new form VGestionEntradas
      */
-    public VGestionEntradas() {
+    public VGestionEntradas(java.awt.Frame parent, boolean modal, FachadaGui fgui) {
+        super(parent, modal);
+        this.fgui = fgui;
         initComponents();
+        this.setLocationRelativeTo(parent); // Centrar respecto a la ventana principal
     }
 
     /**
@@ -45,7 +50,7 @@ public class VGestionEntradas extends javax.swing.JFrame {
         textRecaudacion = new javax.swing.JTextField();
         botonSalir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -87,7 +92,9 @@ public class VGestionEntradas extends javax.swing.JFrame {
 
         textRecaudacion.addActionListener(this::textRecaudacionActionPerformed);
 
+        botonSalir.setForeground(new java.awt.Color(255, 0, 51));
         botonSalir.setText("Salir");
+        botonSalir.addActionListener(this::botonSalirActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,15 +113,17 @@ public class VGestionEntradas extends javax.swing.JFrame {
                                         .addComponent(labelDesde)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(textDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(74, 74, 74)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addGap(74, 74, 74)
                                         .addComponent(labelHasta)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(textHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(64, 64, 64)
                                         .addComponent(botonBuscar))
-                                    .addComponent(botonInformeEntradas, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(botonInformeEntradas, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(labelTotalEntradas)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -138,8 +147,8 @@ public class VGestionEntradas extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonInformeEntradas)
-                    .addComponent(BotonVentaEntradas))
+                    .addComponent(BotonVentaEntradas)
+                    .addComponent(botonInformeEntradas))
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelDesde)
@@ -183,30 +192,9 @@ public class VGestionEntradas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textRecaudacionActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VGestionEntradas().setVisible(true));
-    }
+    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_botonSalirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonVentaEntradas;

@@ -8,15 +8,20 @@ package gui;
  *
  * @author alumnogreibd
  */
-public class VCompraEntradas extends javax.swing.JFrame {
+public class VCompraEntradas extends javax.swing.JDialog {
+    
+    private FachadaGui fgui;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VCompraEntradas.class.getName());
 
     /**
      * Creates new form VCompraEntradas
      */
-    public VCompraEntradas() {
+    public VCompraEntradas(java.awt.Frame parent, boolean modal, FachadaGui fgui) {
+        super(parent, modal);
+        this.fgui = fgui;
         initComponents();
+        this.setLocationRelativeTo(parent); // Centrar respecto a la ventana principal
     }
 
     /**
@@ -42,7 +47,7 @@ public class VCompraEntradas extends javax.swing.JFrame {
         botonAnularentrada = new javax.swing.JButton();
         botonSalir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -69,7 +74,9 @@ public class VCompraEntradas extends javax.swing.JFrame {
 
         botonAnularentrada.setText("Anular entrada");
 
+        botonSalir.setForeground(new java.awt.Color(255, 0, 51));
         botonSalir.setText("Salir");
+        botonSalir.addActionListener(this::botonSalirActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -151,30 +158,9 @@ public class VCompraEntradas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textFechaVisitaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VCompraEntradas().setVisible(true));
-    }
+    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_botonSalirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAnularentrada;

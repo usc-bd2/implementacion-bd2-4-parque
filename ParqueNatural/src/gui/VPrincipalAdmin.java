@@ -158,6 +158,7 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
         panelInformes.setBorder(javax.swing.BorderFactory.createTitledBorder("Informes"));
 
         botonEntradasVendidas.setText("Entradas vendidas");
+        botonEntradasVendidas.addActionListener(this::botonEntradasVendidasActionPerformed);
 
         botonHistorial.setText("Historial médico");
 
@@ -261,6 +262,10 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
     private void botonEspectaculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEspectaculoActionPerformed
         fgui.abrirGestionEspectaculos();
     }//GEN-LAST:event_botonEspectaculoActionPerformed
+
+    private void botonEntradasVendidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntradasVendidasActionPerformed
+        fgui.abrirGestionEntradas();
+    }//GEN-LAST:event_botonEntradasVendidasActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAnimales;

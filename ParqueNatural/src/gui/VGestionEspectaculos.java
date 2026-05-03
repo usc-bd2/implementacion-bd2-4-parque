@@ -4,6 +4,10 @@
  */
 package gui;
 
+import aplicacion.Espectaculo;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author alumnogreibd
@@ -13,6 +17,7 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VGestionEspectaculos.class.getName());
 
     private FachadaGui fgui; // Referencia a la fachada
+    private DefaultTableModel modeloTabla;
 
     /**
      * Constructor modificado para integrarse en la aplicación
@@ -22,7 +27,51 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
         this.fgui = fgui;
         initComponents();
         this.setLocationRelativeTo(parent); // Centrar respecto a la ventana principal
+        buscarEspectaculos();
     }
+    
+    /**
+     * Pide la lista de espectáculos a la BD y rellena la tabla visual
+     */
+    private void buscarEspectaculos() {
+        // 1. Pedimos los datos usando la arquitectura en capas
+        List<Espectaculo> lista = fgui.getFachadaAplicacion().listarEspectaculos();
+
+        // 2. Preparamos el modelo de la tabla
+        modeloTabla = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Evita que se edite la celda directamente haciendo doble clic
+            }
+        };
+
+        // 3. Definimos las columnas
+        modeloTabla.addColumn("ID");
+        modeloTabla.addColumn("Nombre");
+        modeloTabla.addColumn("Aforo");
+        modeloTabla.addColumn("Hora Inicio");
+        modeloTabla.addColumn("Duración (min)");
+        modeloTabla.addColumn("Zona");
+        modeloTabla.addColumn("Showman");
+
+        // 4. Rellenamos las filas con los objetos recibidos
+        for (Espectaculo e : lista) {
+            Object[] fila = new Object[7];
+            fila[0] = e.getIdEspectaculo();
+            fila[1] = e.getNombre();
+            fila[2] = e.getAforo();
+            fila[3] = e.getHoraInicio(); // Asegúrate de que esto se muestra bien, si no habrá que formatear
+            fila[4] = e.getDuracion();
+            fila[5] = e.getZona();
+            fila[6] = e.getShowman();
+            modeloTabla.addRow(fila);
+        }
+
+        // 5. Aplicamos el modelo a la tabla visual
+        tablaEspectaculos.setModel(modeloTabla);
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,6 +125,11 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
             }
         ));
         tablaEspectaculos.setColumnSelectionAllowed(true);
+        tablaEspectaculos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaEspectaculosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaEspectaculos);
         tablaEspectaculos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
@@ -171,10 +225,13 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
         );
 
         botonNuevo.setText("Nuevo");
+        botonNuevo.addActionListener(this::botonNuevoActionPerformed);
 
         botonGuardar.setText("Guardar");
+        botonGuardar.addActionListener(this::botonGuardarActionPerformed);
 
         botonEliminar.setText("Eliminar");
+        botonEliminar.addActionListener(this::botonEliminarActionPerformed);
 
         botonSalir.setForeground(new java.awt.Color(255, 51, 102));
         botonSalir.setText("Salir");
@@ -231,6 +288,114 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_botonSalirActionPerformed
+
+    private void tablaEspectaculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEspectaculosMouseClicked
+        int filaSeleccionada = tablaEspectaculos.getSelectedRow();
+        
+        if (filaSeleccionada >= 0) {
+            // Cogemos los valores de la fila seleccionada y los pasamos a los JTextFields
+            textFieldID.setText(modeloTabla.getValueAt(filaSeleccionada, 0).toString());
+            textFieldNombre.setText(modeloTabla.getValueAt(filaSeleccionada, 1).toString());
+            textFieldAforo.setText(modeloTabla.getValueAt(filaSeleccionada, 2).toString());
+            
+            // Si la fecha o la zona son null, evitamos el NullPointerException
+            Object horaObj = modeloTabla.getValueAt(filaSeleccionada, 3);
+            textFieldInicio.setText(horaObj != null ? horaObj.toString() : "");
+            
+            Object duracionObj = modeloTabla.getValueAt(filaSeleccionada, 4);
+            textFieldDuracion.setText(duracionObj != null ? duracionObj.toString() : "");
+            
+            // Seleccionamos la zona en el combobox (asumiendo que tiene los nombres correctos)
+            Object zonaObj = modeloTabla.getValueAt(filaSeleccionada, 5);
+            if(zonaObj != null) {
+                jComboBox1.setSelectedItem(zonaObj.toString());
+            }
+        }
+    }//GEN-LAST:event_tablaEspectaculosMouseClicked
+
+    private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
+        textFieldID.setText("");
+        textFieldNombre.setText("");
+        textFieldInicio.setText("");
+        textFieldDuracion.setText("");
+        textFieldAforo.setText("");
+        textFieldPlazas.setText("");
+        textFieldNombre.requestFocus();
+    }//GEN-LAST:event_botonNuevoActionPerformed
+
+    private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
+        try {
+            // Validaciones básicas obligatorias
+            if (textFieldNombre.getText().isEmpty() || textFieldAforo.getText().isEmpty()) {
+                fgui.muestraAviso("El nombre y el aforo son campos obligatorios.");
+                return;
+            }
+
+            // Extraer datos de los campos de texto
+            String nombre = textFieldNombre.getText();
+            int aforo = Integer.parseInt(textFieldAforo.getText());
+            String zona = jComboBox1.getSelectedItem() != null ? jComboBox1.getSelectedItem().toString() : null;
+            
+            // Tratamiento seguro de la fecha y hora
+            java.sql.Timestamp horaInicio = null;
+            if(!textFieldInicio.getText().isEmpty()) {
+                // El formato esperado es "YYYY-MM-DD HH:MM:SS"
+                horaInicio = java.sql.Timestamp.valueOf(textFieldInicio.getText()); 
+            }
+            
+            // Tratamiento de la duración
+            Integer duracion = null;
+            if(!textFieldDuracion.getText().isEmpty()) {
+                duracion = Integer.valueOf(textFieldDuracion.getText());
+            }
+
+            // Evaluar si es Inserción o Actualización
+            if (textFieldID.getText().isEmpty()) {
+                // ES NUEVO: Creamos el objeto (con ID 0 porque la BD generará uno)
+                Espectaculo nuevo = new Espectaculo(0, nombre, aforo, horaInicio, duracion, null, zona);
+                fgui.getFachadaAplicacion().añadirEspectaculo(nuevo);
+                fgui.muestraAviso("Espectáculo creado correctamente.");
+                
+            } else {
+                // Lo actualizamos
+                int id = Integer.parseInt(textFieldID.getText());
+                Espectaculo modificado = new Espectaculo(id, nombre, aforo, horaInicio, duracion, null, zona);
+                fgui.getFachadaAplicacion().modificarEspectaculo(modificado);
+                fgui.muestraAviso("Espectáculo actualizado correctamente.");
+            }
+            
+            // Refrescar la tabla y limpiar el formulario
+            buscarEspectaculos(); 
+            botonNuevoActionPerformed(evt); // Llamamos al botón nuevo para que vacíe los campos
+
+        } catch (NumberFormatException ex) {
+            fgui.muestraExcepcion("Error: Revisa que Aforo y Duración sean números válidos.");
+        } catch (IllegalArgumentException ex) {
+            fgui.muestraExcepcion("Formato de fecha incorrecto. Usa exactamente: AAAA-MM-DD HH:MM:SS");
+        }
+    }//GEN-LAST:event_botonGuardarActionPerformed
+
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+       // Comprobar que hay algo seleccionado
+        if (textFieldID.getText().isEmpty()) {
+            fgui.muestraAviso("Por favor, selecciona un espectáculo de la tabla para eliminarlo.");
+            return;
+        }
+
+        // Pedir confirmación visual
+        boolean confirmado = fgui.pideConfirmacion("¿Estás seguro de que deseas eliminar este espectáculo? Esta acción no se puede deshacer.");
+        
+        // Ejecutar la orden si dice que "Sí"
+        if (confirmado) {
+            int id = Integer.parseInt(textFieldID.getText());
+            fgui.getFachadaAplicacion().eliminarEspectaculo(id);
+            fgui.muestraAviso("Espectáculo eliminado.");
+            
+            // Refrescar y limpiar
+            buscarEspectaculos();
+            botonNuevoActionPerformed(evt); 
+        }
+    }//GEN-LAST:event_botonEliminarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonEliminar;
