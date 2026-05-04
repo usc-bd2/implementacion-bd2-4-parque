@@ -4,6 +4,14 @@
  */
 package gui;
 
+import aplicacion.Entrada;
+import aplicacion.FachadaAplicacion;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author alumnogreibd
@@ -11,13 +19,50 @@ package gui;
 public class VGestionEntradas extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VGestionEntradas.class.getName());
+    private final FachadaAplicacion fa;
 
     /**
      * Creates new form VGestionEntradas
      */
     public VGestionEntradas() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.fa = new FachadaAplicacion();
+        textDesde.setText(LocalDate.now().minusDays(30).toString());
+        textHasta.setText(LocalDate.now().toString());
+        buscarEntradas();
     }
+    
+    private void buscarEntradas() {
+    LocalDate desde = LocalDate.parse(textDesde.getText());
+    LocalDate hasta = LocalDate.parse(textHasta.getText());
+    
+    List<Entrada> entradas = fa.consultarEntradasVendidas(desde, hasta);
+    
+    DefaultTableModel modelo = new DefaultTableModel(
+        new String[]{"ID", "Usuario", "Fecha", "Precio", "Estado"}, 0);
+    
+    int total = 0;
+    double recaudacion = 0;
+    
+    for (Entrada e : entradas) {
+        modelo.addRow(new Object[]{
+            e.getIdEntrada(),
+            e.getIdUsuario(),
+            e.getFecha(),
+            e.getPrecio() + "€",
+            e.isActivo() ? "Activa" : "Anulada"
+        });
+        if (e.isActivo()) {
+            total++;
+            recaudacion += e.getPrecio();
+        }
+    }
+    
+    tablaPrincipal.setModel(modelo);
+    textTotalEntradas.setText(String.valueOf(total));
+    textRecaudacion.setText(String.format("%.2f€", recaudacion));
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,12 +101,15 @@ public class VGestionEntradas extends javax.swing.JFrame {
         botonInformeEntradas.addActionListener(this::botonInformeEntradasActionPerformed);
 
         BotonVentaEntradas.setText("Venta de entradas");
+        BotonVentaEntradas.addActionListener(this::BotonVentaEntradasActionPerformed);
 
         labelDesde.setText("Desde");
 
         textDesde.addActionListener(this::textDesdeActionPerformed);
 
         labelHasta.setText("Hasta");
+
+        textHasta.addActionListener(this::textHastaActionPerformed);
 
         botonBuscar.setText("Buscar");
         botonBuscar.addActionListener(this::botonBuscarActionPerformed);
@@ -88,6 +136,7 @@ public class VGestionEntradas extends javax.swing.JFrame {
         textRecaudacion.addActionListener(this::textRecaudacionActionPerformed);
 
         botonSalir.setText("Salir");
+        botonSalir.addActionListener(this::botonSalirActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -164,15 +213,15 @@ public class VGestionEntradas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonInformeEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonInformeEntradasActionPerformed
-        // TODO add your handling code here:
+        buscarEntradas();
     }//GEN-LAST:event_botonInformeEntradasActionPerformed
 
     private void textDesdeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textDesdeActionPerformed
-        // TODO add your handling code here:
+        buscarEntradas();
     }//GEN-LAST:event_textDesdeActionPerformed
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-        // TODO add your handling code here:
+        buscarEntradas();
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void textTotalEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textTotalEntradasActionPerformed
@@ -182,6 +231,19 @@ public class VGestionEntradas extends javax.swing.JFrame {
     private void textRecaudacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textRecaudacionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textRecaudacionActionPerformed
+
+    private void BotonVentaEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonVentaEntradasActionPerformed
+        dispose();
+        new VCompraEntradas(fa, null).setVisible(true);
+    }//GEN-LAST:event_BotonVentaEntradasActionPerformed
+
+    private void textHastaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textHastaActionPerformed
+        buscarEntradas();
+    }//GEN-LAST:event_textHastaActionPerformed
+
+    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_botonSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -226,4 +288,5 @@ public class VGestionEntradas extends javax.swing.JFrame {
     private javax.swing.JTextField textRecaudacion;
     private javax.swing.JTextField textTotalEntradas;
     // End of variables declaration//GEN-END:variables
+
 }
