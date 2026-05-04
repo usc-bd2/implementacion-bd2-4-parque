@@ -48,6 +48,7 @@ public class VGestionAnimales extends javax.swing.JDialog {
         estadoConservaComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(estados));
         
         cargarZonas(); // Carga las zonas de la BD
+        cargarVeterinarios();
         // Cargamos todos los animales al abrir
         buscarAnimales("", ""); 
         
@@ -99,6 +100,7 @@ public class VGestionAnimales extends javax.swing.JDialog {
     private void cargarTodosLosCuidadores() {
         // Pedimos los DNIS a la fachada, que ahora sí tiene el método
         todosLosCuidadoresDni = fa.obtenerTodosLosCuidadores();
+        if (todosLosCuidadoresDni == null) return;
         
         modeloDisponibles.clear();
         for (String c : todosLosCuidadoresDni) {
@@ -109,6 +111,7 @@ public class VGestionAnimales extends javax.swing.JDialog {
     private void buscarCuidadoresAnimal(int idAnimal) {
         modeloAsignados.clear();
         modeloDisponibles.clear();
+        if (todosLosCuidadoresDni == null) return;
         
         // Pedimos a la BD los cuidadores asignados a ESTE animal
         List<String> asignados = fa.obtenerCuidadoresPorAnimal(idAnimal);
@@ -447,13 +450,20 @@ public class VGestionAnimales extends javax.swing.JDialog {
 
         jLabel5.setText("Código");
 
+        codigoTextField1.addActionListener(this::codigoTextField1ActionPerformed);
+
         jLabel6.setText("Diagnóstico");
 
         jLabel7.setText("Veterinario");
 
+        diagnosticoTextField1.addActionListener(this::diagnosticoTextField1ActionPerformed);
+
         veterinarioComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        veterinarioComboBox1.addActionListener(this::veterinarioComboBox1ActionPerformed);
 
         jLabel8.setText("Fecha");
+
+        fechaTextField1.addActionListener(this::fechaTextField1ActionPerformed);
 
         nuevoHistorialButton1.setText("Nuevo registro");
         nuevoHistorialButton1.addActionListener(this::nuevoHistorialButton1ActionPerformed);
@@ -482,8 +492,8 @@ public class VGestionAnimales extends javax.swing.JDialog {
                             .addGroup(historialPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(codigoTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(222, 222, 222)
+                                .addComponent(codigoTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(135, 135, 135)
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(fechaTextField1))
@@ -495,7 +505,7 @@ public class VGestionAnimales extends javax.swing.JDialog {
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(veterinarioComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 314, Short.MAX_VALUE))
+                        .addGap(0, 302, Short.MAX_VALUE))
                     .addGroup(historialPanel2Layout.createSequentialGroup()
                         .addComponent(nuevoHistorialButton1)
                         .addGap(18, 18, 18)
@@ -533,7 +543,7 @@ public class VGestionAnimales extends javax.swing.JDialog {
                     .addComponent(guardarHistorialButton1)
                     .addComponent(borrarHistorialButton1)
                     .addComponent(salirHistorialButton1))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Historial Médico", historialPanel2);
@@ -755,7 +765,7 @@ public class VGestionAnimales extends javax.swing.JDialog {
     }//GEN-LAST:event_buscarButton1ActionPerformed
 
     private void insertarNoDisponiblesButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertarNoDisponiblesButton1ActionPerformed
-        // Cogemos los elementos seleccionados en la lista de Disponibles (izquierda)
+    
         List<String> seleccionados = cuidadoresDisponiblesList2.getSelectedValuesList();
 
         // Los pasamos a la de Asignados y los borramos de Disponibles
@@ -793,6 +803,7 @@ public class VGestionAnimales extends javax.swing.JDialog {
             
             // Le pasamos la lista completa a la Fachada para que borre los antiguos y ponga los nuevos
             fa.actualizarCuidadoresAnimal(idAnimal, cuidadoresFinales);
+            buscarCuidadoresAnimal(idAnimal);
             fgui.muestraAviso("Cuidadores actualizados correctamente.");
             
         } catch (Exception e) {
@@ -811,8 +822,8 @@ public class VGestionAnimales extends javax.swing.JDialog {
             return;
         }
 
-        codigoTextField1.setText("");
-        codigoTextField1.setEditable(true); // Si quieres que se escriba a mano, si es automático ponlo a false
+        fechaTextField1.setText(LocalDate.now().toString());
+        codigoTextField1.setEditable(false); 
         fechaTextField1.setText("");
         diagnosticoTextField1.setText("");
         jTable2.clearSelection();
@@ -826,6 +837,11 @@ public class VGestionAnimales extends javax.swing.JDialog {
         }
         if (diagnosticoTextField1.getText().isEmpty() || fechaTextField1.getText().isEmpty()) {
             fgui.muestraAviso("La fecha y el diagnóstico son obligatorios.");
+            return;
+        }
+        
+        if (idTextField2.getText().equals("Auto")) {
+            fgui.muestraAviso("Primero debes seleccionar un animal válido de la tabla.");
             return;
         }
 
@@ -861,6 +877,11 @@ public class VGestionAnimales extends javax.swing.JDialog {
     }//GEN-LAST:event_guardarHistorialButton1ActionPerformed
 
     private void borrarHistorialButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarHistorialButton1ActionPerformed
+
+        if (idTextField2.getText().isEmpty() || idTextField2.getText().equals("Auto")) {
+            fgui.muestraAviso("Primero debes seleccionar un animal.");
+            return;
+        }
         if (codigoTextField1.getText().isEmpty()) {
             fgui.muestraAviso("Selecciona un registro médico para borrar.");
             return;
@@ -921,7 +942,7 @@ public class VGestionAnimales extends javax.swing.JDialog {
             codigoTextField1.setEditable(false); // Bloqueamos el código
             
             // Asumiendo que getFecha devuelve algo que se puede pasar a String
-            fechaTextField1.setText(h.getFecha().toString()); 
+            fechaTextField1.setText(h.getFecha() != null ? h.getFecha().toString() : "");
             diagnosticoTextField1.setText(h.getDiagnostico());
             
             if (h.getDniVeterinario() != null) veterinarioComboBox1.setSelectedItem(h.getDniVeterinario());
@@ -932,6 +953,22 @@ public class VGestionAnimales extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_salirHistorialButton1ActionPerformed
 
+    private void codigoTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codigoTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_codigoTextField1ActionPerformed
+
+    private void fechaTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fechaTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fechaTextField1ActionPerformed
+
+    private void diagnosticoTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diagnosticoTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_diagnosticoTextField1ActionPerformed
+
+    private void veterinarioComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_veterinarioComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_veterinarioComboBox1ActionPerformed
+
     private void cargarZonas() {
         ZonaComboBox1.removeAllItems();
         for (String zona : fa.obtenerNombresZonas()) {
@@ -941,7 +978,6 @@ public class VGestionAnimales extends javax.swing.JDialog {
     
     private void cargarVeterinarios() {
         veterinarioComboBox1.removeAllItems();
-        // Asumo que tienes un método que devuelve los nombres o IDs de los veterinarios
         for (String vet : fa.obtenerNombresVeterinarios()) { 
             veterinarioComboBox1.addItem(vet);
         }
