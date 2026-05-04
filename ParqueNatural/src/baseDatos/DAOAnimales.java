@@ -236,13 +236,13 @@ public class DAOAnimales extends AbstractDAO {
             // Buscamos los DNI en la tabla que relaciona Animales y Trabajadores
             // Asegúrate de que el nombre de la tabla (CuidadoAnimal) y las columnas coinciden con tu script SQL.
             stm = getConexion().prepareStatement(
-                "SELECT dniCuidador FROM CuidadoAnimal WHERE idAnimal = ?"
+                "SELECT DNI FROM CuidadoAnimal WHERE idAnimal = ?"
             );
             stm.setInt(1, idAnimal);
             ResultSet rs = stm.executeQuery();
             
             while (rs.next()) {
-                cuidadores.add(rs.getString("dniCuidador"));
+                cuidadores.add(rs.getString("DNI"));
             }
         } catch (SQLException e) {
             getFachadaAplicacion().muestraExcepcion("Error al obtener cuidadores: " + e.getMessage());
@@ -269,7 +269,7 @@ public class DAOAnimales extends AbstractDAO {
             // 2. Insertamos la nueva lista de cuidadores
             if (!nuevosCuidadores.isEmpty()) {
                 stmInsert = getConexion().prepareStatement(
-                    "INSERT INTO CuidadoAnimal (dniCuidador, idAnimal) VALUES (?, ?)"
+                    "INSERT INTO CuidadoAnimal (DNI, idAnimal) VALUES (?, ?)"
                 );
                 
                 for (String dni : nuevosCuidadores) {
