@@ -4,6 +4,7 @@
  */
 package gui;
 import aplicacion.*;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -83,10 +84,12 @@ public class VGestionTrabajadores extends javax.swing.JDialog {
 
         jLabel1.setText("DNI");
 
+        jTextField1.setColumns(5);
         jTextField1.addActionListener(this::jTextField1ActionPerformed);
 
         jLabel2.setText("Nombre");
 
+        jTextField2.setColumns(5);
         jTextField2.addActionListener(this::jTextField2ActionPerformed);
 
         jLabel3.setText("Tipo");
@@ -99,20 +102,28 @@ public class VGestionTrabajadores extends javax.swing.JDialog {
                         {null, null, null, null, null},
                         {null, null, null, null, null},
                         {null, null, null, null, null},
+                        {null, null, null, null, null},
                         {null, null, null, null, null}
                 },
                 new String [] {
                         "DNI", "Nombre", "Email", "Tipo", "Sueldo"
                 }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
 
         jLabel4.setText("DNI");
 
+        jTextField4.setColumns(5);
         jTextField4.addActionListener(this::jTextField4ActionPerformed);
 
         jLabel5.setText("Nombre");
 
+        jTextField5.setColumns(10);
         jTextField5.addActionListener(this::jTextField5ActionPerformed);
 
         jLabel6.setText("Tipo");
@@ -121,15 +132,27 @@ public class VGestionTrabajadores extends javax.swing.JDialog {
 
         jLabel7.setText("Dirección");
 
+        jTextField6.setColumns(10);
+
         jLabel8.setText("Email");
+
+        jTextField7.setColumns(10);
 
         jLabel9.setText("Sueldo");
 
+        jTextField8.setColumns(5);
+
         jLabel10.setText("F. nacimiento");
+
+        jTextField9.setColumns(8);
 
         jLabel11.setText("Sexo");
 
+        jTextField10.setColumns(3);
+
         jLabel12.setText("Teléfono");
+
+        jTextField11.setColumns(8);
 
         jButton2.setText("Nuevo");
         jButton2.addActionListener(this::jButton2ActionPerformed);
@@ -225,7 +248,7 @@ public class VGestionTrabajadores extends javax.swing.JDialog {
                                                                                 .addComponent(jLabel9)
                                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                                 .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                                .addGap(0, 90, Short.MAX_VALUE)))
+                                                .addGap(0, 0, Short.MAX_VALUE)))
                                 .addGap(28, 28, 28))
         );
         layout.setVerticalGroup(
@@ -332,6 +355,24 @@ public class VGestionTrabajadores extends javax.swing.JDialog {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
+    }
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {
+        int fila = jTable1.getSelectedRow();
+        if (fila >= 0) {
+            String dni = (String) jTable1.getValueAt(fila, 0);
+            jTextField4.setText(dni);
+            jTextField5.setText((String) jTable1.getValueAt(fila, 1));
+            jTextField7.setText((String) jTable1.getValueAt(fila, 2));
+            jComboBox1.setSelectedItem(jTable1.getValueAt(fila, 3).toString());
+            jTextField8.setText(String.valueOf(jTable1.getValueAt(fila, 4)));
+            Trabajador t = fgui.getFachadaAplicacion().buscarTrabajadorPorDni(dni);
+            jTextField6.setText(t.getDireccion());
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            jTextField9.setText(t.getFechaNacimiento().format(dtf));
+            jTextField10.setText(String.valueOf(t.getSexo()));
+            jTextField11.setText(t.getTelefonoContacto());
+        }
     }
 
     // Variables declaration - do not modify
