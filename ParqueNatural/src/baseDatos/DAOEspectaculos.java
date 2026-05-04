@@ -193,24 +193,27 @@ public class DAOEspectaculos extends AbstractDAO {
      * @return 
      */
     public boolean eliminarEspectaculo(int idEspectaculo) { // Boolean e Integer
-        Connection con = this.getConexion();
-        PreparedStatement stmt = null;
-        boolean exito = false;
-
+        PreparedStatement stm = null;
         try {
-            String sql = "DELETE FROM Espectaculos WHERE idEspectaculo = ?";
-            stmt = con.prepareStatement(sql);
-            stmt.setInt(1, idEspectaculo);
-            
-            if (stmt.executeUpdate() > 0) exito = true;
-            
+        // 1. Borrar reservas asociadas
+        stm = getConexion().prepareStatement(
+            "DELETE FROM Reservar WHERE idEspectaculo = ?");
+        stm.setInt(1, idEspectaculo);
+        stm.executeUpdate();
+        stm.close();
+
+        // 2. Borrar el espectáculo
+        stm = getConexion().prepareStatement(
+            "DELETE FROM Espectaculos WHERE idEspectaculo = ?");
+        stm.setInt(1, idEspectaculo);
+        int filas = stm.executeUpdate();
+        return filas > 0;
         } catch (SQLException e) {
-            // El DAO lanzará error si viola integridad referencial (tiene reservas)
-            muestraError(e);
+        muestraError(e);
+        return false;
         } finally {
-            cerrarRecursos(null, stmt);
+        try { if (stm != null) stm.close(); } catch (SQLException e) {}
         }
-        return exito;
     }
 
     // --- Método auxiliar para cerrar recursos ---
