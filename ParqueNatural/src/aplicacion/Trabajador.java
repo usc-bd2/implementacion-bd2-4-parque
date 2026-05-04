@@ -29,7 +29,7 @@ public abstract class Trabajador {
         this.sueldo = sueldo;
     }
 
-    // --- Getters y Setters---
+    // Getters y Setters
     public String getDni()                  { return dni; }
     public String getNombre()               { return nombre; }
     public String getAp1()                  { return ap1; }
@@ -45,7 +45,6 @@ public abstract class Trabajador {
     public void setEmail(String e)          { this.email = e; }
     public void setTelefonoContacto(String t){ this.telefonoContacto = t; }
 
-    // --- MÉTODOS ---
     
     // Método que une los dos apellidos para la tabla visual
     public String getApellidos() {

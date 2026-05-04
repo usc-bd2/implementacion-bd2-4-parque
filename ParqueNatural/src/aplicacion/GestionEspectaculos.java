@@ -15,7 +15,6 @@ public class GestionEspectaculos {
     public GestionEspectaculos(FachadaGui fgui, FachadaBaseDatos fbd) {
         this.fachadaGUI = fgui;
         this.fachadaBaseDatos = fbd;
-        // Eliminada la instanciación directa del DAOEspectaculos
     }
     
     // T8. Reservar plaza en espectáculo
@@ -132,8 +131,7 @@ public class GestionEspectaculos {
                 return false;
             }
             
-            boolean confirmado = fachadaGUI.pideConfirmacion("¿Está seguro de que desea eliminar el espectáculo '" + 
-                                                           espectaculo.getNombre() + "'? Esta acción no se puede deshacer.");
+            boolean confirmado = fachadaGUI.pideConfirmacion("¿Está seguro de que desea eliminar el espectáculo '" +  espectaculo.getNombre() + "'? Esta acción no se puede deshacer.");
             
             if (!confirmado) {
                 return false;
@@ -164,7 +162,7 @@ public class GestionEspectaculos {
             List<Espectaculo> espectaculos = fachadaBaseDatos.listarEspectaculos();
             if (espectaculos != null) {
                 for (Espectaculo e : espectaculos) {
-                    if (e.getIdEspectaculo() == idEspectaculo) { // Al ser int se usa ==
+                    if (e.getIdEspectaculo() == idEspectaculo) { 
                         return e;
                     }
                 }

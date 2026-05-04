@@ -9,13 +9,14 @@ public class Seguridad extends Trabajador {
                      String direccion, String telefonoContacto, String email,
                      char sexo, LocalDate fechaNacimiento, double sueldo,
                      String equipamiento) {
-        super(dni, nombre, ap1, ap2, direccion, telefonoContacto,
-                email, sexo, fechaNacimiento, sueldo);
+        super(dni, nombre, ap1, ap2, direccion, telefonoContacto, email, sexo, fechaNacimiento, sueldo);
         this.equipamiento = equipamiento;
     }
 
-    public String getEquipamiento()          { return equipamiento; }
-    public void setEquipamiento(String e)    { this.equipamiento = e; }
+    public String getEquipamiento()             
+    { return equipamiento; }
+    public void setEquipamiento(String e)   
+    { this.equipamiento = e; }
     
     @Override
     public String getTipoTrabajo() {

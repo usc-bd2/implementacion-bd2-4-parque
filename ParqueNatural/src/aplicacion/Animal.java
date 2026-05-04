@@ -1,8 +1,7 @@
 package aplicacion;
 
 /**
- * Clase modelo que representa un animal del parque natural.
- * Corresponde a la tabla Animales de la base de datos.
+ * Clase que representa un animal del parque natural.
  */
 public class Animal {
 
@@ -13,7 +12,7 @@ public class Animal {
     private String estadoConservacion;
     private String descripcion;
     private String nombreZona;
-    private String cuidador; // DNI del cuidador principal
+    private String cuidador; 
 
 
     // Constructores

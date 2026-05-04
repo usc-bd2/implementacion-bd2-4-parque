@@ -35,9 +35,8 @@ public class FachadaAplicacion {
         fgui.muestraExcepcion(e);
     }
     
-    // ==========================================================
-    // MÉTODOS PARA CAMBIAR DE PORTAL (LOGIN)
-    // ==========================================================
+
+    // Métodos VLogin
 
     public void abrirPortalAdmin() {
         fgui.abrirPortalAdmin();
@@ -47,7 +46,7 @@ public class FachadaAplicacion {
         fgui.abrirPortalUsuario(u);
     }
 
-    // Usuarios (T1-T5, T9)
+    // (T1-T5, T9)
     //  T1
     public aplicacion.Usuario autenticar(String email, String clave) {
         return gu.autenticar(email, clave);
@@ -94,7 +93,7 @@ public class FachadaAplicacion {
         ga.modificarAnimal(a);
     }
 
-    // ── Historial médico ──────────────────────────────────────────
+    // Historial médico 
     public List<HistorialMedico> obtenerHistorial(int idAnimal) {
         return ga.obtenerHistorial(idAnimal);
     }
@@ -111,7 +110,7 @@ public class FachadaAplicacion {
         ga.borrarHistorial(codigo);
     }
 
-    // ── Zonas (para rellenar el ComboBox) ─────────────────────────
+    // Zonas (para rellenar el ComboBox)
     public List<String> obtenerNombresZonas() {
         return ga.obtenerNombresZonas();
     }
@@ -132,10 +131,7 @@ public class FachadaAplicacion {
         return fbd.verificarDisponibilidadEntradas(fecha, numEntradas);
     }
 
-    // ==========================================================
-    // DELEGADOS DE GESTIÓN DE ESPECTÁCULOS (T8, T16, T17, T18)
-    // ==========================================================
-
+    // (T8, T16, T17, T18)
     public List<Espectaculo> listarEspectaculos() {
         return gee.listarEspectaculos();
     }
@@ -144,7 +140,6 @@ public class FachadaAplicacion {
         return gee.listarEspectaculosPorFecha(fecha);
     }
 
-    // Corregido: Ahora devuelve boolean y recibe el idEspectaculo primero, como pide el gestor
     public boolean reservarPlazaEspectaculo(int idEspectaculo, int idUsuario) {
         return gee.reservarPlazaEspectaculo(idEspectaculo, idUsuario);
     }
@@ -165,10 +160,8 @@ public class FachadaAplicacion {
         return gee.buscarEspectaculo(idEspectaculo);
     }
 
-    // ==========================================================
-    // DELEGADOS DE GESTIÓN DE TRABAJADORES (T12, T13, T14)
-    // ==========================================================
-
+    
+    // (T12, T13, T14)  
     public List<Trabajador> listarTrabajadores() {
         return gt.listarTrabajadores();
     }
@@ -193,18 +186,18 @@ public class FachadaAplicacion {
         return gt.buscarTrabajadorPorDni(dni);
     }
     
-    // ── Nombres de Veterinarios ─────────────────────────────────────
+    // Nombres de Veterinarios
     public List<String> obtenerNombresVeterinarios() {
         // Obtenemos los veterinarios y devolvemos una lista con su DNI
         List<String> dnis = new java.util.ArrayList<>();
         List<Trabajador> veterinarios = gt.listarTrabajadoresPorTipo("Veterinario");
         for (Trabajador t : veterinarios) {
-            dnis.add(t.getDni()); // Guardamos el DNI en la lista
+            dnis.add(t.getDni());
         }
         return dnis;
     }
 
-    // ── Cuidadores ──────────────────────────────────────────────────
+    // Cuidadores
     public List<String> obtenerTodosLosCuidadores() {
         List<String> dnis = new java.util.ArrayList<>();
         List<Trabajador> cuidadores = gt.listarTrabajadoresPorTipo("Cuidador");
@@ -215,7 +208,6 @@ public class FachadaAplicacion {
     }
 
     public List<String> obtenerCuidadoresPorAnimal(int idAnimal) {
-        // Necesitas que tu GestorAnimales o GestionTrabajadores tenga este método en la BD
         return ga.obtenerCuidadoresPorAnimal(idAnimal); 
     }
     

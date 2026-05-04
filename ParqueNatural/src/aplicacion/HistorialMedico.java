@@ -19,7 +19,7 @@ public class HistorialMedico {
         this.dniVeterinario = dniVeterinario;
     }
 
-    // Constructor para nuevo registro (fecha se genera automática en BD)
+    // Constructor para nuevo registro
     public HistorialMedico(String diagnostico, int idAnimal, String dniVeterinario) {
         this.diagnostico = diagnostico;
         this.idAnimal = idAnimal;

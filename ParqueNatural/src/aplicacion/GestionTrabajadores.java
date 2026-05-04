@@ -13,7 +13,6 @@ public class GestionTrabajadores {
     public GestionTrabajadores(FachadaGui fgui, FachadaBaseDatos fbd) {
         this.fachadaGUI = fgui;
         this.fachadaBaseDatos = fbd;
-        // Eliminada la instanciación directa del DAOTrabajadores. ¡Usamos la Fachada!
     }
     
     // T12. Dar de alta a trabajadores

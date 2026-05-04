@@ -59,7 +59,7 @@ public class GestionAnimales {
         return fbd.obtenerNombresZonas();
     }
 
-    // ── Gestión de Cuidadores del Animal ────────────────────────────
+    // Gestión de Cuidadores del Animal
     
     public List<String> obtenerCuidadoresPorAnimal(int idAnimal) {
         return fbd.obtenerCuidadoresPorAnimal(idAnimal);

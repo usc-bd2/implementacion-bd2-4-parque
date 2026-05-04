@@ -6,21 +6,20 @@ import java.time.LocalTime;
 
 /**
  * Clase modelo que representa un espectáculo del parque natural.
- * Corresponde a la tabla Espectaculos de la base de datos.
  */
 public class Espectaculo {
 
     private int     idEspectaculo;
     private String  nombre;
     private int     aforo;
-    private Timestamp horaInicio;   // fecha + hora almacenadas juntas (TIMESTAMP en BD)
-    private Integer duracion;       // minutos; puede ser null si no se ha definido aún
-    private String  showman;        // DNI del showman responsable
-    private String  zona;           // nombre de la zona (FK → Zonas.nombre)
+    private Timestamp horaInicio;  
+    private Integer duracion;       
+    private String  showman;        
+    private String  zona;           
     private int plazasDisponibles;
 
 
-    // ── Constructores ────────────────────────────────────────────────────────
+    // Constructores
 
     public Espectaculo() {}
 
@@ -51,7 +50,7 @@ public class Espectaculo {
     }
 
 
-    // ── Getters y setters principales ────────────────────────────────────────
+     //Getters y setters principales 
 
     public int getIdEspectaculo() { return idEspectaculo; }
     public void setIdEspectaculo(int idEspectaculo) { this.idEspectaculo = idEspectaculo; }
@@ -62,7 +61,6 @@ public class Espectaculo {
     public int getAforo() { return aforo; }
     public void setAforo(int aforo) { this.aforo = aforo; }
 
-    /** Devuelve el Timestamp completo (fecha + hora) tal como está en la BD. */
     public Timestamp getHoraInicio() { return horaInicio; }
     public void setHoraInicio(Timestamp horaInicio) { this.horaInicio = horaInicio; }
 
@@ -79,40 +77,36 @@ public class Espectaculo {
     public void setPlazasDisponibles(int plazasDisponibles) { this.plazasDisponibles = plazasDisponibles; }
 
 
-    // ── Métodos  ─────────────────────────────────────────────────────
+    // Métodos
 
     /**
      * Extrae solo la parte de fecha del Timestamp.
-     * Usado en GestionEspectaculos para comparar con LocalDate.now().
      */
     public LocalDate getFecha() {
         if (horaInicio == null) return null;
         return horaInicio.toLocalDateTime().toLocalDate();
     }
 
-    /**
-     * Extrae solo la hora del Timestamp.
-     * Usado en GestionEspectaculos para comprobar si el espectáculo ya pasó hoy.
-     */
+    
+    //Extrae solo la hora del Timestamp.
+     
     public LocalTime getHoraInicioLocal() {
         if (horaInicio == null) return null;
         return horaInicio.toLocalDateTime().toLocalTime();
     }
 
-    /**
-     * Calcula la hora de fin sumando la duración (en minutos) a la hora de inicio.
-     * Devuelve null si alguno de los dos campos es null.
-     */
+ 
+     // Calcula la hora de fin sumando la duración (en minutos) a la hora de inicio.
+ 
     public Timestamp getHoraFin() {
         if (horaInicio == null || duracion == null) return null;
         long finMs = horaInicio.getTime() + (long) duracion * 60_000L;
         return new Timestamp(finMs);
     }
 
-    /**
-     * Indica si aún quedan plazas libres.
-     * Equivalente a comprobar plazasDisponibles > 0, pero más legible en la GUI.
-     */
+    
+    //Indica si aún quedan plazas libres.
+   
     public boolean tieneCapacidad() {
         return plazasDisponibles > 0;
     }

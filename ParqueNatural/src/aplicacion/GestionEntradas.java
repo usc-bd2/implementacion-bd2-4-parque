@@ -14,11 +14,9 @@ public class GestionEntradas {
     public GestionEntradas(FachadaGui fgui, FachadaBaseDatos fbd) {
         this.fachadaGUI = fgui;
         this.fachadaBaseDatos = fbd;
-        // Eliminada la instanciación directa del DAO. ¡Ahora usamos la Fachada de BD!
     }
     
     // T7. Compra de entradas
-    // CORREGIDO: idUsuario ahora es int
     public boolean comprarEntradas(LocalDate fecha, int numeroEntradas, int idUsuario) {
         try {
             // Validar parámetros (adaptado para int idUsuario)

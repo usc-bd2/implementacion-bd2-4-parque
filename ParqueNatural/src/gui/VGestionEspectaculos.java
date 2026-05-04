@@ -29,7 +29,7 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
     public VGestionEspectaculos(java.awt.Frame parent, boolean modal, FachadaGui fgui) {
         super(parent, modal);
         this.fgui = fgui;
-        this.fa = new FachadaAplicacion();
+        this.fa = fgui.getFachadaAplicacion();
         initComponents();
         this.setLocationRelativeTo(parent);
         cargarEspectaculos();
@@ -67,9 +67,14 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
     }
     
     private void cargarShowmans() {
-        comboShowman.removeAllItems();
-        comboShowman.addItem("88888888H"); // Isabel Moreno
-        comboShowman.addItem("99999999I"); // Pablo Herrero
+    comboShowman.removeAllItems();
+    comboShowman.addItem("");
+    java.util.List<aplicacion.Trabajador> trabajadores = fa.listarTrabajadores();
+    for (aplicacion.Trabajador t : trabajadores) {
+        if ("Showman".equals(t.getTipoTrabajo())) {
+            comboShowman.addItem(t.getDni());
+            }
+        }
     }
     
     private void limpiarFormulario() {
