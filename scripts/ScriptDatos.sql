@@ -185,3 +185,12 @@ INSERT INTO Reservar (idUsuario, idEspectaculo, plaza) VALUES
 (3, 14, 42),
 (5, 14, 43),
 (7, 15, 55);
+
+
+-- Resetear secuencias después de insertar datos
+SELECT setval('historialmedico_codigo_seq', (SELECT MAX(codigo) FROM HistorialMedico));
+SELECT setval('espectaculos_idespectaculo_seq', (SELECT MAX(idEspectaculo) FROM Espectaculos));
+SELECT setval('animales_idanimal_seq', (SELECT MAX(idAnimal) FROM Animales));
+SELECT setval('usuarios_idusuario_seq', (SELECT MAX(idUsuario) FROM Usuarios));
+SELECT setval('entradas_identrada_seq', (SELECT MAX(idEntrada) FROM Entradas));
+SELECT setval('reservar_idreserva_seq', (SELECT MAX(idReserva) FROM Reservar));
