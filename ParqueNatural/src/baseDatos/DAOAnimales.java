@@ -101,14 +101,29 @@ public class DAOAnimales extends AbstractDAO {
     public void borrarAnimal(int idAnimal) {
         PreparedStatement stm = null;
         try {
-            stm = getConexion().prepareStatement(
-                    "DELETE FROM Animales WHERE idAnimal = ?");
-            stm.setInt(1, idAnimal);
-            stm.executeUpdate();
+        // Primero borramos el historial médico
+        stm = getConexion().prepareStatement(
+            "DELETE FROM HistorialMedico WHERE idAnimal = ?");
+        stm.setInt(1, idAnimal);
+        stm.executeUpdate();
+        stm.close();
+        
+        // Borrar cuidadores asignados
+        stm = getConexion().prepareStatement(
+            "DELETE FROM CuidadoAnimal WHERE idAnimal = ?");
+        stm.setInt(1, idAnimal);
+        stm.executeUpdate();
+        stm.close();
+        
+        // Luego borramos el animal
+        stm = getConexion().prepareStatement(
+            "DELETE FROM Animales WHERE idAnimal = ?");
+        stm.setInt(1, idAnimal);
+        stm.executeUpdate();
         } catch (SQLException e) {
             getFachadaAplicacion().muestraExcepcion(e.getMessage());
         } finally {
-            try { if (stm != null) stm.close(); } catch (SQLException e) {}
+        try { if (stm != null) stm.close(); } catch (SQLException e) {}
         }
     }
 

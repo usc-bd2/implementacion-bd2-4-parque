@@ -4,6 +4,14 @@
  */
 package gui;
 
+import aplicacion.Espectaculo;
+import aplicacion.FachadaAplicacion;
+import java.security.Timestamp;
+import java.time.LocalDate;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author alumnogreibd
@@ -13,6 +21,7 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VGestionEspectaculos.class.getName());
 
     private FachadaGui fgui; // Referencia a la fachada
+    private final FachadaAplicacion fa;
 
     /**
      * Constructor modificado para integrarse en la aplicación
@@ -20,9 +29,50 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
     public VGestionEspectaculos(java.awt.Frame parent, boolean modal, FachadaGui fgui) {
         super(parent, modal);
         this.fgui = fgui;
+        this.fa = new FachadaAplicacion();
         initComponents();
-        this.setLocationRelativeTo(parent); // Centrar respecto a la ventana principal
+        this.setLocationRelativeTo(parent);
+        cargarEspectaculos();
+        cargarZonas();
     }
+    
+    private void cargarZonas() {
+        List<String> zonas = fa.obtenerNombresZonas();
+        jComboBox1.removeAllItems();
+        for (String zona : zonas) {
+            jComboBox1.addItem(zona);
+        }
+    }
+    
+    private void cargarEspectaculos() {
+        List<Espectaculo> espectaculos = fa.listarEspectaculos();
+    
+        DefaultTableModel modelo = new DefaultTableModel(
+            new String[]{"ID", "Nombre", "Zona", "Inicio", "Duración", "Aforo", "Plazas"}, 0);
+    
+        for (Espectaculo e : espectaculos) {
+            modelo.addRow(new Object[]{
+                e.getIdEspectaculo(),
+                e.getNombre(),
+                e.getZona(),
+                e.getHoraInicio(),
+                e.getDuracion(),
+                e.getAforo(),
+                e.getPlazasDisponibles()
+            });
+        }
+        tablaEspectaculos.setModel(modelo);
+    }
+    
+    private void limpiarFormulario() {
+        textFieldID.setText("");
+        textFieldNombre.setText("");
+        textFieldInicio.setText("");
+        textFieldDuracion.setText("");
+        textFieldAforo.setText("");
+        textFieldPlazas.setText("");
+}
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,6 +126,11 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
             }
         ));
         tablaEspectaculos.setColumnSelectionAllowed(true);
+        tablaEspectaculos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaEspectaculosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaEspectaculos);
         tablaEspectaculos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
@@ -87,9 +142,12 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
 
         textNombre.setText("Nombre");
 
+        textFieldNombre.addActionListener(this::textFieldNombreActionPerformed);
+
         textZona.setText("Zona");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(this::jComboBox1ActionPerformed);
 
         textInicio.setText("Inicio");
 
@@ -98,6 +156,8 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
         textFieldDuracion.addActionListener(this::textFieldDuracionActionPerformed);
 
         textAforo.setText("Aforo");
+
+        textFieldAforo.addActionListener(this::textFieldAforoActionPerformed);
 
         textPlazas.setText("Plazas");
 
@@ -171,10 +231,13 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
         );
 
         botonNuevo.setText("Nuevo");
+        botonNuevo.addActionListener(this::botonNuevoActionPerformed);
 
         botonGuardar.setText("Guardar");
+        botonGuardar.addActionListener(this::botonGuardarActionPerformed);
 
         botonEliminar.setText("Eliminar");
+        botonEliminar.addActionListener(this::botonEliminarActionPerformed);
 
         botonSalir.setForeground(new java.awt.Color(255, 51, 102));
         botonSalir.setText("Salir");
@@ -231,6 +294,84 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
         this.dispose();
     }//GEN-LAST:event_botonSalirActionPerformed
+
+    private void textFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textFieldNombreActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void textFieldAforoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldAforoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textFieldAforoActionPerformed
+
+    private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
+        limpiarFormulario();
+        textFieldID.setEditable(true);
+    }//GEN-LAST:event_botonNuevoActionPerformed
+
+    private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
+            try {
+        String idStr = textFieldID.getText().trim();
+        String nombre = textFieldNombre.getText().trim();
+        String zona = (String) jComboBox1.getSelectedItem();
+        
+        // Usar java.sql.Date en lugar de Timestamp
+        String fechaStr = textFieldInicio.getText().trim();
+        if (fechaStr.length() == 10) {
+            fechaStr = fechaStr + " 12:00:00";
+        }
+        
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        java.util.Date fechaUtil = sdf.parse(fechaStr);
+        java.sql.Timestamp timestamp = new java.sql.Timestamp(fechaUtil.getTime());
+        
+        int duracion = Integer.parseInt(textFieldDuracion.getText().trim());
+        int aforo = Integer.parseInt(textFieldAforo.getText().trim());
+        
+        if (idStr.isEmpty()) {
+            Espectaculo e = new Espectaculo(0, nombre, aforo, timestamp, duracion, "", zona);
+            fa.añadirEspectaculo(e);
+        } else {
+            int id = Integer.parseInt(idStr);
+            Espectaculo e = new Espectaculo(id, nombre, aforo, timestamp, duracion, "", zona);
+            fa.modificarEspectaculo(e);
+        }
+        
+        cargarEspectaculos();
+        limpiarFormulario();
+        JOptionPane.showMessageDialog(this, "Espectáculo guardado");
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error en fecha: " + e.getMessage());
+    }
+    }//GEN-LAST:event_botonGuardarActionPerformed
+
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+        int fila = tablaEspectaculos.getSelectedRow();
+        if (fila < 0) return;
+    
+        int id = (int) tablaEspectaculos.getValueAt(fila, 0);
+        fa.eliminarEspectaculo(id);
+        cargarEspectaculos();
+        limpiarFormulario();
+    }//GEN-LAST:event_botonEliminarActionPerformed
+
+    private void tablaEspectaculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEspectaculosMouseClicked
+                int fila = tablaEspectaculos.getSelectedRow();
+        if (fila >= 0) {
+            textFieldID.setText(String.valueOf(tablaEspectaculos.getValueAt(fila, 0)));
+            textFieldNombre.setText((String) tablaEspectaculos.getValueAt(fila, 1));
+            jComboBox1.setSelectedItem(tablaEspectaculos.getValueAt(fila, 2));
+            textFieldInicio.setText(String.valueOf(tablaEspectaculos.getValueAt(fila, 3)));
+            textFieldDuracion.setText(String.valueOf(tablaEspectaculos.getValueAt(fila, 4)));
+            textFieldAforo.setText(String.valueOf(tablaEspectaculos.getValueAt(fila, 5)));
+            textFieldPlazas.setText(String.valueOf(tablaEspectaculos.getValueAt(fila, 6)));
+            textFieldID.setEditable(false);
+        }
+    }//GEN-LAST:event_tablaEspectaculosMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonEliminar;

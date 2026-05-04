@@ -43,12 +43,11 @@ public class VGestionAnimales extends javax.swing.JDialog {
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(parent);
         
-        cargarZonas(); // Carga las zonas de la BD
-        
         // Inicializamos los estados de conservación
-        String[] estados = {"Preocupación menor", "Casi amenazada", "Vulnerable", "Peligro de extinción", "Peligro crítico", "Extinta en estado silvestre"};
+        String[] estados = {"Preocupacion Menor", "Domesticado", "En Peligro", "Vulnerable"};
         estadoConservaComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(estados));
         
+        cargarZonas(); // Carga las zonas de la BD
         // Cargamos todos los animales al abrir
         buscarAnimales("", ""); 
         
@@ -157,8 +156,8 @@ public class VGestionAnimales extends javax.swing.JDialog {
         zonaLabel1 = new javax.swing.JLabel();
         estadoConservaLabel1 = new javax.swing.JLabel();
         ZonaComboBox1 = new javax.swing.JComboBox<>();
-        estadoConservaComboBox2 = new javax.swing.JComboBox<>();
         alimentacionLabel1 = new javax.swing.JLabel();
+        estadoConservaComboBox2 = new javax.swing.JComboBox<>();
         descripcionLabel1 = new javax.swing.JLabel();
         alimentacionTextField1 = new javax.swing.JTextField();
         descripcionTextField1 = new javax.swing.JTextField();
@@ -252,9 +251,9 @@ public class VGestionAnimales extends javax.swing.JDialog {
 
         ZonaComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        estadoConservaComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         alimentacionLabel1.setText("Alimentación");
+
+        estadoConservaComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vulnerable", "En Peligro", "Preocupacion Menor", "Domesticado" }));
 
         descripcionLabel1.setText("Descripción");
 
@@ -675,7 +674,7 @@ public class VGestionAnimales extends javax.swing.JDialog {
             return;
         }
 
-        int id = Integer.parseInt(idTextField2.getText()); 
+        int id = idTextField2.getText().equals("Auto") ? 0 : Integer.parseInt(idTextField2.getText()); 
         String nombreComun = nombreComunTextField2.getText();
         String nombreCientifico = nombreCientificoTextField2.getText();
         String alimentacion = alimentacionTextField1.getText();
@@ -684,13 +683,17 @@ public class VGestionAnimales extends javax.swing.JDialog {
         String estado = estadoConservaComboBox2.getSelectedItem() != null ? estadoConservaComboBox2.getSelectedItem().toString() : "";
 
         try {
-            // ORDEN EXACTO: idAnimal, nombreCientifico, nombreComun, alimentacion, estadoConservacion, descripcion, nombreZona, cuidador
-            Animal animal = new Animal(id, nombreCientifico, nombreComun, alimentacion, estado, descripcion, zona, null);
+     
+            Animal animal;
 
             if (jTable1.getSelectedRow() == -1) {
+                // Animal nuevo - no pasamos el id
+                animal = new Animal(0, nombreCientifico, nombreComun, alimentacion, estado, descripcion, zona, null);
                 fa.insertarAnimal(animal);
                 fgui.muestraAviso("Animal registrado correctamente.");
             } else {
+                // Modificar - sí necesitamos el id
+                animal = new Animal(id, nombreCientifico, nombreComun, alimentacion, estado, descripcion, zona, null);
                 fa.modificarAnimal(animal);
                 fgui.muestraAviso("Animal actualizado correctamente.");
             }
@@ -704,21 +707,13 @@ public class VGestionAnimales extends javax.swing.JDialog {
     }//GEN-LAST:event_guardarAnimalButton2ActionPerformed
 
     private void nuevoAnimalButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoAnimalButton2ActionPerformed
-        int siguienteId = 1;
-        for (Animal a : animalesActuales) {
-            if (a.getIdAnimal() >= siguienteId) {
-                siguienteId = a.getIdAnimal() + 1;
-            }
-        }
-        
-        idTextField2.setText(String.valueOf(siguienteId));
-        idTextField2.setEditable(false); 
-
+        idTextField2.setText("Auto");
+        idTextField2.setEditable(false);
         nombreComunTextField2.setText("");
         nombreCientificoTextField2.setText("");
         alimentacionTextField1.setText("");
         descripcionTextField1.setText("");
-        jTable1.clearSelection(); 
+        jTable1.clearSelection();
         nombreComunTextField2.requestFocus();
     }//GEN-LAST:event_nuevoAnimalButton2ActionPerformed
 
@@ -901,7 +896,14 @@ public class VGestionAnimales extends javax.swing.JDialog {
             descripcionTextField1.setText(a.getDescripcion());
             
             if (a.getNombreZona() != null) ZonaComboBox1.setSelectedItem(a.getNombreZona());
-            if (a.getEstadoConservacion() != null) estadoConservaComboBox2.setSelectedItem(a.getEstadoConservacion());
+            if (a.getEstadoConservacion() != null){
+                estadoConservaComboBox2.setSelectedItem(jTable1.getValueAt(filaSeleccionada, 3).toString());
+                if (estadoConservaComboBox2.getSelectedIndex() == -1 || 
+                    !estadoConservaComboBox2.getSelectedItem().equals(a.getEstadoConservacion().trim())) {
+                    estadoConservaComboBox2.addItem(a.getEstadoConservacion().trim());
+                    estadoConservaComboBox2.setSelectedItem(a.getEstadoConservacion().trim());
+                }
+            }
             
             buscarHistorial(a.getIdAnimal());
             

@@ -57,11 +57,11 @@ INSERT INTO Animales (idAnimal, nombreCientifico, nombreComun, alimentacion, est
 (3, 'Elephas maximus', 'Elefante asiático', 'Herbívoro', 'En Peligro', 'El elefante asiático es más pequeño que el africano.', 'Sabana Africana', '22222222B'),
 (4, 'Giraffa camelopardalis', 'Jirafa', 'Herbívoro', 'Vulnerable', 'La jirafa es el animal terrestre más alto del mundo.', 'Sabana Africana', '22222222B'),
 (5, 'Ursus maritimus', 'Oso polar', 'Carnívoro', 'Vulnerable', 'El oso polar es un superdepredador del Ártico.', 'Polar', '33333333C'),
-(6, 'Ara macao', 'Guacamayo rojo', 'Omnívoro', 'Preocupación Menor', 'Ave de colores brillantes originaria de la selva amazónica.', 'Aviario', '33333333C'),
-(7, 'Python reticulatus', 'Pitón reticulada', 'Carnívoro', 'Preocupación Menor', 'Una de las serpientes más largas del mundo.', 'Reptilario', '44444444D'),
-(8, 'Delphinapterus leucas', 'Beluga', 'Carnívoro', 'Preocupación Menor', 'La ballena beluga es conocida como la canaria del mar.', 'Zona de Acuario', '44444444D'),
+(6, 'Ara macao', 'Guacamayo rojo', 'Omnívoro', 'Preocupacion Menor', 'Ave de colores brillantes originaria de la selva amazónica.', 'Aviario', '33333333C'),
+(7, 'Python reticulatus', 'Pitón reticulada', 'Carnívoro', 'Preocupacion Menor', 'Una de las serpientes más largas del mundo.', 'Reptilario', '44444444D'),
+(8, 'Delphinapterus leucas', 'Beluga', 'Carnívoro', 'Preocupacion Menor', 'La ballena beluga es conocida como la canaria del mar.', 'Zona de Acuario', '44444444D'),
 (9, 'Lama glama', 'Llama', 'Herbívoro', 'Domesticado', 'Animal domesticado originario de los Andes.', 'Zona de Contacto', '55555555E'),
-(10, 'Pygoscelis adeliae', 'Pingüino Adelia', 'Carnívoro', 'Preocupación Menor', 'Habitante característico de la Antártida.', 'Polar', '55555555E');
+(10, 'Pygoscelis adeliae', 'Pingüino Adelia', 'Carnívoro', 'Preocupacion Menor', 'Habitante característico de la Antártida.', 'Polar', '55555555E');
 
 -- ======================================================
 -- RELACIÓN CUIDADO ANIMAL
