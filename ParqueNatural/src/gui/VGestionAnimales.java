@@ -190,7 +190,7 @@ public class VGestionAnimales extends javax.swing.JDialog {
         actualizarButton1 = new javax.swing.JButton();
         salirCuidadoresButton3 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         nombreComunLabel2.setText("Nombre común");
 
