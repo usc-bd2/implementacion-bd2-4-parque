@@ -17,12 +17,13 @@ public class DAOUsuarios extends AbstractDAO {
         Usuario resultado = null;
         PreparedStatement stm = null;
         try {
+            // Añadimos AND activo = true para que los borrados no puedan entrar
             stm = getConexion().prepareStatement(
-        "SELECT idUsuario, nombre, ap1, ap2, clave, email, " +
-        "telefono, fechaNacimiento, permisos " +
-        "FROM Usuarios WHERE email = ? AND clave = ?");
-        stm.setString(1, email);
-        stm.setString(2, clave);
+                "SELECT idUsuario, nombre, ap1, ap2, clave, email, " +
+                "telefono, fechaNacimiento, permisos " +
+                "FROM Usuarios WHERE email = ? AND clave = ? AND activo = true");
+            stm.setString(1, email);
+            stm.setString(2, clave);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
                 resultado = new Usuario(
@@ -44,18 +45,14 @@ public class DAOUsuarios extends AbstractDAO {
         return resultado;
     }
 
-    // T2 - Eliminar usuario (solo si no tiene reserva vigente)
+    // T2 - Eliminar usuario (Borrado Lógico)
     public void eliminarUsuario(int idUsuario) {
         PreparedStatement stm = null;
         try {
+            // Ya no borramos físicamente, solo lo marcamos como inactivo
             stm = getConexion().prepareStatement(
-                    "DELETE FROM Usuarios WHERE idUsuario = ? " +
-                            "AND NOT EXISTS (" +
-                            "SELECT 1 FROM Reservar r " +
-                            "JOIN Entradas e ON r.idUsuario = e.idUsuario " +
-                            "WHERE r.idUsuario = ? AND e.activo = true)");
+                    "UPDATE Usuarios SET activo = false WHERE idUsuario = ?");
             stm.setInt(1, idUsuario);
-            stm.setInt(2, idUsuario);
             stm.executeUpdate();
         } catch (SQLException e) {
             getFachadaAplicacion().muestraExcepcion(e.getMessage());
@@ -66,26 +63,26 @@ public class DAOUsuarios extends AbstractDAO {
 
     // T3/T4 - Crear cuenta
     public void insertarUsuario(Usuario u) {
-    PreparedStatement stm = null;
-    try {
-        stm = getConexion().prepareStatement(
-            "INSERT INTO Usuarios(nombre, ap1, ap2, clave, email, telefono, fechaNacimiento, permisos) " +
-            "VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
-        stm.setString(1, u.getNombre());
-        stm.setString(2, u.getAp1());
-        stm.setString(3, u.getAp2());
-        stm.setString(4, u.getClave());
-        stm.setString(5, u.getEmail());
-        stm.setString(6, u.getTelefono());
-        stm.setDate(7, java.sql.Date.valueOf(u.getFechaNacimiento()));
-        stm.setBoolean(8, u.isPermisos());
-        stm.executeUpdate();
-    } catch (SQLException e) {
-        getFachadaAplicacion().muestraExcepcion(e.getMessage());
-    } finally {
-        try { if (stm != null) stm.close(); } catch (SQLException e) {}
+        PreparedStatement stm = null;
+        try {
+            stm = getConexion().prepareStatement(
+                "INSERT INTO Usuarios(nombre, ap1, ap2, clave, email, telefono, fechaNacimiento, permisos) " +
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+            stm.setString(1, u.getNombre());
+            stm.setString(2, u.getAp1());
+            stm.setString(3, u.getAp2());
+            stm.setString(4, u.getClave());
+            stm.setString(5, u.getEmail());
+            stm.setString(6, u.getTelefono());
+            stm.setDate(7, java.sql.Date.valueOf(u.getFechaNacimiento()));
+            stm.setBoolean(8, u.isPermisos());
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        } finally {
+            try { if (stm != null) stm.close(); } catch (SQLException e) {}
+        }
     }
-}
 
     // T5 - Editar datos
     public void modificarUsuario(Usuario u) {
@@ -133,8 +130,9 @@ public class DAOUsuarios extends AbstractDAO {
         List<Usuario> lista = new ArrayList<>();
         PreparedStatement stm = null;
         try {
+            // Sustituimos 1=1 por activo = true para ocultar a los eliminados
             String q = "SELECT idUsuario, nombre, ap1, ap2, clave, email, " +
-                    "telefono, fechaNacimiento, permisos FROM Usuarios WHERE 1=1";
+                    "telefono, fechaNacimiento, permisos FROM Usuarios WHERE activo = true";
             if (id != null && !id.isEmpty())     q += " AND CAST(idUsuario AS TEXT) = ?";
             if (nombre != null && !nombre.isEmpty()) q += " AND nombre ILIKE ?";
             stm = getConexion().prepareStatement(q);
@@ -167,7 +165,8 @@ public class DAOUsuarios extends AbstractDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            stm = getConexion().prepareStatement("SELECT 1 FROM Usuarios WHERE email = ?");
+            // También filtramos por usuarios activos aquí para que un email "borrado" se pueda reutilizar si lo deseas
+            stm = getConexion().prepareStatement("SELECT 1 FROM Usuarios WHERE email = ? AND activo = true");
             stm.setString(1, email);
             rs = stm.executeQuery();
             existe = rs.next();

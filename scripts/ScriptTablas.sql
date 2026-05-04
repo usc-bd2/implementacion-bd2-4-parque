@@ -136,7 +136,8 @@ CREATE TABLE Usuarios (
     email VARCHAR(40),
     telefono CHAR(12),
     fechaNacimiento DATE,
-    permisos BOOLEAN NOT NULL DEFAULT FALSE
+    permisos BOOLEAN NOT NULL DEFAULT FALSE,
+    activo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE Entradas (
