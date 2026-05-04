@@ -192,6 +192,35 @@ public class FachadaAplicacion {
     public Trabajador buscarTrabajadorPorDni(String dni) {
         return gt.buscarTrabajadorPorDni(dni);
     }
+    
+    // ── Nombres de Veterinarios ─────────────────────────────────────
+    public List<String> obtenerNombresVeterinarios() {
+        // Obtenemos los veterinarios y devolvemos una lista con su DNI
+        List<String> dnis = new java.util.ArrayList<>();
+        List<Trabajador> veterinarios = gt.listarTrabajadoresPorTipo("Veterinario");
+        for (Trabajador t : veterinarios) {
+            dnis.add(t.getDni()); // Guardamos el DNI en la lista
+        }
+        return dnis;
+    }
 
+    // ── Cuidadores ──────────────────────────────────────────────────
+    public List<String> obtenerTodosLosCuidadores() {
+        List<String> dnis = new java.util.ArrayList<>();
+        List<Trabajador> cuidadores = gt.listarTrabajadoresPorTipo("Cuidador");
+        for (Trabajador t : cuidadores) {
+            dnis.add(t.getDni());
+        }
+        return dnis;
+    }
+
+    public List<String> obtenerCuidadoresPorAnimal(int idAnimal) {
+        // Necesitas que tu GestorAnimales o GestionTrabajadores tenga este método en la BD
+        return ga.obtenerCuidadoresPorAnimal(idAnimal); 
+    }
+    
+    public void actualizarCuidadoresAnimal(int idAnimal, List<String> cuidadores) {
+        ga.actualizarCuidadoresAnimal(idAnimal, cuidadores);
+    }
     
 }

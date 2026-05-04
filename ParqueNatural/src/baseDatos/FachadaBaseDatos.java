@@ -193,5 +193,13 @@ public class FachadaBaseDatos {
     public boolean existeEmail(String email){
         return daoUsuarios.existeEmail(email);
     }
+    
+    public List<String> obtenerCuidadoresPorAnimal(int idAnimal) {
+        return daoAnimales.obtenerCuidadoresPorAnimal(idAnimal); // O el nombre que tenga tu DAO
+    }
+
+    public void actualizarCuidadoresAnimal(int idAnimal, List<String> cuidadores) {
+        daoAnimales.actualizarCuidadoresAnimal(idAnimal, cuidadores);
+    }
 
 }

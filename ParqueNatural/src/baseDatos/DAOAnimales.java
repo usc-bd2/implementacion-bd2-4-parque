@@ -226,5 +226,77 @@ public class DAOAnimales extends AbstractDAO {
         }
         return lista;
     }
+    
+    // ── Gestión de Cuidadores del Animal (Tabla CuidadoAnimal) ────────────────────────────
+
+    public List<String> obtenerCuidadoresPorAnimal(int idAnimal) {
+        List<String> cuidadores = new ArrayList<>();
+        PreparedStatement stm = null;
+        try {
+            // Buscamos los DNI en la tabla que relaciona Animales y Trabajadores
+            // Asegúrate de que el nombre de la tabla (CuidadoAnimal) y las columnas coinciden con tu script SQL.
+            stm = getConexion().prepareStatement(
+                "SELECT dniCuidador FROM CuidadoAnimal WHERE idAnimal = ?"
+            );
+            stm.setInt(1, idAnimal);
+            ResultSet rs = stm.executeQuery();
+            
+            while (rs.next()) {
+                cuidadores.add(rs.getString("dniCuidador"));
+            }
+        } catch (SQLException e) {
+            getFachadaAplicacion().muestraExcepcion("Error al obtener cuidadores: " + e.getMessage());
+        } finally {
+            try { if (stm != null) stm.close(); } catch (SQLException e) {}
+        }
+        return cuidadores;
+    }
+
+    public void actualizarCuidadoresAnimal(int idAnimal, List<String> nuevosCuidadores) {
+        PreparedStatement stmDelete = null;
+        PreparedStatement stmInsert = null;
+        try {
+            // Desactivamos el autocommit para hacer esto como una transacción segura
+            getConexion().setAutoCommit(false);
+
+            // 1. Borramos TODOS los cuidadores asignados a este animal actualmente
+            stmDelete = getConexion().prepareStatement(
+                "DELETE FROM CuidadoAnimal WHERE idAnimal = ?"
+            );
+            stmDelete.setInt(1, idAnimal);
+            stmDelete.executeUpdate();
+
+            // 2. Insertamos la nueva lista de cuidadores
+            if (!nuevosCuidadores.isEmpty()) {
+                stmInsert = getConexion().prepareStatement(
+                    "INSERT INTO CuidadoAnimal (dniCuidador, idAnimal) VALUES (?, ?)"
+                );
+                
+                for (String dni : nuevosCuidadores) {
+                    stmInsert.setString(1, dni);
+                    stmInsert.setInt(2, idAnimal);
+                    stmInsert.executeUpdate();
+                }
+            }
+
+            // Si todo ha ido bien, confirmamos los cambios
+            getConexion().commit();
+            
+        } catch (SQLException e) {
+            try {
+                // Si algo falla a medias, deshacemos todo para no dejar la BD inconsistente
+                getConexion().rollback();
+            } catch (SQLException ex) {
+                // Ignoramos errores de rollback
+            }
+            getFachadaAplicacion().muestraExcepcion("Error al actualizar cuidadores: " + e.getMessage());
+        } finally {
+            try { 
+                getConexion().setAutoCommit(true); // Devolvemos la conexión a su estado normal
+                if (stmDelete != null) stmDelete.close(); 
+                if (stmInsert != null) stmInsert.close(); 
+            } catch (SQLException e) {}
+        }
+    }
 
 }
