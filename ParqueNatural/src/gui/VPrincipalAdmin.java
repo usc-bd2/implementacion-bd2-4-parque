@@ -224,12 +224,7 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_botonAnimalesActionPerformed
 
     private void botonUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonUsuariosActionPerformed
-        VGestionUsuarios vg = new VGestionUsuarios(fa);
-        JFrame frame = new JFrame("Gestión de Usuarios");
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.add(vg);
-        frame.pack();
-        frame.setVisible(true);
+        fgui.abrirGestionUsuarios();
     }//GEN-LAST:event_botonUsuariosActionPerformed
 
     private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed

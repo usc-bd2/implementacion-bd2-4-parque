@@ -14,6 +14,7 @@ public class FachadaGui {
     private VGestionTrabajadores vGestionTrabajadores;
     private VGestionEspectaculos vGestionEspectaculos;
     private VGestionAnimales vGestionAnimales;
+    private VGestionUsuarios vGestionUsuarios;
 
     public FachadaGui(aplicacion.FachadaAplicacion fa) {
         this.fa = fa;
@@ -78,6 +79,19 @@ public class FachadaGui {
             vGestionAnimales = new VGestionAnimales(vPrincipalAdmin, true, this);
         }
         vGestionAnimales.setVisible(true);
+    }
+    
+    public void abrirGestionUsuarios(){
+        javax.swing.JFrame ventana = new javax.swing.JFrame("Gestión de Usuarios");
+        ventana.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+        
+        VGestionUsuarios panelUsuarios = new VGestionUsuarios(this.fa);
+        
+        ventana.getContentPane().add(panelUsuarios);
+        
+        ventana.pack();
+        ventana.setLocationRelativeTo(vPrincipalAdmin); // Centramos respecto al menú
+        ventana.setVisible(true);
     }
     
     public FachadaAplicacion getFachadaAplicacion(){
