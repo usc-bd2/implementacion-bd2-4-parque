@@ -194,27 +194,34 @@ public class DAOTrabajadores extends AbstractDAO {
      * @param dni
      */
     public boolean darBajaTrabajador(String dni) {
-        Connection con = this.getConexion();
-        PreparedStatement stmt = null;
-        boolean exito = false;
-
+        PreparedStatement stm = null;
         try {
-            // Nota: Al borrar de la tabla padre 'Trabajadores', si definiste ON DELETE CASCADE
-            // en tu SQL, se borrará automáticamente de la tabla hija (Cuidador, etc.)
-            String sql = "DELETE FROM Trabajadores WHERE DNI = ?";
-            stmt = con.prepareStatement(sql);
-            stmt.setString(1, dni);
-            
-            if (stmt.executeUpdate() > 0) exito = true;
-            
+        // 1. Borrar historial médico si es veterinario
+        stm = getConexion().prepareStatement(
+            "DELETE FROM HistorialMedico WHERE veterinario = ?");
+        stm.setString(1, dni);
+        stm.executeUpdate();
+        stm.close();
+
+        // 2. Borrar cuidado animal si es cuidador
+        stm = getConexion().prepareStatement(
+            "DELETE FROM CuidadoAnimal WHERE DNI = ?");
+        stm.setString(1, dni);
+        stm.executeUpdate();
+        stm.close();
+
+        // 3. Borrar el trabajador
+        stm = getConexion().prepareStatement(
+            "DELETE FROM Trabajadores WHERE DNI = ?");
+        stm.setString(1, dni);
+        int filas = stm.executeUpdate();
+        return filas > 0;
         } catch (SQLException e) {
-            // Lanzará error si el trabajador está asignado a HistorialMedico o CuidadoAnimal 
-            // (Violación de restricción ON DELETE RESTRICT)
-            muestraError(e);
+        muestraError(e);
+        return false;
         } finally {
-            cerrarRecursos(null, stmt);
+        try { if (stm != null) stm.close(); } catch (SQLException e) {}
         }
-        return exito;
     }
 
     // --- Métodos Auxiliares ---
