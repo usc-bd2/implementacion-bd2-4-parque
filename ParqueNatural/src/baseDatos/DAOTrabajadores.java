@@ -21,7 +21,7 @@ public class DAOTrabajadores extends AbstractDAO {
         "  WHEN v.DNI IS NOT NULL THEN 'Veterinario' " +
         "  WHEN c.DNI IS NOT NULL THEN 'Cuidador' " +
         "  WHEN s.DNI IS NOT NULL THEN 'Showman' " +
-        "  WHEN g.DNI IS NOT NULL THEN 'Guia' " +
+        "  WHEN g.DNI IS NOT NULL THEN 'Guía' " +
         "  WHEN sg.DNI IS NOT NULL THEN 'Seguridad' " +
         "  ELSE 'Desconocido' " +
         "END as tipo_calculado, " +
