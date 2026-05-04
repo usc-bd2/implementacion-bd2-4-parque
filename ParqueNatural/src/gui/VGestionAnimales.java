@@ -823,6 +823,7 @@ public class VGestionAnimales extends javax.swing.JDialog {
         }
 
         fechaTextField1.setText(LocalDate.now().toString());
+        codigoTextField1.setText("");
         codigoTextField1.setEditable(false); 
         fechaTextField1.setText("");
         diagnosticoTextField1.setText("");
