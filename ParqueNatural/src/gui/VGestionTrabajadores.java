@@ -27,8 +27,8 @@ public class VGestionTrabajadores extends javax.swing.JDialog {
         this.fgui = fgui;
         initComponents();
         this.setLocationRelativeTo(parent);
-        cargarTrabajadores();
         inicializarCombos();
+        cargarTrabajadores();
     }
 
     private void inicializarCombos() {
@@ -372,7 +372,7 @@ public class VGestionTrabajadores extends javax.swing.JDialog {
         for (aplicacion.Trabajador t : trabajadores) {
             String tipoReal = t.getTipoTrabajo();
 
-            if (tipoSeleccionado.isEmpty() || tipoSeleccionado.equals(tipoReal)) {
+            if (tipoSeleccionado.isEmpty() || tipoSeleccionado.equalsIgnoreCase(tipoReal)) {
                 modelo.addRow(new Object[]{
                         t.getDni(),
                         t.getNombre(),
