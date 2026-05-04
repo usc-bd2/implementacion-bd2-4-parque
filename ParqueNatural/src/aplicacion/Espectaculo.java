@@ -46,6 +46,10 @@ public class Espectaculo {
         this.plazasDisponibles = plazasDisponibles;
     }
 
+    public Espectaculo(int i, String nombre, int aforo, java.security.Timestamp inicio, int duracion, String string, String zona) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 
     // ── Getters y setters principales ────────────────────────────────────────
 
