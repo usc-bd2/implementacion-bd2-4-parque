@@ -250,8 +250,7 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAnimalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnimalesActionPerformed
-        VGestionAnimales v = new VGestionAnimales(this, true, fgui);
-        v.setVisible(true);
+        fgui.abrirGestionAnimales();
     }//GEN-LAST:event_botonAnimalesActionPerformed
 
     private void botonUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonUsuariosActionPerformed

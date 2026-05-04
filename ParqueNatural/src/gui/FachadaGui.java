@@ -13,6 +13,7 @@ public class FachadaGui {
     private VPrincipalAdmin vPrincipalAdmin;
     private VGestionTrabajadores vGestionTrabajadores;
     private VGestionEspectaculos vGestionEspectaculos;
+    private VGestionAnimales vGestionAnimales;
 
     public FachadaGui(aplicacion.FachadaAplicacion fa) {
         this.fa = fa;
@@ -70,6 +71,13 @@ public class FachadaGui {
             vGestionEspectaculos = new VGestionEspectaculos(vPrincipalAdmin, true, this);
         }
         vGestionEspectaculos.setVisible(true);
+    }
+    
+    public void abrirGestionAnimales(){
+        if (vGestionAnimales == null) {
+            vGestionAnimales = new VGestionAnimales(vPrincipalAdmin, true, this);
+        }
+        vGestionAnimales.setVisible(true);
     }
     
     public FachadaAplicacion getFachadaAplicacion(){
