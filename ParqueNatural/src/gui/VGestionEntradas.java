@@ -135,6 +135,7 @@ public class VGestionEntradas extends javax.swing.JFrame {
 
         textRecaudacion.addActionListener(this::textRecaudacionActionPerformed);
 
+        botonSalir.setForeground(new java.awt.Color(255, 0, 51));
         botonSalir.setText("Salir");
         botonSalir.addActionListener(this::botonSalirActionPerformed);
 

@@ -41,8 +41,6 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
         panelPersonal = new javax.swing.JPanel();
         botonTrabajadores = new javax.swing.JButton();
         botonUsuarios = new javax.swing.JButton();
-        panelInstalaciones = new javax.swing.JPanel();
-        botonZonas = new javax.swing.JButton();
         panelOperaciones = new javax.swing.JPanel();
         botonEntradas = new javax.swing.JButton();
         botonEspectaculo = new javax.swing.JButton();
@@ -53,7 +51,6 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         menuCatalogo = new javax.swing.JMenu();
         menuPersonal = new javax.swing.JMenu();
-        menuInstalaciones = new javax.swing.JMenu();
         menuOperaciones = new javax.swing.JMenu();
         menuInformes = new javax.swing.JMenu();
 
@@ -107,27 +104,6 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
                 .addGroup(panelPersonalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonTrabajadores)
                     .addComponent(botonUsuarios))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        panelInstalaciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Instalaciones"));
-
-        botonZonas.setText("Zonas");
-
-        javax.swing.GroupLayout panelInstalacionesLayout = new javax.swing.GroupLayout(panelInstalaciones);
-        panelInstalaciones.setLayout(panelInstalacionesLayout);
-        panelInstalacionesLayout.setHorizontalGroup(
-            panelInstalacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelInstalacionesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(botonZonas)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelInstalacionesLayout.setVerticalGroup(
-            panelInstalacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelInstalacionesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(botonZonas)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -199,9 +175,6 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
         menuPersonal.setText("Personal");
         menuBar.add(menuPersonal);
 
-        menuInstalaciones.setText("Instalaciones");
-        menuBar.add(menuInstalaciones);
-
         menuOperaciones.setText("Operaciones");
         menuBar.add(menuOperaciones);
 
@@ -219,14 +192,13 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelCatalogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelPersonal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelInstalaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelOperaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelInformes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(botonSalir)
-                .addGap(17, 17, 17))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,14 +208,12 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(panelInstalaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(panelOperaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(panelInformes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botonSalir)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
@@ -298,16 +268,13 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
     private javax.swing.JButton botonSalir;
     private javax.swing.JButton botonTrabajadores;
     private javax.swing.JButton botonUsuarios;
-    private javax.swing.JButton botonZonas;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuCatalogo;
     private javax.swing.JMenu menuInformes;
-    private javax.swing.JMenu menuInstalaciones;
     private javax.swing.JMenu menuOperaciones;
     private javax.swing.JMenu menuPersonal;
     private javax.swing.JPanel panelCatalogo;
     private javax.swing.JPanel panelInformes;
-    private javax.swing.JPanel panelInstalaciones;
     private javax.swing.JPanel panelOperaciones;
     private javax.swing.JPanel panelPersonal;
     // End of variables declaration//GEN-END:variables
