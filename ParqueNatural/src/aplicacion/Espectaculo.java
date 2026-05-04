@@ -128,4 +128,8 @@ public class Espectaculo {
                 ", plazasLibres="  + plazasDisponibles +
                 '}';
     }
+
+    public int getPlazasLibres() {
+        return plazasDisponibles;
+    }
 }

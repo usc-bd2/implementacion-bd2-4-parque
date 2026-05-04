@@ -149,21 +149,21 @@ INSERT INTO Entradas (precio, fecha, activo, idUsuario) VALUES
 -- ======================================================
 
 INSERT INTO Espectaculos (idEspectaculo, nombre, aforo, horaInicio, duracion, showman, zona) VALUES
-(1, 'Espectáculo de Aves Rapaces', 50, '2026-04-10 11:00:00', 45, '88888888H', 'Aviario'),
-(2, 'Espectáculo de Aves Rapaces', 50, '2026-04-10 13:00:00', 45, '88888888H', 'Aviario'),
-(3, 'Espectáculo de Aves Rapaces', 50, '2026-04-10 15:00:00', 45, '88888888H', 'Aviario'),
-(4, 'Demostración de Reptiles', 30, '2026-04-11 10:30:00', 60, '99999999I', 'Reptilario'),
-(5, 'Demostración de Reptiles', 30, '2026-04-11 12:30:00', 60, '99999999I', 'Reptilario'),
-(6, 'Demostración de Reptiles', 30, '2026-04-11 14:30:00', 60, '99999999I', 'Reptilario'),
-(7, 'Alimentación de Pingüinos', 40, '2026-04-12 11:00:00', 30, '88888888H', 'Polar'),
-(8, 'Alimentación de Pingüinos', 40, '2026-04-12 13:00:00', 30, '88888888H', 'Polar'),
-(9, 'Espectáculo de Leones Marinos', 45, '2026-04-13 10:00:00', 50, '99999999I', 'Zona de Acuario'),
-(10, 'Espectáculo de Leones Marinos', 45, '2026-04-13 12:00:00', 50, '99999999I', 'Zona de Acuario'),
-(11, 'Espectáculo de Leones Marinos', 45, '2026-04-13 14:00:00', 50, '99999999I', 'Zona de Acuario'),
-(12, 'Charlas de Conservación', 60, '2026-04-14 11:00:00', 40, '88888888H', 'Área de Descanso'),
-(13, 'Charlas de Conservación', 60, '2026-04-14 13:00:00', 40, '88888888H', 'Área de Descanso'),
-(14, 'Espectáculo Nocturno', 80, '2026-04-15 20:00:00', 90, '99999999I', 'Sabana Africana'),
-(15, 'Espectáculo Nocturno', 80, '2026-04-16 20:00:00', 90, '99999999I', 'Sabana Africana');
+(1, 'Espectáculo de Aves Rapaces', 50, '2026-06-10 11:00:00', 45, '88888888H', 'Aviario'),
+(2, 'Espectáculo de Aves Rapaces', 50, '2026-06-10 13:00:00', 45, '88888888H', 'Aviario'),
+(3, 'Espectáculo de Aves Rapaces', 50, '2026-06-10 15:00:00', 45, '88888888H', 'Aviario'),
+(4, 'Demostración de Reptiles', 30, '2026-06-11 10:30:00', 60, '99999999I', 'Reptilario'),
+(5, 'Demostración de Reptiles', 30, '2026-06-11 12:30:00', 60, '99999999I', 'Reptilario'),
+(6, 'Demostración de Reptiles', 30, '2026-06-11 14:30:00', 60, '99999999I', 'Reptilario'),
+(7, 'Alimentación de Pingüinos', 40, '2026-06-12 11:00:00', 30, '88888888H', 'Polar'),
+(8, 'Alimentación de Pingüinos', 40, '2026-06-12 13:00:00', 30, '88888888H', 'Polar'),
+(9, 'Espectáculo de Leones Marinos', 45, '2026-06-13 10:00:00', 50, '99999999I', 'Zona de Acuario'),
+(10, 'Espectáculo de Leones Marinos', 45, '2026-06-13 12:00:00', 50, '99999999I', 'Zona de Acuario'),
+(11, 'Espectáculo de Leones Marinos', 45, '2026-06-13 14:00:00', 50, '99999999I', 'Zona de Acuario'),
+(12, 'Charlas de Conservación', 60, '2026-06-14 11:00:00', 40, '88888888H', 'Área de Descanso'),
+(13, 'Charlas de Conservación', 60, '2026-06-14 13:00:00', 40, '88888888H', 'Área de Descanso'),
+(14, 'Espectáculo Nocturno', 80, '2026-06-15 20:00:00', 90, '99999999I', 'Sabana Africana'),
+(15, 'Espectáculo Nocturno', 80, '2026-06-16 20:00:00', 90, '99999999I', 'Sabana Africana');
 
 -- ======================================================
 -- DATOS DE RESERVAS

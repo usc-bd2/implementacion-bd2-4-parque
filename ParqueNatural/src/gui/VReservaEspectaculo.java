@@ -136,28 +136,31 @@ public class VReservaEspectaculo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-                int fila = jTable1.getSelectedRow();
+       int fila = jTable1.getSelectedRow();
         if (fila < 0) {
             JOptionPane.showMessageDialog(this, "Seleccione un espectáculo");
             return;
         }
-    
+
         int idEspectaculo = (int) jTable1.getValueAt(fila, 0);
-    
-        // Verificar que el usuario tiene entrada para hoy
-        List<Entrada> entradas = fa.consultarEntradasVendidas(LocalDate.now(), LocalDate.now());
-        boolean tieneEntrada = entradas.stream().anyMatch(e -> e.getIdUsuario() == usuarioActual.getIdUsuario());
-    
+        String fechaStr = jTable1.getValueAt(fila, 3).toString();
+        LocalDate fechaEspectaculo = LocalDate.parse(fechaStr.substring(0, 10));
+
+        // Verificar que el usuario tiene entrada para el día del espectáculo
+        List<Entrada> entradas = fa.consultarEntradasVendidas(fechaEspectaculo, fechaEspectaculo);
+        boolean tieneEntrada = entradas.stream()
+            .anyMatch(e -> e.getIdUsuario() == usuarioActual.getIdUsuario() && e.isActivo());
+
         if (!tieneEntrada) {
-            JOptionPane.showMessageDialog(this, 
-                "Necesita tener una entrada para el día de hoy para hacer reservas");
+            JOptionPane.showMessageDialog(this,
+                "Necesita tener una entrada para el día del espectáculo para hacer reservas");
             return;
         }
-    
+
         boolean ok = fa.reservarPlazaEspectaculo(idEspectaculo, usuarioActual.getIdUsuario());
         if (ok) {
             JOptionPane.showMessageDialog(this, "Reserva realizada con éxito");
-            cargarEspectaculos(); // Recargar tabla
+            cargarEspectaculos();
         } else {
             JOptionPane.showMessageDialog(this, "No se pudo realizar la reserva");
         }
@@ -166,17 +169,17 @@ public class VReservaEspectaculo extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         String filtro = (String) jComboBox1.getSelectedItem();
         if (filtro == null) return;
-    
+
+        List<Espectaculo> espectaculos = fa.listarEspectaculos();
         DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
         modelo.setRowCount(0);
-        Iterable<Espectaculo> espectaculos = null;
-    
+
         for (Espectaculo e : espectaculos) {
             if (filtro.equals("Todos") || e.getNombre().equals(filtro)) {
                 modelo.addRow(new Object[]{
                     e.getIdEspectaculo(), e.getNombre(), e.getZona(),
-                    e.getHoraInicioLocal().toString(), e.getDuracion() + " min",
-                    e.getPlazasDisponibles()
+                    e.getHoraInicio().toString(), e.getDuracion() + " min",
+                    e.getPlazasLibres()
                 });
             }
         }
@@ -186,6 +189,26 @@ public class VReservaEspectaculo extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void cargarEspectaculos() {
+        List<Espectaculo> espectaculos = fa.listarEspectaculos();
+
+        DefaultTableModel modelo = new DefaultTableModel(
+        new String[]{"ID", "Nombre", "Zona", "Inicio", "Duración", "Plazas"}, 0);
+
+        for (Espectaculo e : espectaculos) {
+            modelo.addRow(new Object[]{
+                e.getIdEspectaculo(), e.getNombre(), e.getZona(),
+                e.getHoraInicio().toString(), e.getDuracion() + " min",
+                e.getPlazasLibres()
+            });
+        }
+        jTable1.setModel(modelo);
+
+        jComboBox1.removeAllItems();
+        jComboBox1.addItem("Todos");
+        espectaculos.stream().map(Espectaculo::getNombre).distinct().forEach(jComboBox1::addItem);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -199,33 +222,6 @@ public class VReservaEspectaculo extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarEspectaculos() {
-       List<Espectaculo> espectaculos = fa.listarEspectaculos();
-    
-        // Filtrar solo los que tienen plazas disponibles y no han pasado
-        espectaculos = espectaculos.stream()
-            .filter(e -> e.getPlazasDisponibles() > 0)
-            .filter(e -> e.getFecha().isAfter(LocalDate.now()) || 
-                        (e.getFecha().isEqual(LocalDate.now()) && 
-                        e.getHoraInicioLocal().isAfter(LocalTime.now())))
-            .collect(Collectors.toList());
-    
-        // Cargar tabla
-        DefaultTableModel modelo = new DefaultTableModel(
-            new String[]{"ID", "Nombre", "Zona", "Inicio", "Duración", "Plazas"}, 0);
-    
-        for (Espectaculo e : espectaculos) {
-            modelo.addRow(new Object[]{
-                e.getIdEspectaculo(), e.getNombre(), e.getZona(),
-                e.getHoraInicioLocal().toString(), e.getDuracion() + " min",
-                e.getPlazasDisponibles()
-            });
-        }
-        jTable1.setModel(modelo);
-    
-        // Cargar combo con nombres para filtrar
-        jComboBox1.removeAllItems();
-        jComboBox1.addItem("Todos");
-        espectaculos.stream().map(Espectaculo::getNombre).distinct().forEach(jComboBox1::addItem);
-    }
 }
+ 
+    
