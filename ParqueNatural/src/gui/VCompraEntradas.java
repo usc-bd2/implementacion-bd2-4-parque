@@ -63,7 +63,7 @@ public class VCompraEntradas extends javax.swing.JFrame {
 
         labelPrecio.setText("Precio");
 
-        labelCash.setText("$12 / entrada");
+        labelCash.setText("$25.5 / entrada");
 
         labelNEntradas.setText("Número de entradas");
 
@@ -101,13 +101,16 @@ public class VCompraEntradas extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(94, 94, 94)
                         .addComponent(labelPrecio)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelCash, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(botonSalir, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(73, 73, 73))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(botonSalir)
+                                .addGap(73, 73, 73))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(labelCash, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(61, 61, 61))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
