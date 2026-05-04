@@ -34,6 +34,7 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
         this.setLocationRelativeTo(parent);
         cargarEspectaculos();
         cargarZonas();
+        cargarShowmans();
     }
     
     private void cargarZonas() {
@@ -48,7 +49,7 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
         List<Espectaculo> espectaculos = fa.listarEspectaculos();
     
         DefaultTableModel modelo = new DefaultTableModel(
-            new String[]{"ID", "Nombre", "Zona", "Inicio", "Duración", "Aforo", "Plazas"}, 0);
+            new String[]{"ID", "Nombre", "Zona", "Inicio", "Duración", "Aforo", "Plazas", "Showman"}, 0);
     
         for (Espectaculo e : espectaculos) {
             modelo.addRow(new Object[]{
@@ -58,10 +59,17 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
                 e.getHoraInicio(),
                 e.getDuracion(),
                 e.getAforo(),
-                e.getPlazasDisponibles()
+                e.getPlazasDisponibles(),
+                e.getShowman()
             });
         }
         tablaEspectaculos.setModel(modelo);
+    }
+    
+    private void cargarShowmans() {
+        comboShowman.removeAllItems();
+        comboShowman.addItem("88888888H"); // Isabel Moreno
+        comboShowman.addItem("99999999I"); // Pablo Herrero
     }
     
     private void limpiarFormulario() {
@@ -102,6 +110,8 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
         textFieldAforo = new javax.swing.JTextField();
         textPlazas = new javax.swing.JLabel();
         textFieldPlazas = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        comboShowman = new javax.swing.JComboBox<>();
         botonNuevo = new javax.swing.JButton();
         botonGuardar = new javax.swing.JButton();
         botonEliminar = new javax.swing.JButton();
@@ -116,13 +126,13 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
 
         tablaEspectaculos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Zona", "Inicio", "Duración", "Aforo", "Plazas"
+                "ID", "Nombre", "Zona", "Inicio", "Duración", "Aforo", "Plazas", "Showman"
             }
         ));
         tablaEspectaculos.setColumnSelectionAllowed(true);
@@ -163,6 +173,10 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
 
         textFieldPlazas.addActionListener(this::textFieldPlazasActionPerformed);
 
+        jLabel1.setText("Showman");
+
+        comboShowman.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout panelDetallesLayout = new javax.swing.GroupLayout(panelDetalles);
         panelDetalles.setLayout(panelDetallesLayout);
         panelDetallesLayout.setHorizontalGroup(
@@ -185,15 +199,17 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
                     .addComponent(textInicio))
                 .addGap(18, 18, 18)
                 .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDetallesLayout.createSequentialGroup()
-                        .addComponent(textFieldInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(66, 66, 66)
-                        .addComponent(textPlazas)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(textFieldPlazas, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(textFieldDuracion, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
-                        .addComponent(textFieldAforo)))
+                    .addComponent(textFieldDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textFieldAforo, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textFieldInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(44, 44, 44)
+                .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textPlazas)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(textFieldPlazas, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                    .addComponent(comboShowman, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelDetallesLayout.setVerticalGroup(
@@ -210,14 +226,18 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
                             .addComponent(textPlazas)
                             .addComponent(textFieldPlazas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelDetallesLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(textNombre)
-                                    .addComponent(textFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDetallesLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(textFieldDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(textFieldDuracion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1)))
+                            .addGroup(panelDetallesLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(textNombre)
+                                        .addComponent(textFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(comboShowman, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addComponent(textDuracion))
                 .addGap(18, 18, 18)
                 .addGroup(panelDetallesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,7 +297,7 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
                     .addComponent(botonGuardar)
                     .addComponent(botonEliminar)
                     .addComponent(botonSalir))
-                .addGap(0, 29, Short.MAX_VALUE))
+                .addGap(0, 35, Short.MAX_VALUE))
         );
 
         pack();
@@ -313,40 +333,47 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
     }//GEN-LAST:event_botonNuevoActionPerformed
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-            try {
+        try {
         String idStr = textFieldID.getText().trim();
         String nombre = textFieldNombre.getText().trim();
         String zona = (String) jComboBox1.getSelectedItem();
-        
-        // Usar java.sql.Date en lugar de Timestamp
+        String showman = (String) comboShowman.getSelectedItem();
+
+        if (nombre.isEmpty() || zona == null || showman == null) {
+            JOptionPane.showMessageDialog(this, "Por favor rellena todos los campos obligatorios");
+            return;
+        }
+
         String fechaStr = textFieldInicio.getText().trim();
         if (fechaStr.length() == 10) {
             fechaStr = fechaStr + " 12:00:00";
         }
-        
+
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         java.util.Date fechaUtil = sdf.parse(fechaStr);
         java.sql.Timestamp timestamp = new java.sql.Timestamp(fechaUtil.getTime());
-        
+
         int duracion = Integer.parseInt(textFieldDuracion.getText().trim());
         int aforo = Integer.parseInt(textFieldAforo.getText().trim());
-        
+
         if (idStr.isEmpty()) {
-            Espectaculo e = new Espectaculo(0, nombre, aforo, timestamp, duracion, "", zona);
+            Espectaculo e = new Espectaculo(0, nombre, aforo, timestamp, duracion, showman, zona);
             fa.añadirEspectaculo(e);
         } else {
             int id = Integer.parseInt(idStr);
-            Espectaculo e = new Espectaculo(id, nombre, aforo, timestamp, duracion, "", zona);
+            Espectaculo e = new Espectaculo(id, nombre, aforo, timestamp, duracion, showman, zona);
             fa.modificarEspectaculo(e);
         }
-        
+
         cargarEspectaculos();
         limpiarFormulario();
-        JOptionPane.showMessageDialog(this, "Espectáculo guardado");
-        
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error en fecha: " + e.getMessage());
-    }
+        JOptionPane.showMessageDialog(this, "Espectáculo guardado correctamente");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error: duración y aforo deben ser números");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
@@ -369,6 +396,7 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
             textFieldDuracion.setText(String.valueOf(tablaEspectaculos.getValueAt(fila, 4)));
             textFieldAforo.setText(String.valueOf(tablaEspectaculos.getValueAt(fila, 5)));
             textFieldPlazas.setText(String.valueOf(tablaEspectaculos.getValueAt(fila, 6)));
+            comboShowman.setSelectedItem(tablaEspectaculos.getValueAt(fila, 7));
             textFieldID.setEditable(false);
         }
     }//GEN-LAST:event_tablaEspectaculosMouseClicked
@@ -378,7 +406,9 @@ public class VGestionEspectaculos extends javax.swing.JDialog {
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JButton botonSalir;
+    private javax.swing.JComboBox<String> comboShowman;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel panelDetalles;

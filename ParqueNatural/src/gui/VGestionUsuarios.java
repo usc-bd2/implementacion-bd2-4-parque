@@ -4,6 +4,7 @@
  */
 package gui;
 import aplicacion.Usuario;
+import aplicacion.FachadaAplicacion;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -12,20 +13,22 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author sebas
+ * @author alumnogreibd
  */
 public class VGestionUsuarios extends javax.swing.JPanel {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VLogin.class.getName());
     private aplicacion.FachadaAplicacion fa;
+    private java.util.List<aplicacion.Usuario> usuariosActuales = new java.util.ArrayList<>();
+    private int idSeleccionado = -1;
 
     /**
      * Creates new form VGestionUsuarios
      */
     public VGestionUsuarios(aplicacion.FachadaAplicacion fa) {
-        this.fa = fa;
-        initComponents();
-        cargarTabla();
+        this.fa = fa;      
+        initComponents();   
+        cargarTabla();     
     }
 
     /**
@@ -45,14 +48,12 @@ public class VGestionUsuarios extends javax.swing.JPanel {
         emailTextField1 = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         datosTable1 = new javax.swing.JTable();
-        idLabel1 = new javax.swing.JLabel();
         emailLabel2 = new javax.swing.JLabel();
         claveLabel3 = new javax.swing.JLabel();
         nuevoButton1 = new javax.swing.JButton();
         guardarButton2 = new javax.swing.JButton();
         eliminarButton3 = new javax.swing.JButton();
         salirButton4 = new javax.swing.JButton();
-        idTextField1 = new javax.swing.JTextField();
         emailTextField2 = new javax.swing.JTextField();
         claveTextField2 = new javax.swing.JTextField();
         nombreLabel4 = new javax.swing.JLabel();
@@ -68,6 +69,8 @@ public class VGestionUsuarios extends javax.swing.JPanel {
         ap2Label2 = new javax.swing.JLabel();
         ap2TextField1 = new javax.swing.JTextField();
         permisosCheckBox1 = new javax.swing.JCheckBox();
+
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         idLabel.setText("ID");
 
@@ -91,9 +94,12 @@ public class VGestionUsuarios extends javax.swing.JPanel {
                 "ID", "Nombre", "Email", "Teléfono", "Permisos"
             }
         ));
+        datosTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                datosTable1MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(datosTable1);
-
-        idLabel1.setText("ID");
 
         emailLabel2.setText("Email");
 
@@ -108,10 +114,9 @@ public class VGestionUsuarios extends javax.swing.JPanel {
         eliminarButton3.setText("Eliminar");
         eliminarButton3.addActionListener(this::eliminarButton3ActionPerformed);
 
+        salirButton4.setForeground(new java.awt.Color(255, 0, 51));
         salirButton4.setText("Salir");
         salirButton4.addActionListener(this::salirButton4ActionPerformed);
-
-        idTextField1.addActionListener(this::idTextField1ActionPerformed);
 
         emailTextField2.addActionListener(this::emailTextField2ActionPerformed);
 
@@ -152,66 +157,66 @@ public class VGestionUsuarios extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(claveLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(claveTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(ap1Label9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ap1TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(ap2Label2)
-                        .addGap(18, 18, 18)
-                        .addComponent(ap2TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(27, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(nombreLabel4)
+                                    .addComponent(claveLabel3)
+                                    .addComponent(emailLabel2))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(emailTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(telefonoLabel5)
+                                                .addGap(18, 18, 18))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(claveTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(9, 9, 9)
+                                                .addComponent(nacimientoLabel7)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(telefonoTextField2)
+                                            .addComponent(ap1TextField1)
+                                            .addComponent(nacimientoTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(nombreTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(ap1Label9)
+                                        .addGap(112, 112, 112)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(permisosLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(permisosCheckBox1))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(ap2Label2)
+                                        .addGap(13, 13, 13)
+                                        .addComponent(ap2TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(10, 10, 10))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(emailLabel2)
-                            .addComponent(idLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(emailTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(telefonoLabel5))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(idTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(nombreLabel4)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(nombreTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(permisosLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(permisosCheckBox1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(telefonoTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nacimientoLabel7)
-                                .addGap(18, 18, 18)
-                                .addComponent(nacimientoTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(14, 14, 14))))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
                         .addComponent(idLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(idTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(idTextField)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(nombreLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(nombreTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(emailLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(emailTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(buscarButton1))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(9, 9, 9))
+                        .addComponent(nombreTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(emailLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(emailTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buscarButton1)))
+                .addGap(20, 20, 20))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(nuevoButton1)
@@ -239,29 +244,27 @@ public class VGestionUsuarios extends javax.swing.JPanel {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(idLabel1)
-                    .addComponent(idTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nombreLabel4)
-                    .addComponent(nombreTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(permisosLabel6)
-                    .addComponent(permisosCheckBox1))
+                    .addComponent(nombreLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nombreTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ap1TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ap1Label9)
+                    .addComponent(ap2TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ap2Label2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(emailLabel2)
                     .addComponent(emailTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(telefonoLabel5)
                     .addComponent(telefonoTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nacimientoLabel7)
-                    .addComponent(nacimientoTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(permisosLabel6)
+                    .addComponent(permisosCheckBox1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(claveLabel3)
                     .addComponent(claveTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ap1Label9)
-                    .addComponent(ap1TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ap2Label2)
-                    .addComponent(ap2TextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                    .addComponent(nacimientoTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nacimientoLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nuevoButton1)
                     .addComponent(guardarButton2)
@@ -272,78 +275,136 @@ public class VGestionUsuarios extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void nuevoButton1ActionPerformed(java.awt.event.ActionEvent evt){//GEN-FIRST:event_nuevoButton1ActionPerformed
-        if (idTextField1.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El ID no puede estar vacío.");
+        // Validamos que al menos haya escrito el nombre
+        if (nombreTextField2.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "El Nombre es obligatorio para crear un usuario.");
             return;
         }
 
-        Integer ID;
-        try {
-            ID = Integer.valueOf(idTextField1.getText().trim());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "El ID debe ser un número.");
-            return;
+        // Calculamos el siguiente ID disponible automáticamente
+        int idCalculado = 1;
+        for (aplicacion.Usuario u : usuariosActuales) {
+            if (u.getIdUsuario() >= idCalculado) {
+                idCalculado = u.getIdUsuario() + 1;
+            }
         }
 
-        LocalDate fecha;
-        try {
-            fecha = LocalDate.parse(nacimientoTextField1.getText().trim(), 
-                        DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Usa dd/mm/aaaa.");
-            return;
+        // Recogemos los datos de los campos de texto
+        LocalDate fecha = null;
+        if (!nacimientoTextField1.getText().trim().isEmpty()) {
+            try {
+                fecha = LocalDate.parse(nacimientoTextField1.getText().trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            } catch (DateTimeParseException e) {
+                JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Usa dd/MM/yyyy.");
+                return;
+            }
         }
         
-        String Nombre = nombreTextField2.getText();
-        String ap1 = ap1Label9.getText();
-        String ap2 = ap2Label2.getText();
-        String clave = claveTextField2.getText();
-        String email = emailTextField2.getText();
-        String telefono = telefonoTextField2.getText();
-        Boolean permisos = permisosCheckBox1.isSelected();
+        String nombre = nombreTextField2.getText().trim();
+        String ap1 = ap1TextField1.getText().trim();
+        String ap2 = ap2TextField1.getText().trim();
+        String email = emailTextField2.getText().trim();
+        String telefono = telefonoTextField2.getText().trim();
+        String clave = claveTextField2.getText().trim();
+        boolean permisos = permisosCheckBox1.isSelected();
 
         try {
-            aplicacion.Usuario u = new aplicacion.Usuario(ID, Nombre, ap1, ap2, clave, email, telefono, fecha, permisos);
+            // Creamos el usuario con el ID autocalculado y lo guardamos
+            aplicacion.Usuario u = new aplicacion.Usuario(idCalculado, nombre, ap1, ap2, clave, email, telefono, fecha, permisos);
             fa.crearCuenta(u);
+            
             JOptionPane.showMessageDialog(this, "Cuenta creada correctamente");
+            
+            // Recargamos la tabla y vaciamos los campos visuales
+            cargarTabla();
+            nombreTextField2.setText("");
+            ap1TextField1.setText("");
+            ap2TextField1.setText("");
+            emailTextField2.setText("");
+            telefonoTextField2.setText("");
+            claveTextField2.setText("");
+            nacimientoTextField1.setText("");
+            permisosCheckBox1.setSelected(false);
+            
+            idSeleccionado = -1; // Reseteamos la memoria
+            datosTable1.clearSelection();
+            
         } catch (Exception e) {
-            fa.muestraExcepcion(e.getMessage());
+            fa.muestraExcepcion("Error al crear la cuenta: " + e.getMessage());
         }
     }//GEN-LAST:event_nuevoButton1ActionPerformed
 
     private void guardarButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarButton2ActionPerformed
-            int id = Integer.parseInt(idTextField1.getText().trim());
-    String nombre = nombreTextField2.getText().trim();
-    String ap1 = ap1TextField1.getText().trim();
-    String ap2 = ap2TextField1.getText().trim();
-    String email = emailTextField2.getText().trim();
-    String telefono = telefonoTextField2.getText().trim();
-    String clave = claveTextField2.getText().trim();
-    LocalDate fecha = LocalDate.parse(nacimientoTextField1.getText().trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-    boolean permisos = permisosCheckBox1.isSelected();
-    
-    Usuario u = new Usuario(id, nombre, ap1, ap2, clave, email, telefono, fecha, permisos);
-    fa.editarDatos(u);
-    
-    JOptionPane.showMessageDialog(this, "Usuario guardado");
-    cargarTabla();
+        // Verificamos en memoria si hay alguien seleccionado
+        if (idSeleccionado == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un usuario de la tabla para modificar sus datos.");
+            return;
+        }
+
+        try {
+            // Recogemos los datos (modificados o no)
+            String nombre = nombreTextField2.getText().trim();
+            String ap1 = ap1TextField1.getText().trim();
+            String ap2 = ap2TextField1.getText().trim();
+            String email = emailTextField2.getText().trim();
+            String telefono = telefonoTextField2.getText().trim();
+            String clave = claveTextField2.getText().trim();
+
+            LocalDate fecha = null;
+            if (!nacimientoTextField1.getText().trim().isEmpty()) {
+                fecha = LocalDate.parse(nacimientoTextField1.getText().trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            }
+            boolean permisos = permisosCheckBox1.isSelected();
+
+            // Actualizamos en la base de datos usando el ID que guardamos en memoria
+            aplicacion.Usuario u = new aplicacion.Usuario(idSeleccionado, nombre, ap1, ap2, clave, email, telefono, fecha, permisos);
+            fa.editarDatos(u);
+
+            JOptionPane.showMessageDialog(this, "Usuario actualizado correctamente.");
+            cargarTabla();
+
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Usa dd/MM/yyyy.");
+        } catch (Exception ex) {
+            fa.muestraExcepcion("Error al modificar el usuario: " + ex.getMessage());
+        }
     }//GEN-LAST:event_guardarButton2ActionPerformed
 
     private void eliminarButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarButton3ActionPerformed
-        if (idTextField1.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "El ID no puede estar vacío.");
-            return;
-        }
-
-        Integer ID;
-        try {
-            ID = Integer.valueOf(idTextField1.getText().trim());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "El ID debe ser un número.");
+        if (idSeleccionado == -1) {
+            JOptionPane.showMessageDialog(this, "Selecciona un usuario de la tabla primero para eliminarlo.");
             return;
         }
         
-        fa.eliminarUsuario(ID);
+        int confirmacion = JOptionPane.showConfirmDialog(this, 
+                "¿Estás seguro de que deseas eliminar al usuario con ID " + idSeleccionado + "?", 
+                "Confirmar borrado", 
+                JOptionPane.YES_NO_OPTION, 
+                JOptionPane.WARNING_MESSAGE);
+                
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try {
+                fa.eliminarUsuario(idSeleccionado);
+                JOptionPane.showMessageDialog(this, "Usuario eliminado correctamente.");
+                
+                cargarTabla();
+                
+                // Limpiamos los cuadros de texto
+                nombreTextField2.setText("");
+                ap1TextField1.setText("");
+                ap2TextField1.setText("");
+                emailTextField2.setText("");
+                telefonoTextField2.setText("");
+                claveTextField2.setText("");
+                nacimientoTextField1.setText("");
+                permisosCheckBox1.setSelected(false);
+                
+                idSeleccionado = -1; // Vaciamos la memoria
+                
+            } catch (Exception ex) {
+                fa.muestraExcepcion("Error al eliminar: " + ex.getMessage());
+            }
+        }
     }//GEN-LAST:event_eliminarButton3ActionPerformed
 
     private void salirButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirButton4ActionPerformed
@@ -354,12 +415,12 @@ public class VGestionUsuarios extends javax.swing.JPanel {
         String id = idTextField.getText().trim();
         String nombre = nombreTextField1.getText().trim();
     
-        java.util.List<Usuario> usuarios = fa.obtenerUsuarios(id, nombre);
+        usuariosActuales = fa.obtenerUsuarios(id, nombre);
     
         javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) datosTable1.getModel();
         modelo.setRowCount(0);
     
-        for (Usuario u : usuarios) {
+        for (Usuario u : usuariosActuales) {
             modelo.addRow(new Object[]{
                 u.getIdUsuario(),
                 u.getNombre() + " " + u.getAp1() + " " + u.getAp2(),
@@ -381,10 +442,6 @@ public class VGestionUsuarios extends javax.swing.JPanel {
     private void emailTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_emailTextField1ActionPerformed
-
-    private void idTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idTextField1ActionPerformed
 
     private void nombreTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreTextField2ActionPerformed
         // TODO add your handling code here:
@@ -418,14 +475,42 @@ public class VGestionUsuarios extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_ap2TextField1ActionPerformed
 
+    private void datosTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_datosTable1MouseClicked
+        int filaSeleccionada = datosTable1.getSelectedRow();
+        
+        if (filaSeleccionada >= 0 && usuariosActuales != null && filaSeleccionada < usuariosActuales.size()) {
+            Usuario u = usuariosActuales.get(filaSeleccionada);
+            
+            // Guardamos el ID en memoria
+            idSeleccionado = u.getIdUsuario(); 
+            
+            nombreTextField2.setText(u.getNombre());
+            ap1TextField1.setText(u.getAp1());
+            ap2TextField1.setText(u.getAp2());
+            emailTextField2.setText(u.getEmail());
+            telefonoTextField2.setText(u.getTelefono());
+            claveTextField2.setText(u.getClave());
+            permisosCheckBox1.setSelected(u.isPermisos());
+            
+            if (u.getFechaNacimiento() != null) {
+                nacimientoTextField1.setText(u.getFechaNacimiento().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            } else {
+                nacimientoTextField1.setText("");
+            }
+        }
+    }//GEN-LAST:event_datosTable1MouseClicked
+
     private void cargarTabla() {
-        java.util.List<aplicacion.Usuario> usuarios = fa.obtenerUsuarios(null,null);
-         javax.swing.table.DefaultTableModel  modelo = ( javax.swing.table.DefaultTableModel ) datosTable1.getModel();
+        usuariosActuales = fa.obtenerUsuarios(null, null);
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) datosTable1.getModel();
         modelo.setRowCount(0);
-        for (aplicacion.Usuario u : usuarios) {
+        for (aplicacion.Usuario u : usuariosActuales) {
             modelo.addRow(new Object[]{
-                u.getIdUsuario(), u.getNombre(), u.getEmail(),
-                u.getTelefono(), u.isPermisos()
+                u.getIdUsuario(), 
+                u.getNombre(), 
+                u.getEmail(),
+                u.getTelefono(), 
+                u.isPermisos() ? "Admin" : "Usuario"
             });
         }
     }
@@ -446,9 +531,7 @@ public class VGestionUsuarios extends javax.swing.JPanel {
     private javax.swing.JTextField emailTextField2;
     private javax.swing.JButton guardarButton2;
     private javax.swing.JLabel idLabel;
-    private javax.swing.JLabel idLabel1;
     private javax.swing.JTextField idTextField;
-    private javax.swing.JTextField idTextField1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel nacimientoLabel7;
     private javax.swing.JTextField nacimientoTextField1;
