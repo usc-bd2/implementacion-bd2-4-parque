@@ -62,12 +62,6 @@ public class VAnimales extends javax.swing.JFrame {
         botonBuscar.setText("Buscar");
         botonBuscar.addActionListener(this::botonBuscarActionPerformed);
 
-        jScrollPane2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jScrollPane2MouseClicked(evt);
-            }
-        });
-
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -79,6 +73,11 @@ public class VAnimales extends javax.swing.JFrame {
                 "Nombre Común", "Nombre Científico", "Zona", "Estado Conservación"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
 
         textoFicha.setText("Ficha del animal");
@@ -224,19 +223,28 @@ public class VAnimales extends javax.swing.JFrame {
         jTable1.setModel(modelo);
     }//GEN-LAST:event_botonBuscarActionPerformed
 
-    private void jScrollPane2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane2MouseClicked
-        int fila = jTable1.getSelectedRow();
-        if (fila >= 0) {
-            labelNombreComun.setText((String) jTable1.getValueAt(fila, 0));
-            labelNombreCientifico.setText((String) jTable1.getValueAt(fila, 1));
-            labelZona.setText((String) jTable1.getValueAt(fila, 2));
-            labelEstadoConservacion.setText((String) jTable1.getValueAt(fila, 3));
-        }
-    }//GEN-LAST:event_jScrollPane2MouseClicked
-
     private void botonCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCerrarActionPerformed
         dispose();
     }//GEN-LAST:event_botonCerrarActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int fila = jTable1.getSelectedRow();
+        if (fila >= 0) {
+        String nombreComun = (String) jTable1.getValueAt(fila, 0);
+        
+        // Buscar el animal completo en la BD
+        java.util.List<aplicacion.Animal> animales = fa.obtenerAnimales(nombreComun, "");
+        if (!animales.isEmpty()) {
+            aplicacion.Animal a = animales.get(0);
+            labelNombreComun.setText(a.getNombreComun());
+            labelNombreCientifico.setText(a.getNombreCientifico());
+            labelZona.setText(a.getNombreZona());
+            labelEstadoConservacion.setText(a.getEstadoConservacion());
+            labelAlimentacion.setText(a.getAlimentacion());
+            labelDescripcion.setText(a.getDescripcion());
+        }
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
