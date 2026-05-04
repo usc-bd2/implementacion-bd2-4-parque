@@ -233,8 +233,12 @@ public class VGestionEntradas extends javax.swing.JFrame {
     }//GEN-LAST:event_textRecaudacionActionPerformed
 
     private void BotonVentaEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonVentaEntradasActionPerformed
-        dispose();
-        new VCompraEntradas(fa, null).setVisible(true);
+        String idStr = javax.swing.JOptionPane.showInputDialog(this, "ID del usuario que compra:");
+        if (idStr != null && !idStr.isEmpty()) {
+            int idUsuario = Integer.parseInt(idStr);
+            VCompraEntradas v = new VCompraEntradas(fa, null);
+            v.setVisible(true);
+        }
     }//GEN-LAST:event_BotonVentaEntradasActionPerformed
 
     private void textHastaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textHastaActionPerformed

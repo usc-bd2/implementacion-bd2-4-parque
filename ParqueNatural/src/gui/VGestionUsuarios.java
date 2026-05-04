@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package gui;
+import aplicacion.Usuario;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -70,9 +71,15 @@ public class VGestionUsuarios extends javax.swing.JPanel {
 
         idLabel.setText("ID");
 
+        idTextField.addActionListener(this::idTextFieldActionPerformed);
+
         nombreLabel1.setText("Nombre");
 
+        nombreTextField1.addActionListener(this::nombreTextField1ActionPerformed);
+
         emailLabel1.setText("Email");
+
+        emailTextField1.addActionListener(this::emailTextField1ActionPerformed);
 
         datosTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -104,26 +111,41 @@ public class VGestionUsuarios extends javax.swing.JPanel {
         salirButton4.setText("Salir");
         salirButton4.addActionListener(this::salirButton4ActionPerformed);
 
+        idTextField1.addActionListener(this::idTextField1ActionPerformed);
+
+        emailTextField2.addActionListener(this::emailTextField2ActionPerformed);
+
+        claveTextField2.addActionListener(this::claveTextField2ActionPerformed);
+
         nombreLabel4.setText("Nombre");
 
         telefonoLabel5.setText("Teléfono");
 
         nombreTextField2.setToolTipText("");
+        nombreTextField2.addActionListener(this::nombreTextField2ActionPerformed);
+
+        telefonoTextField2.addActionListener(this::telefonoTextField2ActionPerformed);
 
         permisosLabel6.setText("Permisos");
 
         nacimientoLabel7.setText("Nacimiento");
 
         nacimientoTextField1.setToolTipText("dd/mm/aaaa");
+        nacimientoTextField1.addActionListener(this::nacimientoTextField1ActionPerformed);
 
         buscarButton1.setText("Buscar");
         buscarButton1.addActionListener(this::buscarButton1ActionPerformed);
 
         ap1Label9.setText("Apellido1");
 
+        ap1TextField1.addActionListener(this::ap1TextField1ActionPerformed);
+
         ap2Label2.setText("Apellido2");
 
+        ap2TextField1.addActionListener(this::ap2TextField1ActionPerformed);
+
         permisosCheckBox1.setText("Es Admin?");
+        permisosCheckBox1.addActionListener(this::permisosCheckBox1ActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -197,7 +219,7 @@ public class VGestionUsuarios extends javax.swing.JPanel {
                 .addComponent(guardarButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(eliminarButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(salirButton4)
                 .addContainerGap())
         );
@@ -290,7 +312,21 @@ public class VGestionUsuarios extends javax.swing.JPanel {
     }//GEN-LAST:event_nuevoButton1ActionPerformed
 
     private void guardarButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarButton2ActionPerformed
-        
+            int id = Integer.parseInt(idTextField1.getText().trim());
+    String nombre = nombreTextField2.getText().trim();
+    String ap1 = ap1TextField1.getText().trim();
+    String ap2 = ap2TextField1.getText().trim();
+    String email = emailTextField2.getText().trim();
+    String telefono = telefonoTextField2.getText().trim();
+    String clave = claveTextField2.getText().trim();
+    LocalDate fecha = LocalDate.parse(nacimientoTextField1.getText().trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    boolean permisos = permisosCheckBox1.isSelected();
+    
+    Usuario u = new Usuario(id, nombre, ap1, ap2, clave, email, telefono, fecha, permisos);
+    fa.editarDatos(u);
+    
+    JOptionPane.showMessageDialog(this, "Usuario guardado");
+    cargarTabla();
     }//GEN-LAST:event_guardarButton2ActionPerformed
 
     private void eliminarButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarButton3ActionPerformed
@@ -315,8 +351,72 @@ public class VGestionUsuarios extends javax.swing.JPanel {
     }//GEN-LAST:event_salirButton4ActionPerformed
 
     private void buscarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarButton1ActionPerformed
-        // TODO add your handling code here:
+        String id = idTextField.getText().trim();
+        String nombre = nombreTextField1.getText().trim();
+    
+        java.util.List<Usuario> usuarios = fa.obtenerUsuarios(id, nombre);
+    
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) datosTable1.getModel();
+        modelo.setRowCount(0);
+    
+        for (Usuario u : usuarios) {
+            modelo.addRow(new Object[]{
+                u.getIdUsuario(),
+                u.getNombre() + " " + u.getAp1() + " " + u.getAp2(),
+                u.getEmail(),
+                u.getTelefono(),
+                u.isPermisos() ? "Admin" : "Usuario"
+            });
+        }
     }//GEN-LAST:event_buscarButton1ActionPerformed
+
+    private void idTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idTextFieldActionPerformed
+
+    private void nombreTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nombreTextField1ActionPerformed
+
+    private void emailTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailTextField1ActionPerformed
+
+    private void idTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idTextField1ActionPerformed
+
+    private void nombreTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nombreTextField2ActionPerformed
+
+    private void permisosCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_permisosCheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_permisosCheckBox1ActionPerformed
+
+    private void nacimientoTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nacimientoTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nacimientoTextField1ActionPerformed
+
+    private void telefonoTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telefonoTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_telefonoTextField2ActionPerformed
+
+    private void emailTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailTextField2ActionPerformed
+
+    private void claveTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_claveTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_claveTextField2ActionPerformed
+
+    private void ap1TextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ap1TextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ap1TextField1ActionPerformed
+
+    private void ap2TextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ap2TextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ap2TextField1ActionPerformed
 
     private void cargarTabla() {
         java.util.List<aplicacion.Usuario> usuarios = fa.obtenerUsuarios(null,null);
