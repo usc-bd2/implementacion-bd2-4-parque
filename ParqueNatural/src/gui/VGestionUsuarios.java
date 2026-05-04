@@ -313,7 +313,7 @@ public class VGestionUsuarios extends javax.swing.JPanel {
             aplicacion.Usuario u = new aplicacion.Usuario(idCalculado, nombre, ap1, ap2, clave, email, telefono, fecha, permisos);
             fa.crearCuenta(u);
             
-            JOptionPane.showMessageDialog(this, "Cuenta creada correctamente con el ID: " + idCalculado);
+            JOptionPane.showMessageDialog(this, "Cuenta creada correctamente");
             
             // Recargamos la tabla y vaciamos los campos visuales
             cargarTabla();

@@ -93,13 +93,17 @@ public class DAOUsuarios extends AbstractDAO {
         try {
             stm = getConexion().prepareStatement(
                     "UPDATE Usuarios SET nombre=?, ap1=?, ap2=?, " +
-                            "email=?, telefono=? WHERE idUsuario=?");
+                            "email=?, telefono=?, clave=?, fechaNacimiento=?, permisos=? " +
+                            "WHERE idUsuario=?");
             stm.setString(1, u.getNombre());
             stm.setString(2, u.getAp1());
             stm.setString(3, u.getAp2());
             stm.setString(4, u.getEmail());
             stm.setString(5, u.getTelefono());
-            stm.setInt(6, u.getIdUsuario());
+            stm.setString(6, u.getClave());
+            stm.setDate(7, java.sql.Date.valueOf(u.getFechaNacimiento()));
+            stm.setBoolean(8, u.isPermisos());
+            stm.setInt(9, u.getIdUsuario());
             stm.executeUpdate();
         } catch (SQLException e) {
             getFachadaAplicacion().muestraExcepcion(e.getMessage());

@@ -28,7 +28,6 @@ public class GestionUsuarios {
         if (fbd.existeEmail(u.getEmail())) {
             throw new Exception("El email '" + u.getEmail() + "' ya está registrado.");
         }
-        u.setPermisos(false); //usuario no admin
         fbd.insertarUsuario(u);
     }
 
