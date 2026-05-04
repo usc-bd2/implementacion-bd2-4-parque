@@ -16,7 +16,7 @@ public class DAOTrabajadores extends AbstractDAO {
      * y descubrir a qué tabla hija (especialidad) pertenecen.
      */
     private final String SQL_BASE_SELECT = 
-        "SELECT t.DNI, t.nombre, t.ap1, t.ap2, t.dirección, t.telefonoContacto, t.email, t.sexo, t.fechaNacimiento, t.sueldo, " +
+        "SELECT t.DNI, t.nombre, t.ap1, t.ap2, t.direccion, t.telefonoContacto, t.email, t.sexo, t.fechaNacimiento, t.sueldo, " +
         "CASE " +
         "  WHEN v.DNI IS NOT NULL THEN 'Veterinario' " +
         "  WHEN c.DNI IS NOT NULL THEN 'Cuidador' " +
@@ -94,7 +94,7 @@ public class DAOTrabajadores extends AbstractDAO {
             con.setAutoCommit(false); // Iniciar transacción
 
             // 1. Insertar en tabla padre Trabajadores
-            String sqlPadre = "INSERT INTO Trabajadores (DNI, nombre, ap1, ap2, dirección, telefonoContacto, email, sexo, fechaNacimiento, sueldo) " +
+            String sqlPadre = "INSERT INTO Trabajadores (DNI, nombre, ap1, ap2, direccion, telefonoContacto, email, sexo, fechaNacimiento, sueldo) " +
                               "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             
             stmtPadre = con.prepareStatement(sqlPadre);
@@ -167,7 +167,7 @@ public class DAOTrabajadores extends AbstractDAO {
 
         try {
             // Documento: "El administrador modifica los campos necesarios (excepto el DNI...)"
-            String sql = "UPDATE Trabajadores SET nombre=?, ap1=?, ap2=?, dirección=?, telefonoContacto=?, email=?, sueldo=? WHERE DNI=?";
+            String sql = "UPDATE Trabajadores SET nombre=?, ap1=?, ap2=?, direccion=?, telefonoContacto=?, email=?, sueldo=? WHERE DNI=?";
             
             stmt = con.prepareStatement(sql);
             stmt.setString(1, t.getNombre());
@@ -226,32 +226,32 @@ public class DAOTrabajadores extends AbstractDAO {
             case "Cuidador":
                 return new Cuidador(
                     rs.getString("DNI"), rs.getString("nombre"), rs.getString("ap1"), rs.getString("ap2"),
-                    rs.getString("dirección"), rs.getString("telefonoContacto"), rs.getString("email"),
+                    rs.getString("direccion"), rs.getString("telefonoContacto"), rs.getString("email"),
                     rs.getString("sexo").charAt(0), rs.getDate("fechaNacimiento").toLocalDate(), rs.getDouble("sueldo")
                 );
             case "Veterinario":
                 return new Veterinario(
                     rs.getString("DNI"), rs.getString("nombre"), rs.getString("ap1"), rs.getString("ap2"),
-                    rs.getString("dirección"), rs.getString("telefonoContacto"), rs.getString("email"),
+                    rs.getString("direccion"), rs.getString("telefonoContacto"), rs.getString("email"),
                     rs.getString("sexo").charAt(0), rs.getDate("fechaNacimiento").toLocalDate(), rs.getDouble("sueldo")
                 );
             case "Showman":
                 return new Showman(
                     rs.getString("DNI"), rs.getString("nombre"), rs.getString("ap1"), rs.getString("ap2"),
-                    rs.getString("dirección"), rs.getString("telefonoContacto"), rs.getString("email"),
+                    rs.getString("direccion"), rs.getString("telefonoContacto"), rs.getString("email"),
                     rs.getString("sexo").charAt(0), rs.getDate("fechaNacimiento").toLocalDate(), rs.getDouble("sueldo")
                 );
             case "Guía":
                 return new Guia(
                     rs.getString("DNI"), rs.getString("nombre"), rs.getString("ap1"), rs.getString("ap2"),
-                    rs.getString("dirección"), rs.getString("telefonoContacto"), rs.getString("email"),
+                    rs.getString("direccion"), rs.getString("telefonoContacto"), rs.getString("email"),
                     rs.getString("sexo").charAt(0), rs.getDate("fechaNacimiento").toLocalDate(), rs.getDouble("sueldo"),
                     rs.getString("guia_esp") // Le pasamos la especialidad
                 );
             case "Seguridad":
                 return new Seguridad(
                     rs.getString("DNI"), rs.getString("nombre"), rs.getString("ap1"), rs.getString("ap2"),
-                    rs.getString("dirección"), rs.getString("telefonoContacto"), rs.getString("email"),
+                    rs.getString("direccion"), rs.getString("telefonoContacto"), rs.getString("email"),
                     rs.getString("sexo").charAt(0), rs.getDate("fechaNacimiento").toLocalDate(), rs.getDouble("sueldo"),
                     rs.getString("seg_equip") // Le pasamos el equipamiento
                 );

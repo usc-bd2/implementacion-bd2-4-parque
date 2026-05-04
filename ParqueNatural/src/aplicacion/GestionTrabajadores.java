@@ -236,4 +236,14 @@ public class GestionTrabajadores {
         
         return true;
     }
+
+    public List<Trabajador> buscarTrabajadoresFiltro(String dni, String nombre) {
+        List<Trabajador> todos = listarTrabajadores(); // Obtiene todos de la BD
+        if (todos == null) return new java.util.ArrayList<>();
+
+        return todos.stream()
+                .filter(t -> (dni.isEmpty() || t.getDni().contains(dni)))
+                .filter(t -> (nombre.isEmpty() || t.getNombre().toLowerCase().contains(nombre.toLowerCase())))
+                .toList();
+    }
 }

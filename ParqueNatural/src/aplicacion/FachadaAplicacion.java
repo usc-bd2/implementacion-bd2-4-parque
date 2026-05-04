@@ -222,5 +222,9 @@ public class FachadaAplicacion {
     public void actualizarCuidadoresAnimal(int idAnimal, List<String> cuidadores) {
         ga.actualizarCuidadoresAnimal(idAnimal, cuidadores);
     }
-    
+
+    public List<Trabajador> buscarTrabajadoresFiltro(String dni, String nombre) {
+        return gt.buscarTrabajadoresFiltro(dni, nombre);
+    }
+
 }
