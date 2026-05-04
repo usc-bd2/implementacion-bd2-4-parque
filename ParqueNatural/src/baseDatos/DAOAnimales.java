@@ -250,7 +250,6 @@ public class DAOAnimales extends AbstractDAO {
         PreparedStatement stm = null;
         try {
             // Buscamos los DNI en la tabla que relaciona Animales y Trabajadores
-            // Asegúrate de que el nombre de la tabla (CuidadoAnimal) y las columnas coinciden con tu script SQL.
             stm = getConexion().prepareStatement(
                 "SELECT DNI FROM CuidadoAnimal WHERE idAnimal = ?"
             );
@@ -272,7 +271,6 @@ public class DAOAnimales extends AbstractDAO {
         PreparedStatement stmDelete = null;
         PreparedStatement stmInsert = null;
         try {
-            // Desactivamos el autocommit para hacer esto como una transacción segura
             getConexion().setAutoCommit(false);
 
             // 1. Borramos TODOS los cuidadores asignados a este animal actualmente
@@ -295,7 +293,6 @@ public class DAOAnimales extends AbstractDAO {
                 }
             }
 
-            // Si todo ha ido bien, confirmamos los cambios
             getConexion().commit();
             
         } catch (SQLException e) {

@@ -129,7 +129,6 @@ public class DAOTrabajadores extends AbstractDAO {
                     stmtHijo.setString(2, ((Seguridad)t).getEquipamiento());
                 }
                 case "Cuidador", "Veterinario", "Showman" -> {
-                    // Estas tablas solo tienen la columna DNI
                     sqlHijo = "INSERT INTO " + tipo + " (DNI) VALUES (?)";
                     stmtHijo = con.prepareStatement(sqlHijo);
                     stmtHijo.setString(1, t.getDni());
@@ -166,7 +165,6 @@ public class DAOTrabajadores extends AbstractDAO {
         boolean exito = false;
 
         try {
-            // Documento: "El administrador modifica los campos necesarios (excepto el DNI...)"
             String sql = "UPDATE Trabajadores SET nombre=?, ap1=?, ap2=?, direccion=?, telefonoContacto=?, email=?, sueldo=? WHERE DNI=?";
             
             stmt = con.prepareStatement(sql);

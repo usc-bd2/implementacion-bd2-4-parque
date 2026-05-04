@@ -195,7 +195,7 @@ public class FachadaBaseDatos {
     }
     
     public List<String> obtenerCuidadoresPorAnimal(int idAnimal) {
-        return daoAnimales.obtenerCuidadoresPorAnimal(idAnimal); // O el nombre que tenga tu DAO
+        return daoAnimales.obtenerCuidadoresPorAnimal(idAnimal); 
     }
 
     public void actualizarCuidadoresAnimal(int idAnimal, List<String> cuidadores) {

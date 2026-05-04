@@ -17,7 +17,7 @@ public class DAOEspectaculos extends AbstractDAO {
      * Obtiene todos los espectáculos, calculando sus plazas libres.
      * @return lista de espectáculos 
      */
-    public List<Espectaculo> listarEspectaculos() { // Renombrado para coincidir con GestionEspectaculos
+    public List<Espectaculo> listarEspectaculos() { 
         List<Espectaculo> espectaculos = new ArrayList<>();
         Connection con = this.getConexion();
         PreparedStatement stmt = null;
@@ -61,7 +61,7 @@ public class DAOEspectaculos extends AbstractDAO {
      * @param idUsuario
      * @return 
      */
-    public boolean reservarPlazaEspectaculo(int idEspectaculo, int idUsuario) { // Renombrado y boolean
+    public boolean reservarPlazaEspectaculo(int idEspectaculo, int idUsuario) { 
         Connection con = this.getConexion();
         PreparedStatement stmtCheck = null;
         PreparedStatement stmtInsert = null;
@@ -69,10 +69,9 @@ public class DAOEspectaculos extends AbstractDAO {
         boolean exito = false;
 
         try {
-            con.setAutoCommit(false); // Transacción para evitar overbooking
+            con.setAutoCommit(false); 
 
-            // 1. Verificar plazas disponibles y obtener el número de la siguiente plaza (asiento)
-            // Corregido: La tabla se llama 'Reservar'
+            // 1. Verificar plazas disponibles y obtener el número de la siguiente plaza (asiento)        
             String checkSql = "SELECT e.aforo, (SELECT COUNT(*) FROM Reservar WHERE idEspectaculo = ?) as ocupadas " +
                               "FROM Espectaculos e WHERE e.idEspectaculo = ?";
             
@@ -90,7 +89,6 @@ public class DAOEspectaculos extends AbstractDAO {
                     int asientoAsignado = ocupadas + 1;
                     
                     // 2. Insertar en la tabla Reservar
-                    // Nota: idReserva se autogenerará si es SERIAL. Si no, quítalo del INSERT.
                     String insertSql = "INSERT INTO Reservar (idUsuario, idEspectaculo, plaza) VALUES (?, ?, ?)";
                     stmtInsert = con.prepareStatement(insertSql);
                     stmtInsert.setInt(1, idUsuario);

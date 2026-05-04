@@ -28,17 +28,14 @@ public class DAOEntradas extends AbstractDAO {
         PreparedStatement stmtInsert = null;
         boolean exito = false;
         
-        final int AFORO_MAXIMO = 1000; // Según tu GestionEntradas
-        final double PRECIO_ENTRADA = 25.50; // Según tu script SQL
+        final int AFORO_MAXIMO = 1000;
+        final double PRECIO_ENTRADA = 25.50;
 
         try {
             // Iniciar transacción explícita
             con.setAutoCommit(false);
 
             // 1. SELECT FOR UPDATE (o equivalente) para contar las activas y bloquear concurrencia
-            // Nota: En PostgreSQL, FOR UPDATE sobre un COUNT general puede no bloquear como esperas si no hay tabla de control de días.
-            // Una aproximación segura es bloquear el usuario comprador temporalmente para evitar dobles clics, 
-            // pero mantendremos el COUNT transaccional.
             String sqlCount = "SELECT COUNT(*) FROM Entradas WHERE fecha = ? AND activo = true";
             stmtCount = con.prepareStatement(sqlCount);
             stmtCount.setDate(1, Date.valueOf(fecha));
@@ -120,7 +117,6 @@ public class DAOEntradas extends AbstractDAO {
         } catch (SQLException e) {
             muestraError(e);
         } finally {
-            // Bloque finally estándar para cerrar recursos (omito por brevedad, usa el que ya tenías)
             cerrarRecursos(rs, stmt);
         }
         return entradas;

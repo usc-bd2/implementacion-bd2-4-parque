@@ -49,7 +49,6 @@ public class DAOUsuarios extends AbstractDAO {
     public void eliminarUsuario(int idUsuario) {
         PreparedStatement stm = null;
         try {
-            // Ya no borramos físicamente, solo lo marcamos como inactivo
             stm = getConexion().prepareStatement(
                     "UPDATE Usuarios SET activo = false WHERE idUsuario = ?");
             stm.setInt(1, idUsuario);
@@ -130,7 +129,6 @@ public class DAOUsuarios extends AbstractDAO {
         List<Usuario> lista = new ArrayList<>();
         PreparedStatement stm = null;
         try {
-            // Sustituimos 1=1 por activo = true para ocultar a los eliminados
             String q = "SELECT idUsuario, nombre, ap1, ap2, clave, email, " +
                     "telefono, fechaNacimiento, permisos FROM Usuarios WHERE activo = true";
             if (id != null && !id.isEmpty())     q += " AND CAST(idUsuario AS TEXT) = ?";
@@ -165,7 +163,6 @@ public class DAOUsuarios extends AbstractDAO {
         PreparedStatement stm = null;
         ResultSet rs = null;
         try {
-            // También filtramos por usuarios activos aquí para que un email "borrado" se pueda reutilizar si lo deseas
             stm = getConexion().prepareStatement("SELECT 1 FROM Usuarios WHERE email = ? AND activo = true");
             stm.setString(1, email);
             rs = stm.executeQuery();
