@@ -79,23 +79,24 @@ public class DAOAnimales extends AbstractDAO {
     public void insertarAnimal(Animal a) {
         PreparedStatement stm = null;
         try {
-            stm = getConexion().prepareStatement(
-                    "INSERT INTO Animales(nombreCientifico, nombreComun, " +
-                            "alimentacion, estadoConservacion, descripcion, nombreZona) " +
-                            "VALUES(?, ?, ?, ?, ?, ?)");
-            stm.setString(1, a.getNombreCientifico());
-            stm.setString(2, a.getNombreComun());
-            stm.setString(3, a.getAlimentacion());
-            stm.setString(4, a.getEstadoConservacion());
-            stm.setString(5, a.getDescripcion());
-            stm.setString(6, a.getNombreZona());
-            stm.executeUpdate();
+        stm = getConexion().prepareStatement(
+            "INSERT INTO Animales(nombreCientifico, nombreComun, " +
+            "alimentacion, estadoConservacion, descripcion, nombreZona, cuidador) " +
+            "VALUES(?, ?, ?, ?, ?, ?, ?)");
+        stm.setString(1, a.getNombreCientifico());
+        stm.setString(2, a.getNombreComun());
+        stm.setString(3, a.getAlimentacion());
+        stm.setString(4, a.getEstadoConservacion());
+        stm.setString(5, a.getDescripcion());
+        stm.setString(6, a.getNombreZona());
+        stm.setString(7, a.getCuidador());
+        stm.executeUpdate();
         } catch (SQLException e) {
-            getFachadaAplicacion().muestraExcepcion(e.getMessage());
+        getFachadaAplicacion().muestraExcepcion(e.getMessage());
         } finally {
-            try { if (stm != null) stm.close(); } catch (SQLException e) {}
+        try { if (stm != null) stm.close(); } catch (SQLException e) {}
         }
-    }
+}
 
     // T11 - Borrar animal
     public void borrarAnimal(int idAnimal) {
