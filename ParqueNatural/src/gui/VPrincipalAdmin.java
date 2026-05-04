@@ -42,7 +42,6 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
         botonTrabajadores = new javax.swing.JButton();
         botonUsuarios = new javax.swing.JButton();
         panelOperaciones = new javax.swing.JPanel();
-        botonEntradas = new javax.swing.JButton();
         botonEspectaculo = new javax.swing.JButton();
         panelInformes = new javax.swing.JPanel();
         botonEntradasVendidas = new javax.swing.JButton();
@@ -109,9 +108,6 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
 
         panelOperaciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Operaciones"));
 
-        botonEntradas.setText("Entradas");
-        botonEntradas.addActionListener(this::botonEntradasActionPerformed);
-
         botonEspectaculo.setText("Espectaculos");
         botonEspectaculo.addActionListener(this::botonEspectaculoActionPerformed);
 
@@ -121,8 +117,6 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
             panelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelOperacionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(botonEntradas)
-                .addGap(30, 30, 30)
                 .addComponent(botonEspectaculo)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -130,9 +124,7 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
             panelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelOperacionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelOperacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonEntradas)
-                    .addComponent(botonEspectaculo))
+                .addComponent(botonEspectaculo)
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
@@ -244,11 +236,6 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
         fgui.abrirGestionEspectaculos();
     }//GEN-LAST:event_botonEspectaculoActionPerformed
 
-    private void botonEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntradasActionPerformed
-        VGestionEntradas v = new VGestionEntradas();
-        v.setVisible(true);
-    }//GEN-LAST:event_botonEntradasActionPerformed
-
     private void botonEntradasVendidasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEntradasVendidasActionPerformed
         VGestionEntradas v = new VGestionEntradas();
         v.setVisible(true);
@@ -261,7 +248,6 @@ public class VPrincipalAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAnimales;
-    private javax.swing.JButton botonEntradas;
     private javax.swing.JButton botonEntradasVendidas;
     private javax.swing.JButton botonEspectaculo;
     private javax.swing.JButton botonHistorial;

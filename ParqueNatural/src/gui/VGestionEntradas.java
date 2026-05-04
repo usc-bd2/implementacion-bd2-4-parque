@@ -73,10 +73,6 @@ public class VGestionEntradas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        botonInformeEntradas = new javax.swing.JButton();
-        BotonVentaEntradas = new javax.swing.JButton();
         labelDesde = new javax.swing.JLabel();
         textDesde = new javax.swing.JTextField();
         labelHasta = new javax.swing.JLabel();
@@ -89,19 +85,10 @@ public class VGestionEntradas extends javax.swing.JFrame {
         labelRecaudacion = new javax.swing.JLabel();
         textRecaudacion = new javax.swing.JTextField();
         botonSalir = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Gestión de entradas\n");
-        jScrollPane1.setViewportView(jTextArea1);
-
-        botonInformeEntradas.setText("Informe de entradas");
-        botonInformeEntradas.addActionListener(this::botonInformeEntradasActionPerformed);
-
-        BotonVentaEntradas.setText("Venta de entradas");
-        BotonVentaEntradas.addActionListener(this::BotonVentaEntradasActionPerformed);
 
         labelDesde.setText("Desde");
 
@@ -139,32 +126,34 @@ public class VGestionEntradas extends javax.swing.JFrame {
         botonSalir.setText("Salir");
         botonSalir.addActionListener(this::botonSalirActionPerformed);
 
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jTextArea2.setText("Gestión de entradas");
+        jScrollPane3.setViewportView(jTextArea2);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane3)
             .addGroup(layout.createSequentialGroup()
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(457, 457, 457)
+                        .addComponent(botonSalir))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(BotonVentaEntradas)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(labelDesde)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(textDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(labelDesde)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(74, 74, 74)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(labelHasta)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(textHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(64, 64, 64)
-                                        .addComponent(botonBuscar))
-                                    .addComponent(botonInformeEntradas, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(labelHasta)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(64, 64, 64)
+                                .addComponent(botonBuscar))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(labelTotalEntradas)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -172,25 +161,19 @@ public class VGestionEntradas extends javax.swing.JFrame {
                                 .addGap(53, 53, 53)
                                 .addComponent(labelRecaudacion)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(textRecaudacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(textRecaudacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(9, 9, 9))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(56, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(botonSalir)
-                .addGap(41, 41, 41))
+                        .addGap(23, 23, 23)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonInformeEntradas)
-                    .addComponent(BotonVentaEntradas))
-                .addGap(25, 25, 25)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelDesde)
                     .addComponent(textDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -207,15 +190,11 @@ public class VGestionEntradas extends javax.swing.JFrame {
                     .addComponent(textRecaudacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonSalir)
-                .addGap(0, 21, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void botonInformeEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonInformeEntradasActionPerformed
-        buscarEntradas();
-    }//GEN-LAST:event_botonInformeEntradasActionPerformed
 
     private void textDesdeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textDesdeActionPerformed
         buscarEntradas();
@@ -232,15 +211,6 @@ public class VGestionEntradas extends javax.swing.JFrame {
     private void textRecaudacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textRecaudacionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textRecaudacionActionPerformed
-
-    private void BotonVentaEntradasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonVentaEntradasActionPerformed
-        String idStr = javax.swing.JOptionPane.showInputDialog(this, "ID del usuario que compra:");
-        if (idStr != null && !idStr.isEmpty()) {
-            int idUsuario = Integer.parseInt(idStr);
-            VCompraEntradas v = new VCompraEntradas(fa, null);
-            v.setVisible(true);
-        }
-    }//GEN-LAST:event_BotonVentaEntradasActionPerformed
 
     private void textHastaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textHastaActionPerformed
         buscarEntradas();
@@ -276,13 +246,11 @@ public class VGestionEntradas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BotonVentaEntradas;
     private javax.swing.JButton botonBuscar;
-    private javax.swing.JButton botonInformeEntradas;
     private javax.swing.JButton botonSalir;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JLabel labelDesde;
     private javax.swing.JLabel labelHasta;
     private javax.swing.JLabel labelRecaudacion;
