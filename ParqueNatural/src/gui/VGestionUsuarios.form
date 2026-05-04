@@ -128,13 +128,15 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="198" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="nombreLabel4" alignment="1" min="-2" pref="17" max="-2" attributes="0"/>
-                  <Component id="nombreTextField2" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                  <Component id="ap1TextField1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="ap1Label9" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="ap2TextField1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="ap2Label2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="nombreTextField2" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                      <Component id="ap1TextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="ap1Label9" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="ap2TextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="ap2Label2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">

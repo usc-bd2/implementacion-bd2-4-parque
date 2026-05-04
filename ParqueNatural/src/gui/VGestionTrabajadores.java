@@ -23,7 +23,7 @@ public class VGestionTrabajadores extends javax.swing.JDialog {
      * Constructor adaptado
      */
     public VGestionTrabajadores(java.awt.Frame parent, boolean modal, FachadaGui fgui) {
-        super(parent, modal); // Ahora sí funcionará porque es un JDialog
+        super(parent, modal);
         this.fgui = fgui;
         initComponents();
         this.setLocationRelativeTo(parent);

@@ -68,7 +68,6 @@ public class FachadaGui {
 
     public void abrirGestionEspectaculos() {
         if (vGestionEspectaculos == null) {
-            // Pasamos 'vPrincipalAdmin' como padre para que sea modal sobre ella
             vGestionEspectaculos = new VGestionEspectaculos(vPrincipalAdmin, true, this);
         }
         vGestionEspectaculos.setVisible(true);

@@ -21,8 +21,8 @@ public class VCompraEntradas extends javax.swing.JFrame {
 
 
     VCompraEntradas(FachadaAplicacion fa, Usuario usuarioActual) {
-        this.fa = fa;                           // ← faltaba esto
-        this.usuarioActual = usuarioActual;     // ← y esto
+        this.fa = fa;                         
+        this.usuarioActual = usuarioActual; 
         initComponents();
         textNombre.setText(usuarioActual.getNombre() + " " + usuarioActual.getAp1());
     }

@@ -181,7 +181,6 @@ public class VEditarDatos extends javax.swing.JFrame {
             return;
         }
 
-        // Si quiere cambiar la contraseña
         if (!nuevaClave.isEmpty()) {
             if (!claveActual.equals(usuarioActual.getClave())) {
                 fa.muestraExcepcion("La clave actual no es correcta");

@@ -34,7 +34,6 @@ public class VGestionAnimales extends javax.swing.JDialog {
     public VGestionAnimales(java.awt.Frame parent, boolean modal, FachadaGui fgui) {
         super(parent, modal);
         this.fgui = fgui;
-        // Inicializamos la Fachada de Aplicación ANTES de llamar a cargarZonas()
         this.fa = fgui.getFachadaAplicacion(); 
         
         initComponents();
@@ -100,7 +99,6 @@ public class VGestionAnimales extends javax.swing.JDialog {
     }
     
     private void cargarTodosLosCuidadores() {
-        // Pedimos los DNIS a la fachada, que ahora sí tiene el método
         todosLosCuidadoresDni = fa.obtenerTodosLosCuidadores();
         if (todosLosCuidadoresDni == null) return;
         
@@ -115,7 +113,6 @@ public class VGestionAnimales extends javax.swing.JDialog {
         modeloDisponibles.clear();
         if (todosLosCuidadoresDni == null) return;
         
-        // Pedimos a la BD los cuidadores asignados a ESTE animal
         List<String> asignados = fa.obtenerCuidadoresPorAnimal(idAnimal);
         
         // Rellenamos la lista de asignados (derecha)
@@ -123,7 +120,7 @@ public class VGestionAnimales extends javax.swing.JDialog {
             modeloAsignados.addElement(asig);
         }
         
-        // Rellenamos la lista de disponibles (izquierda) con todos los que NO estén ya asignados
+        // Rellenamos la lista de disponibles (izquierda) con todos los que no estén ya asignados
         for (String cuid : todosLosCuidadoresDni) {
             if (!asignados.contains(cuid)) {
                 modeloDisponibles.addElement(cuid);
