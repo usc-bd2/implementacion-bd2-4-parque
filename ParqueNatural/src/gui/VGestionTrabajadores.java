@@ -460,6 +460,7 @@ public class VGestionTrabajadores extends javax.swing.JDialog {
         }
         
         fgui.getFachadaAplicacion().darAltaTrabajador(t);
+        cargarTrabajadores();
     }//GEN-LAST:event_nuevoButton1ActionPerformed
 
     private void guardarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarButton1ActionPerformed
@@ -475,7 +476,7 @@ public class VGestionTrabajadores extends javax.swing.JDialog {
 
         String dni = (String) jTable1.getValueAt(fila, 0);
         fgui.getFachadaAplicacion().darBajaTrabajador(dni);
-
+        cargarTrabajadores();
     }//GEN-LAST:event_eliminarButton1ActionPerformed
 
     private void salirButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirButton1ActionPerformed
